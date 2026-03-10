@@ -15,7 +15,7 @@ export default function LumePure() {
   return (
     <div style={{ backgroundColor: '#ffffff', color: '#000', minHeight: '100vh', fontFamily: 'sans-serif', display: 'flex', flexDirection: 'column' }}>
       
-      {/* NAVEGACIÓN */}
+      {/* NAVEGACIÓN - LUME PURE */}
       <nav style={{ padding: '30px 50px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #f0f0f0' }}>
         <h1 style={{ letterSpacing: '10px', fontSize: '1.2rem', fontWeight: '800', margin: 0 }}>LUME</h1>
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
@@ -29,25 +29,20 @@ export default function LumePure() {
         </div>
       </nav>
 
-      {/* CONTENIDO CENTRAL */}
+      {/* TESTIGO DE CALIDAD */}
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
-        
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: '200', letterSpacing: '-1px', margin: '0 0 10px 0' }}>Precisión Visual de Grado Forense.</h2>
-          <p style={{ color: '#999', letterSpacing: '3px', fontSize: '0.6rem', textTransform: 'uppercase' }}>Operado por Lume Global Core</p>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: '200', letterSpacing: '-1px', margin: '0 0 10px 0' }}>Resultados, no promesas.</h2>
+          <p style={{ color: '#999', letterSpacing: '3px', fontSize: '0.6rem', textTransform: 'uppercase' }}>Precisión Visual de Grado Forense</p>
         </div>
 
-        {/* SLIDER TESTIGO DE CALIDAD */}
         <div 
           style={{ position: 'relative', width: '100%', maxWidth: '1000px', height: '500px', backgroundColor: '#f5f5f5', overflow: 'hidden', cursor: 'col-resize', border: '1px solid #eee' }}
           onMouseMove={handleMove}
           onTouchMove={handleMove}
         >
-          {/* DESPUÉS */}
           <div style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?q=80&w=2070&auto=format&fit=crop")', backgroundSize: 'cover', backgroundPosition: 'center', width: '100%', height: '100%', position: 'absolute' }} />
-          {/* ANTES */}
           <div style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?q=80&w=2070&auto=format&fit=crop&sat=-100")', backgroundSize: 'cover', backgroundPosition: 'center', width: `${sliderPos}%`, height: '100%', position: 'absolute', zIndex: 2, borderRight: '2px solid #fff' }} />
-          {/* ICONO */}
           <div style={{ position: 'absolute', left: `${sliderPos}%`, top: '50%', transform: 'translate(-50%, -50%)', zIndex: 3, backgroundColor: '#fff', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', boxShadow: '0 0 15px rgba(0,0,0,0.1)' }}>
             <Eye size={18} />
           </div>
@@ -58,9 +53,13 @@ export default function LumePure() {
         </button>
       </main>
 
-      {/* FOOTER */}
+      {/* FOOTER LEGAL */}
       <footer style={{ padding: '40px 50px', borderTop: '1px solid #f5f5f5', display: 'flex', justifyContent: 'space-between', fontSize: '0.6rem', color: '#bbb' }}>
         <div>Lume es un producto operado por <span style={{ color: '#000', fontWeight: '700' }}>Lume Global Core.</span></div>
+        <div style={{ display: 'flex', gap: '20px' }}>
+          <span>TÉRMINOS</span>
+          <span>PRIVACIDAD</span>
+        </div>
         <div style={{ fontWeight: '600' }}>LUME REAL ESTATE LLC © 2026</div>
       </footer>
     </div>
