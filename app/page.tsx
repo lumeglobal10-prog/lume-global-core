@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Eye, X, ChevronRight } from 'lucide-react';
 
@@ -15,9 +17,9 @@ export default function LumePureFinal() {
       return;
     }
     setError('');
+    alert("REGISTRO INICIADO - CONECTANDO CON NODO LONDRES");
   };
 
-  // Componente de Capa Superior (Para Términos, Privacidad y Login)
   const Overlay = ({ title, children, close }: any) => (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: '#fff', zIndex: 1000, padding: '60px', overflowY: 'auto' }}>
       <button onClick={close} style={{ position: 'absolute', top: '40px', right: '60px', border: 'none', backgroundColor: 'transparent', cursor: 'pointer', padding: '10px' }}>
@@ -57,16 +59,8 @@ export default function LumePureFinal() {
             setSliderPos(((e.clientX - rect.left) / rect.width) * 100);
           }}
         >
-          {/* IMAGEN DESPUÉS (COLOR) */}
-          <div style={{ 
-            backgroundImage: 'url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2000&auto=format&fit=crop")', 
-            backgroundSize: 'cover', backgroundPosition: 'center', width: '100%', height: '100%', position: 'absolute' 
-          }} />
-          {/* IMAGEN ANTES (B&N) */}
-          <div style={{ 
-            backgroundImage: 'url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2000&auto=format&fit=crop&sat=-100")', 
-            backgroundSize: 'cover', backgroundPosition: 'center', width: `${sliderPos}%`, height: '100%', position: 'absolute', zIndex: 2, borderRight: '2px solid #fff' 
-          }} />
+          <div style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2000&auto=format&fit=crop")', backgroundSize: 'cover', backgroundPosition: 'center', width: '100%', height: '100%', position: 'absolute' }} />
+          <div style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2000&auto=format&fit=crop&sat=-100")', backgroundSize: 'cover', backgroundPosition: 'center', width: `${sliderPos}%`, height: '100%', position: 'absolute', zIndex: 2, borderRight: '2px solid #fff' }} />
           <div style={{ position: 'absolute', left: `${sliderPos}%`, top: '50%', transform: 'translate(-50%, -50%)', zIndex: 3, backgroundColor: '#fff', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', boxShadow: '0 0 20px rgba(0,0,0,0.1)' }}>
             <Eye size={20} />
           </div>
@@ -116,15 +110,15 @@ export default function LumePureFinal() {
       {/* CAPAS LEGALES */}
       {view === 'terms' && (
         <Overlay title="Terms of Service" close={() => setView('home')}>
-          <p>Lume Global Core garantiza la integridad de los datos procesados...</p>
+          <p>Lume Global Core garantiza la integridad de los datos procesados mediante el Protocolo de Inteligencia Absoluta.</p>
         </Overlay>
       )}
       {view === 'privacy' && (
         <Overlay title="Privacy Policy" close={() => setView('home')}>
-          <p>Protección Aegis activada para todos los suscriptores...</p>
+          <p>Protección Aegis activada para todos los suscriptores de la red LGC.</p>
         </Overlay>
       )}
     </div>
   );
-                 }
-      
+      }
+            
