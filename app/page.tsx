@@ -1,67 +1,90 @@
-import React from 'react';
-import { Shield, Globe, Activity, ChevronRight, Zap, Target, BarChart3 } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronRight, Eye, ShieldCheck, Globe } from 'lucide-react';
 
-export default function LumeLanding() {
+export default function LumePureMain() {
+  const [sliderPos, setSliderPos] = useState(50);
+
+  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = 'touches' in e 
+      ? e.touches[0].clientX - rect.left 
+      : (e as React.MouseEvent).clientX - rect.left;
+    const position = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    setSliderPos(position);
+  };
+
   return (
-    <div style={{ backgroundColor: '#000', color: '#fff', minHeight: '100vh', fontFamily: 'sans-serif', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '60px 20px' }}>
+    <div style={{ backgroundColor: '#ffffff', color: '#000', minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif', display: 'flex', flexDirection: 'column' }}>
       
-      {/* Cabecera / Status */}
-      <div style={{ display: 'flex', gap: '25px', marginBottom: '80px', opacity: 0.6 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <Activity size={12} color="#00ff00" />
-          <span style={{ fontSize: '0.6rem', letterSpacing: '1px' }}>CORE: ACTIVE</span>
+      {/* NAVEGACIÓN DE ALTA GAMA */}
+      <nav style={{ padding: '40px 60px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #f0f0f0' }}>
+        <div style={{ letterSpacing: '8px', fontSize: '1.4rem', fontWeight: '700' }}>LUME</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 0.5 }}>
+            <Globe size={14} color="#000" />
+            <span style={{ fontSize: '0.65rem', letterSpacing: '2px' }}>NODE: LONDON LGC</span>
+          </div>
+          <button style={{ backgroundColor: '#000', color: '#fff', border: 'none', padding: '12px 30px', fontSize: '0.75rem', fontWeight: '600', letterSpacing: '1px', cursor: 'pointer', borderRadius: '2px' }}>
+            ACCESO SUSCRIPTORES
+          </button>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <Shield size={12} color="#00ff00" />
-          <span style={{ fontSize: '0.6rem', letterSpacing: '1px' }}>AEGIS: SECURE</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <Globe size={12} color="#00ff00" />
-          <span style={{ fontSize: '0.6rem', letterSpacing: '1px' }}>NODE: LONDON</span>
-        </div>
-      </div>
+      </nav>
 
-      {/* Hero Section */}
-      <div style={{ textAlign: 'center', maxWidth: '800px', marginBottom: '100px' }}>
-        <h1 style={{ letterSpacing: '15px', fontSize: '3.5rem', margin: '0', fontWeight: '200', color: '#fff' }}>LUME</h1>
-        <p style={{ letterSpacing: '5px', color: '#888', fontSize: '0.8rem', marginTop: '10px', textTransform: 'uppercase' }}>Intelligence for Global Real Estate</p>
-        
-        <div style={{ height: '1px', width: '60px', backgroundColor: '#333', margin: '40px auto' }}></div>
-        
-        <h2 style={{ fontSize: '1.4rem', fontWeight: '300', lineHeight: '1.6', color: '#ccc', letterSpacing: '1px' }}>
-          Transformamos activos inmobiliarios mediante <span style={{ color: '#fff' }}>redes neuronales</span> y renderizado correctivo de alta precisión.
-        </h2>
-
-        {/* Botón Principal */}
-        <button style={{ marginTop: '50px', backgroundColor: '#fff', color: '#000', border: 'none', padding: '15px 40px', fontSize: '0.8rem', fontWeight: 'bold', letterSpacing: '2px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '10px', borderRadius: '2px' }}>
-          SOLICITAR ACCESO <ChevronRight size={16} />
-        </button>
-      </div>
-
-      {/* Grid de Servicios */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '30px', maxWidth: '1000px', width: '100%' }}>
-        <div style={{ border: '1px solid #111', padding: '30px', backgroundColor: '#050505' }}>
-          <Zap size={20} color="#888" style={{ marginBottom: '15px' }} />
-          <h3 style={{ fontSize: '0.9rem', letterSpacing: '1px', marginBottom: '10px' }}>R.I.M. ENGINE</h3>
-          <p style={{ fontSize: '0.75rem', color: '#666', lineHeight: '1.5' }}>Identidad regional y estilos decorativos automatizados para cada activo.</p>
+      {/* CUERPO CENTRAL: TESTIGO DE CALIDAD */}
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '80px 20px' }}>
+        <div style={{ textAlign: 'center', maxWidth: '900px', marginBottom: '60px' }}>
+          <h2 style={{ fontSize: '3rem', fontWeight: '200', letterSpacing: '-2px', marginBottom: '20px', lineHeight: 1.1 }}>
+            La imagen es el activo. <br/> <span style={{fontWeight: '500'}}>Lume es la precisión.</span>
+          </h2>
+          <p style={{ color: '#888', letterSpacing: '3px', fontSize: '0.7rem', textTransform: 'uppercase' }}>IA de Grado Forense para Real Estate Global</p>
         </div>
-        <div style={{ border: '1px solid #111', padding: '30px', backgroundColor: '#050505' }}>
-          <Target size={20} color="#888" style={{ marginBottom: '15px' }} />
-          <h3 style={{ fontSize: '0.9rem', letterSpacing: '1px', marginBottom: '10px' }}>STALKER V1.0</h3>
-          <p style={{ fontSize: '0.75rem', color: '#666', lineHeight: '1.5' }}>Prospección autónoma de inventario con deficiencias visuales.</p>
-        </div>
-        <div style={{ border: '1px solid #111', padding: '30px', backgroundColor: '#050505' }}>
-          <BarChart3 size={20} color="#888" style={{ marginBottom: '15px' }} />
-          <h3 style={{ fontSize: '0.9rem', letterSpacing: '1px', marginBottom: '10px' }}>ANALÍTICA CORE</h3>
-          <p style={{ fontSize: '0.75rem', color: '#666', lineHeight: '1.5' }}>Monitoreo en tiempo real de conversiones y estados de suscripción.</p>
-        </div>
-      </div>
 
-      {/* Footer */}
-      <footer style={{ marginTop: '100px', paddingBottom: '40px', textAlign: 'center' }}>
-        <p style={{ fontSize: '0.6rem', color: '#222', letterSpacing: '3px' }}>
-          LUME REAL ESTATE LLC | WYOMING USA © 2026
-        </p>
+        {/* CONTENEDOR SLIDER 8K (S.I.D. OPTIMIZED) */}
+        <div 
+          style={{ position: 'relative', width: '100%', maxWidth: '1100px', height: '600px', backgroundColor: '#f9f9f9', overflow: 'hidden', cursor: 'col-resize', boxShadow: '0 40px 100px rgba(0,0,0,0.08)' }}
+          onMouseMove={handleMove}
+          onTouchMove={handleMove}
+        >
+          {/* Capa DESPUÉS (Full Qualiy) */}
+          <div style={{ 
+            backgroundImage: 'url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop")', 
+            backgroundSize: 'cover', backgroundPosition: 'center', width: '100%', height: '100%', position: 'absolute' 
+          }} />
+          
+          {/* Capa ANTES (Desaturada/Original) */}
+          <div style={{ 
+            backgroundImage: 'url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop&sat=-100")', 
+            backgroundSize: 'cover', backgroundPosition: 'center', width: `${sliderPos}%`, height: '100%', position: 'absolute', zIndex: 2, borderRight: '2px solid #fff'
+          }} />
+
+          {/* Icono de Interacción */}
+          <div style={{ position: 'absolute', left: `${sliderPos}%`, top: '50%', transform: 'translate(-50%, -50%)', zIndex: 3, backgroundColor: '#fff', width: '50px', height: '50px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', boxShadow: '0 0 30px rgba(0,0,0,0.3)' }}>
+            <Eye size={20} color="#000" />
+          </div>
+        </div>
+
+        {/* CONVERSION & TRUST */}
+        <div style={{ marginTop: '80px', textAlign: 'center' }}>
+          <p style={{ fontSize: '0.85rem', color: '#666', marginBottom: '30px', letterSpacing: '1px' }}>Certificado por el protocolo Aegis de Lume Global.</p>
+          <button style={{ backgroundColor: '#fff', color: '#000', border: '2px solid #000', padding: '15px 45px', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '2px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '12px' }}>
+            SOLICITAR AUDITORÍA VISUAL <ChevronRight size={18} />
+          </button>
+        </div>
+      </main>
+
+      {/* FOOTER: BLINDAJE LEGAL LGC */}
+      <footer style={{ backgroundColor: '#fafafa', padding: '60px', borderTop: '1px solid #f0f0f0' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.7rem', color: '#999', letterSpacing: '1px' }}>
+          <div>
+            Lume es un producto operado por <span style={{ color: '#000', fontWeight: '700' }}>Lume Global Core.</span>
+          </div>
+          <div style={{ display: 'flex', gap: '30px' }}>
+            <span style={{ cursor: 'pointer' }}>TÉRMINOS</span>
+            <span style={{ cursor: 'pointer' }}>PRIVACIDAD</span>
+            <span style={{ cursor: 'pointer' }}>REEMBOLSOS</span>
+          </div>
+          <div style={{ fontWeight: '600', color: '#000' }}>LUME REAL ESTATE LLC | 2026</div>
+        </div>
       </footer>
     </div>
   );
