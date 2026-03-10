@@ -1,89 +1,81 @@
 import React, { useState } from 'react';
-import { ChevronRight, Eye, ShieldCheck, Globe } from 'lucide-react';
+import { Eye, ChevronRight, Globe } from 'lucide-react';
 
-export default function LumePureMain() {
+export default function LumePure() {
   const [sliderPos, setSliderPos] = useState(50);
 
   const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = 'touches' in e 
-      ? e.touches[0].clientX - rect.left 
-      : (e as React.MouseEvent).clientX - rect.left;
-    const position = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPos(position);
+    const x = 'touches' in e ? e.touches[0].clientX - rect.left : (e as React.MouseEvent).clientX - rect.left;
+    setSliderPos(Math.max(0, Math.min(100, (x / rect.width) * 100)));
   };
 
   return (
-    <div style={{ backgroundColor: '#ffffff', color: '#000', minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ backgroundColor: '#ffffff', color: '#000', minHeight: '100vh', fontFamily: 'Inter, sans-serif', display: 'flex', flexDirection: 'column' }}>
       
-      {/* NAVEGACIÓN DE ALTA GAMA */}
-      <nav style={{ padding: '40px 60px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #f0f0f0' }}>
-        <div style={{ letterSpacing: '8px', fontSize: '1.4rem', fontWeight: '700' }}>LUME</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 0.5 }}>
-            <Globe size={14} color="#000" />
-            <span style={{ fontSize: '0.65rem', letterSpacing: '2px' }}>NODE: LONDON LGC</span>
+      {/* 1. NAVEGACIÓN: SIMPLICIDAD Y EFICIENCIA */}
+      <nav style={{ padding: '40px 60px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1 style={{ letterSpacing: '12px', fontSize: '1.4rem', fontWeight: '800', margin: 0 }}>LUME</h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 0.3 }}>
+            <Globe size={14} />
+            <span style={{ fontSize: '0.6rem', letterSpacing: '2px', fontWeight: '600' }}>LGC: LONDON_NODE</span>
           </div>
-          <button style={{ backgroundColor: '#000', color: '#fff', border: 'none', padding: '12px 30px', fontSize: '0.75rem', fontWeight: '600', letterSpacing: '1px', cursor: 'pointer', borderRadius: '2px' }}>
+          <button style={{ backgroundColor: '#000', color: '#fff', border: 'none', padding: '12px 28px', fontSize: '0.7rem', fontWeight: '700', letterSpacing: '1px', cursor: 'pointer' }}>
             ACCESO SUSCRIPTORES
           </button>
         </div>
       </nav>
 
-      {/* CUERPO CENTRAL: TESTIGO DE CALIDAD */}
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '80px 20px' }}>
-        <div style={{ textAlign: 'center', maxWidth: '900px', marginBottom: '60px' }}>
-          <h2 style={{ fontSize: '3rem', fontWeight: '200', letterSpacing: '-2px', marginBottom: '20px', lineHeight: 1.1 }}>
-            La imagen es el activo. <br/> <span style={{fontWeight: '500'}}>Lume es la precisión.</span>
-          </h2>
-          <p style={{ color: '#888', letterSpacing: '3px', fontSize: '0.7rem', textTransform: 'uppercase' }}>IA de Grado Forense para Real Estate Global</p>
+      {/* 2. COMPONENTE CENTRAL: EL TESTIGO DE CALIDAD (SLIDER 8K) */}
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 20px 80px 20px' }}>
+        
+        <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+          <h2 style={{ fontSize: '2.8rem', fontWeight: '200', letterSpacing: '-2px', marginBottom: '10px' }}>Precisión Visual de Grado Forense.</h2>
+          <p style={{ color: '#999', letterSpacing: '4px', fontSize: '0.65rem', textTransform: 'uppercase' }}>Potencia IA servida por Lume Global Core</p>
         </div>
 
-        {/* CONTENEDOR SLIDER 8K (S.I.D. OPTIMIZED) */}
+        {/* SLIDER INTERACTIVO */}
         <div 
-          style={{ position: 'relative', width: '100%', maxWidth: '1100px', height: '600px', backgroundColor: '#f9f9f9', overflow: 'hidden', cursor: 'col-resize', boxShadow: '0 40px 100px rgba(0,0,0,0.08)' }}
+          style={{ position: 'relative', width: '100%', maxWidth: '1050px', height: '580px', backgroundColor: '#fdfdfd', overflow: 'hidden', cursor: 'col-resize', boxShadow: '0 30px 80px rgba(0,0,0,0.06)', border: '1px solid #f0f0f0' }}
           onMouseMove={handleMove}
           onTouchMove={handleMove}
         >
-          {/* Capa DESPUÉS (Full Qualiy) */}
+          {/* IMAGEN DESPUÉS (Optimización 8K) */}
           <div style={{ 
-            backgroundImage: 'url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop")', 
+            backgroundImage: 'url("https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?q=80&w=2070&auto=format&fit=crop")', 
             backgroundSize: 'cover', backgroundPosition: 'center', width: '100%', height: '100%', position: 'absolute' 
           }} />
           
-          {/* Capa ANTES (Desaturada/Original) */}
+          {/* IMAGEN ANTES (Raw / Sin Procesar) */}
           <div style={{ 
-            backgroundImage: 'url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop&sat=-100")', 
+            backgroundImage: 'url("https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?q=80&w=2070&auto=format&fit=crop&sat=-100&blur=50")', 
             backgroundSize: 'cover', backgroundPosition: 'center', width: `${sliderPos}%`, height: '100%', position: 'absolute', zIndex: 2, borderRight: '2px solid #fff'
           }} />
 
-          {/* Icono de Interacción */}
-          <div style={{ position: 'absolute', left: `${sliderPos}%`, top: '50%', transform: 'translate(-50%, -50%)', zIndex: 3, backgroundColor: '#fff', width: '50px', height: '50px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', boxShadow: '0 0 30px rgba(0,0,0,0.3)' }}>
-            <Eye size={20} color="#000" />
+          {/* CONTROLADOR MINIMALISTA */}
+          <div style={{ position: 'absolute', left: `${sliderPos}%`, top: '50%', transform: 'translate(-50%, -50%)', zIndex: 3, backgroundColor: '#fff', width: '45px', height: '45px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', boxShadow: '0 0 20px rgba(0,0,0,0.15)' }}>
+            <Eye size={18} />
           </div>
         </div>
 
-        {/* CONVERSION & TRUST */}
-        <div style={{ marginTop: '80px', textAlign: 'center' }}>
-          <p style={{ fontSize: '0.85rem', color: '#666', marginBottom: '30px', letterSpacing: '1px' }}>Certificado por el protocolo Aegis de Lume Global.</p>
-          <button style={{ backgroundColor: '#fff', color: '#000', border: '2px solid #000', padding: '15px 45px', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '2px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '12px' }}>
-            SOLICITAR AUDITORÍA VISUAL <ChevronRight size={18} />
-          </button>
-        </div>
+        <button style={{ marginTop: '60px', backgroundColor: 'transparent', border: '1px solid #000', color: '#000', padding: '16px 40px', fontSize: '0.75rem', fontWeight: '800', letterSpacing: '2px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          SOLICITAR AUDITORÍA <ChevronRight size={16} />
+        </button>
       </main>
 
-      {/* FOOTER: BLINDAJE LEGAL LGC */}
-      <footer style={{ backgroundColor: '#fafafa', padding: '60px', borderTop: '1px solid #f0f0f0' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.7rem', color: '#999', letterSpacing: '1px' }}>
-          <div>
-            Lume es un producto operado por <span style={{ color: '#000', fontWeight: '700' }}>Lume Global Core.</span>
-          </div>
-          <div style={{ display: 'flex', gap: '30px' }}>
-            <span style={{ cursor: 'pointer' }}>TÉRMINOS</span>
-            <span style={{ cursor: 'pointer' }}>PRIVACIDAD</span>
-            <span style={{ cursor: 'pointer' }}>REEMBOLSOS</span>
-          </div>
-          <div style={{ fontWeight: '600', color: '#000' }}>LUME REAL ESTATE LLC | 2026</div>
+      {/* 3. BLINDAJE LEGAL Y CONVERSION */}
+      <footer style={{ padding: '50px 60px', borderTop: '1px solid #f5f5f5', display: 'flex', justifyContent: 'space-between', fontSize: '0.6rem', color: '#bbb', letterSpacing: '1px' }}>
+        <div>
+          Lume es un producto operado por <span style={{ color: '#000', fontWeight: '700' }}>Lume Global Core.</span>
+        </div>
+        <div style={{ display: 'flex', gap: '30px' }}>
+          <span>TÉRMINOS DE SERVICIO</span>
+          <span>POLÍTICA DE PRIVACIDAD</span>
+          <span>POLÍTICA DE REEMBOLSO</span>
+        </div>
+        <div style={{ fontWeight: '600', color: '#888' }}>
+          LUME REAL ESTATE LLC © 2026
         </div>
       </footer>
     </div>
