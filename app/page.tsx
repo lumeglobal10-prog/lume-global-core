@@ -1,4 +1,4 @@
-import HeroSlider from '@/components/HeroSlider';
+import HeroSlider from '../components/HeroSlider';
 
 export default function LumeHome() {
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || "lumeglobalcore.com";
