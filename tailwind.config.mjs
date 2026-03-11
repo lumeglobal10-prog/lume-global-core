@@ -5,11 +5,9 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        lume: {
-          white: "#FFFFFF",
-          black: "#000000",
-        }
+      fontFamily: {
+        sans: ['var(--font-inter)'],
+        mono: ['var(--font-roboto-mono)'],
       },
     },
   },
