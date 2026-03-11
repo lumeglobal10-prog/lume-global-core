@@ -6,7 +6,7 @@ export default function LumeHome() {
   return (
     <main className="flex flex-col min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white">
       
-      {/* HEADER MINIMALISTA */}
+      {/* HEADER */}
       <nav className="w-full p-8 flex justify-end items-center">
         <button className="bg-black text-white px-8 py-3 text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-zinc-800 transition-all">
           Sign In
