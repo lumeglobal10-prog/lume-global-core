@@ -1,52 +1,64 @@
-"use client";
-import React, { useState } from 'react';
+'use client';
+
+import React, { useState, useCallback } from 'react';
 
 export default function HeroSlider() {
   const [sliderPos, setSliderPos] = useState(50);
 
-  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+  const handleMove = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const position = ((x - rect.left) / rect.width) * 100;
-    setSliderPos(Math.min(Math.max(position, 0), 100));
-  };
+    const x = ('touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX) - rect.left;
+    const position = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    setSliderPos(position);
+  }, []);
+
+  // Assets de alta fidelidad
+  const imgAfter = "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop";
+  const imgBefore = "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop&sat=-100";
 
   return (
     <div 
-      className="relative w-full h-[70vh] overflow-hidden cursor-ew-resize select-none bg-white rounded-xl shadow-2xl border border-zinc-100"
+      className="relative w-full overflow-hidden rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] bg-neutral-200 select-none touch-none aspect-[4/5] md:aspect-video"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
     >
-      {/* CAPA 1: ESTADO DE OBRA (FONDO) */}
-      <div className="absolute inset-0 grayscale contrast-125 brightness-75">
-        <img 
-          src="https://images.unsplash.com/photo-1503387762-592dea58ef21?q=80&w=2000" 
-          alt="Obra Lume" 
-          className="w-full h-full object-cover" 
-        />
-      </div>
-
-      {/* CAPA 2: RENDER DE LUJO (MÁSCARA) */}
+      {/* CAPA DESPUÉS (Render final) */}
       <div 
-        className="absolute inset-0 border-r border-white/40 transition-all duration-75"
-        style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
-      >
-        <img 
-          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000" 
-          alt="Lujo Lume" 
-          className="w-full h-full object-cover" 
-        />
-      </div>
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${imgAfter})` }}
+      />
 
-      {/* CONTROLADOR DE SOBERANÍA: EL MUNDO 🌎 */}
+      {/* CAPA ANTES (Materia Prima - Revelada por el Slider) */}
       <div 
-        className="absolute top-0 bottom-0 w-[2px] bg-white/60 z-20 flex items-center justify-center pointer-events-none"
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ 
+          backgroundImage: `url(${imgBefore})`,
+          width: `${sliderPos}%`,
+        }}
+      />
+
+      {/* LÍNEA DIVISORA Y LOGO MAPAMUNDI */}
+      <div 
+        className="absolute inset-y-0 z-20 pointer-events-none"
         style={{ left: `${sliderPos}%` }}
       >
-        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-2xl shadow-2xl border border-zinc-200 pointer-events-auto transition-transform hover:scale-110 active:scale-95">
-          🌎
+        {/* Línea blanca física */}
+        <div className="absolute inset-y-0 -left-[1px] w-[2px] bg-white shadow-[0_0_15px_rgba(0,0,0,0.5)]" />
+        
+        {/* Nodo de Control: Mapamundi */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-[0_0_20px_rgba(0,0,0,0.2)] flex items-center justify-center border border-neutral-100">
+          <span className="text-xl">🌍</span>
         </div>
+      </div>
+
+      {/* ETIQUETAS TÉCNICAS */}
+      <div className="absolute bottom-6 left-6 z-30 font-mono text-[8px] tracking-[0.3em] text-white uppercase bg-black/30 backdrop-blur-md px-3 py-1 rounded-full">
+        Materia Prima
+      </div>
+      <div className="absolute bottom-6 right-6 z-30 font-mono text-[8px] tracking-[0.3em] text-white uppercase bg-black/30 backdrop-blur-md px-3 py-1 rounded-full">
+        Lume Render
       </div>
     </div>
   );
-}
+                                       }
+      
