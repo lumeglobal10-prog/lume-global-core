@@ -18,5 +18,31 @@ export default function LumeHome() {
       {/* CUERPO CENTRAL: Ajustado para separar el slider */}
       <section className="flex-grow flex flex-col items-center justify-center px-4 min-h-0">
         
-        {/* TEXTOS: Ajustamos el margen inferior (mb-6 -> mb-10) para separarlo
-          
+        {/* TEXTOS: Ajustamos el margen inferior (mb-6 -> mb-10) para separarlo del slider */}
+        <div className="text-center mb-10 shrink-0">
+          <p className="text-xl md:text-3xl font-extralight tracking-tight text-neutral-400 leading-none uppercase">Precision</p>
+          <h1 className="text-2xl md:text-5xl font-black tracking-tighter uppercase leading-tight mt-1">Engineering.</h1>
+        </div>
+        
+        {/* CONTENEDOR SLIDER: Mantenemos las limitaciones de altura */}
+        <div className="w-full max-w-3xl mx-auto px-4 flex items-center justify-center max-h-[45vh] md:max-h-[50vh]">
+          <HeroSlider />
+        </div>
+      </section>
+
+      {/* FOOTER: Ajuste de legibilidad */}
+      <footer className="w-full p-6 mt-auto border-t border-neutral-100 flex flex-col items-center gap-2 shrink-0 bg-white">
+        {/* Cambiamos text-neutral-400 por text-neutral-600 (Gris más oscuro) */}
+        <p className="max-w-2xl text-[7px] md:text-[9px] font-mono text-neutral-600 text-center leading-relaxed tracking-[0.15em] uppercase">
+          LUMEGLOBALCORE.COM ES UNA MARCA OPERADA POR LUME GLOBAL CORE // © 2026 LUME GLOBAL CORE.
+        </p>
+        {/* Cambiamos text-neutral-300 por text-neutral-500 y hover a black */}
+        <div className="flex gap-8 font-mono text-[9px] text-neutral-500 uppercase pb-2">
+          <a href="#" className="hover:text-black transition-colors underline underline-offset-4">[ Términos ]</a>
+          <a href="#" className="hover:text-black transition-colors underline underline-offset-4">[ Privacidad ]</a>
+        </div>
+      </footer>
+
+    </main>
+  );
+}
