@@ -20,10 +20,10 @@ export default function LumeHome() {
       {/* ÁREA CENTRAL */}
       <section className="flex-grow flex flex-col items-center justify-center px-4 min-h-0">
         
-        {/* TÍTULO: Texto en minúsculas con trazo fino (font-extralight) */}
+        {/* TÍTULO: "absolute precision." en minúsculas y trazo fino */}
         <div className="text-center mb-4 md:mb-6 shrink-0">
-          <h1 className="text-3xl md:text-5xl font-extralight tracking-tight leading-tight">
-            Engineering extreme.
+          <h1 className="text-3xl md:text-5xl font-extralight tracking-tight leading-tight lowercase">
+            absolute precision.
           </h1>
         </div>
         
@@ -38,5 +38,12 @@ export default function LumeHome() {
         <p className="max-w-2xl text-[8px] md:text-[9px] font-mono text-neutral-700 text-center leading-relaxed tracking-[0.15em] uppercase">
           LUMEGLOBALCORE.COM ES UNA MARCA OPERADA POR LUME GLOBAL CORE // © 2026 LUME GLOBAL CORE.
         </p>
-        <div className="flex gap-8 font-mono text-[9px] text-neutral-6
-        
+        <div className="flex gap-8 font-mono text-[10px] text-neutral-600 uppercase pb-2">
+          <a href="#" className="hover:text-black transition-colors underline underline-offset-4">[ Términos ]</a>
+          <a href="#" className="hover:text-black transition-colors underline underline-offset-4">[ Privacidad ]</a>
+        </div>
+      </footer>
+
+    </main>
+  );
+}
