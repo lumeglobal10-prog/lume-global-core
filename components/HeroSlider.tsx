@@ -15,7 +15,7 @@ export default function HeroSlider() {
 
   return (
     <div 
-      className="relative w-full aspect-[3/4] md:aspect-video overflow-hidden rounded-[16px] shadow-2xl touch-none select-none bg-neutral-200"
+      className="relative w-full aspect-[4/5] md:aspect-video overflow-hidden rounded-[16px] shadow-2xl touch-none select-none bg-neutral-200 border border-neutral-100"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
     >
@@ -25,20 +25,25 @@ export default function HeroSlider() {
         style={{ backgroundImage: `url(${imgUrl})` }}
       />
 
-      {/* CAPA ANTES (GRIS) - MÉTODO DE RECORTES SEGURO */}
+      {/* CAPA ANTES (GRIS) - MÉTODO DE ANCHO ABSOLUTO (INFILTRABLE) */}
       <div 
-        className="absolute inset-0 bg-cover bg-center grayscale"
-        style={{ 
-          backgroundImage: `url(${imgUrl})`,
-          clipPath: `inset(0 ${100 - sliderPos}% 0 0)` 
-        }}
-      />
+        className="absolute inset-0 overflow-hidden"
+        style={{ width: `${sliderPos}%` }}
+      >
+        <div 
+          className="absolute inset-0 bg-cover bg-center grayscale"
+          style={{ 
+            backgroundImage: `url(${imgUrl})`,
+            width: `${10000 / sliderPos}%` // Mantiene la escala de la imagen mientras el contenedor se achica
+          }}
+        />
+      </div>
 
-      {/* DIVISOR Y LOGO */}
+      {/* DIVISOR Y LOGO MAPAMUNDI */}
       <div className="absolute inset-y-0 z-10" style={{ left: `${sliderPos}%` }}>
-        <div className="absolute inset-y-0 -left-[1px] w-[2px] bg-white shadow-lg" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 bg-white rounded-full shadow-2xl flex items-center justify-center border border-neutral-100">
-          <span className="text-lg">🌍</span>
+        <div className="absolute inset-y-0 -left-[1px] w-[2px] bg-white/90 shadow-[0_0_10px_rgba(0,0,0,0.5)]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-2xl flex items-center justify-center border border-neutral-100">
+          <span className="text-xl">🌍</span>
         </div>
       </div>
     </div>
