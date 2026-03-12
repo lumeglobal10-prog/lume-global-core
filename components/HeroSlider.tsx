@@ -12,36 +12,23 @@ export default function HeroSlider() {
     setSliderPos(position);
   }, []);
 
-  // Referencias a los archivos físicos en /public
-  const imgBefore = "/obra.jpg"; 
-  const imgAfter = "/render.jpg";
-
   return (
     <div 
-      className="relative w-full aspect-video overflow-hidden rounded-xl shadow-2xl touch-none select-none bg-neutral-100"
+      className="relative w-full aspect-video overflow-hidden rounded-xl shadow-2xl touch-none select-none bg-white"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
     >
-      {/* CAPA DESPUÉS: RENDER FINAL (FONDO) */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${imgAfter})` }}
-      />
+      {/* CAPA DESPUÉS: BLANCO TOTAL */}
+      <div className="absolute inset-0 bg-white" />
 
-      {/* CAPA ANTES: LA OBRA (MÁSCARA) */}
+      {/* CAPA ANTES: BLANCO TOTAL CON BORDE DE SEPARACIÓN */}
       <div 
-        className="absolute inset-0 z-10 overflow-hidden"
-        style={{ width: `${sliderPos}%`, borderRight: '1px solid rgba(255,255,255,0.5)' }}
-      >
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ 
-            backgroundImage: `url(${imgBefore})`,
-            width: `${100 * (100 / (sliderPos || 1))}%`,
-            height: '100%'
-          }}
-        />
-      </div>
+        className="absolute inset-0 z-10 overflow-hidden bg-white"
+        style={{ 
+          width: `${sliderPos}%`, 
+          borderRight: '1px solid rgba(0,0,0,0.1)' 
+        }}
+      />
 
       {/* MANIJA DEL SLIDER 🌍 */}
       <div className="absolute inset-y-0 z-20 pointer-events-none" style={{ left: `calc(${sliderPos}% - 20px)` }}>
