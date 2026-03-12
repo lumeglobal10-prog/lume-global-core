@@ -1,6 +1,10 @@
 'use client';
 import React, { useState, useCallback } from 'react';
 
+// Aquí pegaremos las cadenas de código en el Bloque 2
+const OBRA_DATA = "URL_DE_OBRA_AQUI";
+const RENDER_DATA = "URL_DE_RENDER_AQUI";
+
 export default function HeroSlider() {
   const [sliderPos, setSliderPos] = useState(50);
 
@@ -11,33 +15,32 @@ export default function HeroSlider() {
     setSliderPos(position);
   }, []);
 
-  // IMAGEN DE OBRA (Tu foto optimizada)
-  const imgBefore = "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop"; 
-  // IMAGEN RENDER (El resultado final de lujo)
-  const imgAfter = "https://images.unsplash.com/photo-1556911223-e20036323f9b?q=80&w=2070&auto=format&fit=crop";
-
   return (
     <div 
       className="relative w-full aspect-[4/5] md:aspect-video overflow-hidden rounded-[16px] shadow-2xl touch-none select-none bg-neutral-900 border border-white/5"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
     >
-      {/* CAPA FONDO: RENDER FINAL */}
+      {/* CAPA DESPUÉS: RENDER (FONDO) */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${imgAfter})` }}
+        style={{ backgroundImage: `url(${RENDER_DATA})` }}
       />
 
-      {/* CAPA FRENTE: OBRA (CON RECORTE DINÁMICO) */}
+      {/* CAPA ANTES: OBRA (VENTANA DESLIZANTE) */}
       <div 
         className="absolute inset-0 z-10 overflow-hidden"
-        style={{ 
-          width: `${sliderPos}%`,
-          backgroundImage: `url(${imgBefore})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      />
+        style={{ width: `${sliderPos}%` }}
+      >
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ 
+            backgroundImage: `url(${OBRA_DATA})`,
+            width: `${100 * (100 / (sliderPos || 1))}%`,
+            minWidth: '100vw'
+          }}
+        />
+      </div>
 
       {/* DIVISOR Y LOGO MAPAMUNDI 🌍 */}
       <div className="absolute inset-y-0 z-20 pointer-events-none" style={{ left: `${sliderPos}%` }}>
