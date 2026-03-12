@@ -11,47 +11,47 @@ export default function HeroSlider() {
     setSliderPos(position);
   }, []);
 
-  // --- ASSETS SINCRONIZADOS (MISMA GEOMETRÍA, DISTINTA FASE) ---
-  const imgBefore = "https://raw.githubusercontent.com/Lume-Global/assets/main/kitchen_construction_raw.jpg";
-  const imgAfter = "https://raw.githubusercontent.com/Lume-Global/assets/main/kitchen_luxury_final.jpg";
-
-  // FIX DE EMERGENCIA: Si las URLs fallan, usamos placeholders de alta precisión para testear la lógica
-  const beforePlaceholder = "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop"; 
-  const afterPlaceholder = "https://images.unsplash.com/photo-1556911223-e20036323f9b?q=80&w=2070&auto=format&fit=crop";
+  // IMAGEN DE ALTA FIDELIDAD (Misma fuente para evitar desajuste)
+  const imgUrl = "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop";
 
   return (
     <div 
-      className="relative w-full aspect-[4/5] md:aspect-video overflow-hidden rounded-[16px] shadow-2xl touch-none select-none bg-neutral-200 border border-neutral-100"
+      className="relative w-full aspect-[4/5] md:aspect-video overflow-hidden rounded-[16px] shadow-2xl touch-none select-none border border-neutral-100"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
     >
-      {/* CAPA DESPUÉS: EL LUJO (FONDO) */}
+      {/* CAPA DESPUÉS: ESTADO LUJO (FONDO) */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${imgAfter}), url(${afterPlaceholder})` }}
+        style={{ backgroundImage: `url(${imgUrl})` }}
       />
 
-      {/* CAPA ANTES: LA OBRA (MÁSCARA DINÁMICA) */}
+      {/* CAPA ANTES: ESTADO OBRA (MÉTODO CLIP-PATH INDESTRUCTIBLE) */}
       <div 
-        className="absolute inset-0 z-10 overflow-hidden"
-        style={{ width: `${sliderPos}%` }}
-      >
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ 
-            backgroundImage: `url(${imgBefore}), url(${beforePlaceholder})`,
-            width: `${100 * (100 / (sliderPos || 1))}%`, // Compensa el estiramiento del contenedor
-            minWidth: '100vw'
-          }}
-        />
-      </div>
+        className="absolute inset-0 bg-cover bg-center grayscale contrast-125 brightness-75 z-10"
+        style={{ 
+          backgroundImage: `url(${imgUrl})`,
+          clipPath: `inset(0 ${100 - sliderPos}% 0 0)` 
+        }}
+      />
 
-      {/* NODO DE CONTROL: MAPAMUNDI 🌍 */}
-      <div className="absolute inset-y-0 z-20 pointer-events-none" style={{ left: `${sliderPos}%` }}>
+      {/* DIVISOR Y NODO CENTRAL 🌍 */}
+      <div 
+        className="absolute inset-y-0 z-20 pointer-events-none" 
+        style={{ left: `${sliderPos}%` }}
+      >
         <div className="absolute inset-y-0 -left-[1px] w-[2px] bg-white shadow-[0_0_15px_rgba(0,0,0,0.5)]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-2xl flex items-center justify-center border border-neutral-100">
           <span className="text-xl">🌍</span>
         </div>
+      </div>
+
+      {/* ETIQUETAS DE ESTADO */}
+      <div className="absolute bottom-4 left-4 z-30 font-mono text-[7px] tracking-[0.3em] text-white bg-black/40 backdrop-blur-md px-2 py-1 rounded uppercase">
+        Materia Prima
+      </div>
+      <div className="absolute bottom-4 right-4 z-30 font-mono text-[7px] tracking-[0.3em] text-white bg-black/40 backdrop-blur-md px-2 py-1 rounded uppercase">
+        Lume Core
       </div>
     </div>
   );
