@@ -1,10 +1,6 @@
 'use client';
 import React, { useState, useCallback } from 'react';
 
-// INSTRUCCIÓN: Pegar aquí el código Base64 generado en resolución 1920x1080 (Calidad 60%)
-const OBRA_DATA = "PEGA_AQUI_LA_CADENA_OBRA";
-const RENDER_DATA = "PEGA_AQUI_LA_CADENA_RENDER";
-
 export default function HeroSlider() {
   const [sliderPos, setSliderPos] = useState(50);
 
@@ -16,27 +12,31 @@ export default function HeroSlider() {
     setSliderPos(position);
   }, []);
 
+  // Referencias a los archivos físicos en /public
+  const imgBefore = "/obra.jpg"; 
+  const imgAfter = "/render.jpg";
+
   return (
     <div 
-      className="relative w-full aspect-video overflow-hidden rounded-xl shadow-2xl touch-none select-none bg-neutral-900 border border-white/10"
+      className="relative w-full aspect-video overflow-hidden rounded-xl shadow-2xl touch-none select-none bg-neutral-100"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
     >
-      {/* CAPA DESPUÉS: RENDER (FONDO) */}
+      {/* CAPA DESPUÉS: RENDER FINAL (FONDO) */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${RENDER_DATA})` }}
+        style={{ backgroundImage: `url(${imgAfter})` }}
       />
 
-      {/* CAPA ANTES: OBRA (RECORTADA) */}
+      {/* CAPA ANTES: LA OBRA (MÁSCARA) */}
       <div 
         className="absolute inset-0 z-10 overflow-hidden"
-        style={{ width: `${sliderPos}%`, borderRight: '2px solid white' }}
+        style={{ width: `${sliderPos}%`, borderRight: '1px solid rgba(255,255,255,0.5)' }}
       >
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ 
-            backgroundImage: `url(${OBRA_DATA})`,
+            backgroundImage: `url(${imgBefore})`,
             width: `${100 * (100 / (sliderPos || 1))}%`,
             height: '100%'
           }}
@@ -46,8 +46,8 @@ export default function HeroSlider() {
       {/* MANIJA DEL SLIDER 🌍 */}
       <div className="absolute inset-y-0 z-20 pointer-events-none" style={{ left: `calc(${sliderPos}% - 20px)` }}>
         <div className="flex h-full items-center justify-center">
-            <div className="w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center border-2 border-black/10">
-                <span className="text-xl">🌍</span>
+            <div className="w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center border border-neutral-300">
+                <span className="text-xl select-none">🌍</span>
             </div>
         </div>
       </div>
