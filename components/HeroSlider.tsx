@@ -1,52 +1,54 @@
 'use client';
 import React, { useState, useCallback } from 'react';
 
+// INSTRUCCIÓN: Pegar aquí el código Base64 generado en resolución 1920x1080 (Calidad 60%)
+const OBRA_DATA = "PEGA_AQUI_LA_CADENA_OBRA";
+const RENDER_DATA = "PEGA_AQUI_LA_CADENA_RENDER";
+
 export default function HeroSlider() {
   const [sliderPos, setSliderPos] = useState(50);
 
   const handleMove = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = ('touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX) - rect.left;
+    const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
+    const x = clientX - rect.left;
     const position = Math.max(0, Math.min(100, (x / rect.width) * 100));
     setSliderPos(position);
   }, []);
 
-  // Intentamos con el nombre que GitHub les puso según tu captura
-  const imgBefore = "/obra.jpg.png"; 
-  const imgAfter = "/render.jpg.png";
-
   return (
     <div 
-      className="relative w-full aspect-[4/3] md:aspect-video overflow-hidden rounded-xl shadow-2xl touch-none select-none bg-neutral-800"
+      className="relative w-full aspect-video overflow-hidden rounded-xl shadow-2xl touch-none select-none bg-neutral-900 border border-white/10"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
     >
-      {/* CAPA DESPUÉS: RENDER FINAL (FONDO) */}
+      {/* CAPA DESPUÉS: RENDER (FONDO) */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${imgAfter})` }}
+        style={{ backgroundImage: `url(${RENDER_DATA})` }}
       />
 
-      {/* CAPA ANTES: LA OBRA (MÁSCARA) */}
+      {/* CAPA ANTES: OBRA (RECORTADA) */}
       <div 
         className="absolute inset-0 z-10 overflow-hidden"
-        style={{ width: `${sliderPos}%` }}
+        style={{ width: `${sliderPos}%`, borderRight: '2px solid white' }}
       >
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ 
-            backgroundImage: `url(${imgBefore})`,
+            backgroundImage: `url(${OBRA_DATA})`,
             width: `${100 * (100 / (sliderPos || 1))}%`,
-            minWidth: '100vw'
+            height: '100%'
           }}
         />
       </div>
 
-      {/* CONTROL DESLIZANTE 🌍 */}
-      <div className="absolute inset-y-0 z-20 pointer-events-none" style={{ left: `${sliderPos}%` }}>
-        <div className="absolute inset-y-0 -left-[1px] w-[2px] bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-2xl flex items-center justify-center border border-neutral-200">
-          <span className="text-xl">🌍</span>
+      {/* MANIJA DEL SLIDER 🌍 */}
+      <div className="absolute inset-y-0 z-20 pointer-events-none" style={{ left: `calc(${sliderPos}% - 20px)` }}>
+        <div className="flex h-full items-center justify-center">
+            <div className="w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center border-2 border-black/10">
+                <span className="text-xl">🌍</span>
+            </div>
         </div>
       </div>
     </div>
