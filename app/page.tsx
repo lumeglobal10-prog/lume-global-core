@@ -12,6 +12,7 @@ export default function LumeHome() {
         <div className="text-sm font-black tracking-[0.4em] uppercase">
           {siteName}
         </div>
+        {/* ENLACE DIRECTO AL DASHBOARD */}
         <Link href="/dashboard">
           <button className="bg-black text-white px-6 py-2 text-[10px] font-bold tracking-[0.2em] uppercase active:scale-95 transition-all">
             Sign In
