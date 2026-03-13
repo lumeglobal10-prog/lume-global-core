@@ -12,7 +12,6 @@ export default function LumeHome() {
         <div className="text-sm font-black tracking-[0.4em] uppercase">
           {siteName}
         </div>
-        {/* Bypass temporal para acceso directo al Dashboard */}
         <Link href="/dashboard">
           <button className="bg-black text-white px-6 py-2 text-[10px] font-bold tracking-[0.2em] uppercase active:scale-95 transition-all">
             Sign In
@@ -39,7 +38,7 @@ export default function LumeHome() {
         </div>
       </section>
 
-      {/* FOOTER: Nombres corregidos para auditoría de Paddle */}
+      {/* FOOTER */}
       <footer className="w-full p-6 mt-auto border-t border-neutral-100 flex flex-col items-center gap-2 shrink-0 bg-white z-50">
         <p className="max-w-2xl text-[8px] md:text-[9px] font-mono text-neutral-700 text-center leading-relaxed tracking-[0.15em] uppercase">
           LUMEGLOBALCORE.COM ES UNA MARCA OPERADA POR LUME GLOBAL CORE // © 2026 LUME GLOBAL CORE.
