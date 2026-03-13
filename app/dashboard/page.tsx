@@ -11,18 +11,13 @@ export default function DashboardPage() {
   const rendersTotal = 20;
 
   const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
+    e.preventDefault(); e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
+    else if (e.type === "dragleave") setDragActive(false);
   };
 
   const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault(); e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setFiles(Array.from(e.dataTransfer.files));
@@ -55,7 +50,7 @@ export default function DashboardPage() {
               <span className="text-neutral-300 text-xs mb-1">/ {rendersTotal}</span>
             </div>
             <div className="w-full h-1 bg-neutral-200 mt-2 rounded-full overflow-hidden">
-              <div className="h-full bg-black transition-all" style={{ width: '25%' }}></div>
+              <div className="h-full bg-black" style={{ width: '25%' }}></div>
             </div>
           </div>
         </div>
@@ -64,10 +59,7 @@ export default function DashboardPage() {
           <div className="space-y-4 px-2 md:px-0">
             <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter">Nueva Orden.</h2>
             <div 
-              onDragEnter={handleDrag}
-              onDragLeave={handleDrag}
-              onDragOver={handleDrag}
-              onDrop={handleDrop}
+              onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop}
               className={`relative border-2 border-dashed rounded-3xl p-6 md:p-8 transition-all flex flex-col items-center justify-center min-h-[200px] md:min-h-[220px] ${dragActive ? "border-black bg-neutral-50" : "border-neutral-200 bg-white"}`}
             >
               <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-center">Arrastre sus fotos aquí</p>
