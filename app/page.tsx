@@ -5,10 +5,9 @@ export default function LumeHome() {
   const siteName = "L U M E";
 
   return (
-    /* h-screen y overflow-hidden para asegurar que todo entre en el visor de la PC sin scroll */
     <main className="flex flex-col h-screen w-full bg-white text-black font-sans overflow-hidden">
       
-      {/* HEADER: Botón Sign In activo */}
+      {/* HEADER */}
       <nav className="w-full p-6 md:p-8 flex justify-between items-center shrink-0 z-50">
         <div className="text-sm font-black tracking-[0.4em] uppercase">
           {siteName}
@@ -22,8 +21,6 @@ export default function LumeHome() {
 
       {/* ÁREA CENTRAL */}
       <section className="flex-grow flex flex-col items-center justify-center px-4 min-h-0">
-        
-        {/* TÍTULO: Absolute Precision con capitalización corregida y trazo fino */}
         <div className="text-center mb-4 md:mb-6 shrink-0">
           <h1 className="text-3xl md:text-5xl font-extralight tracking-tight leading-tight">
             Absolute Precision.
@@ -32,8 +29,6 @@ export default function LumeHome() {
         
         <div className="w-full max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto flex flex-col items-center justify-center">
           <HeroSlider />
-          
-          {/* ENLACE A PLANES: Debajo del slider */}
           <Link href="/pricing" className="mt-8 group flex flex-col items-center gap-2">
             <span className="text-[10px] font-bold tracking-[0.4em] uppercase border-b border-black pb-1 group-hover:px-4 transition-all">
               Ver Planes de Suscripción
@@ -43,7 +38,7 @@ export default function LumeHome() {
         </div>
       </section>
 
-      {/* FOOTER: Enlaces de Legales con nombres corregidos y activos */}
+      {/* FOOTER: Aquí es donde cambiamos el nombre del botón */}
       <footer className="w-full p-6 mt-auto border-t border-neutral-100 flex flex-col items-center gap-2 shrink-0 bg-white z-50">
         <p className="max-w-2xl text-[8px] md:text-[9px] font-mono text-neutral-700 text-center leading-relaxed tracking-[0.15em] uppercase">
           LUMEGLOBALCORE.COM ES UNA MARCA OPERADA POR LUME GLOBAL CORE // © 2026 LUME GLOBAL CORE.
