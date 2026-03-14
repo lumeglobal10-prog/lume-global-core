@@ -9,10 +9,10 @@ export default function PricingPage() {
   const router = useRouter();
 
   const planes = [
-    { nombre: 'BASIC', precio: '29', desc: 'Ideal para agentes individuales.' },
-    { nombre: 'ADVANCE', precio: '99', desc: 'Optimización de flujo para oficinas.' },
-    { nombre: 'PRO', precio: '199', desc: 'Escalabilidad total y prioridad.' },
-    { nombre: 'ULTRA', precio: '399', desc: 'Máxima potencia de infraestructura.' }
+    { nombre: 'CORE', precio: '49', desc: 'ACCESO A 10 RENDERS DE ALTA PRECISIÓN.' },
+    { nombre: 'ADVANCE', precio: '99', desc: 'ESCALABILIDAD TOTAL.' },
+    { nombre: 'PROFESIONAL', precio: '199', desc: 'ACCESO A 80 RENDERS DE ALTA PRECISIÓN.' },
+    { nombre: 'BUSINESS', precio: '499', desc: 'ACCESO A 250 RENDERS DE ALTA PRECISIÓN.' }
   ];
 
   const handlePlanSelection = () => {
@@ -26,18 +26,21 @@ export default function PricingPage() {
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20">
       
-      {/* NAVEGACIÓN SUPERIOR */}
-      <nav className="flex justify-start">
+      {/* NAVEGACIÓN SUPERIOR: LOGO IZQUIERDA Y RETORNO DERECHA */}
+      <nav className="flex justify-between items-center w-full">
+        <div className="text-xl font-black tracking-tighter italic uppercase">
+          LUME 🌎
+        </div>
         <Link href="/">
           <button className="text-[10px] font-black tracking-[0.3em] uppercase border border-black px-6 py-2 hover:bg-black hover:text-white transition-all">
-            ← INICIO
+            INICIO →
           </button>
         </Link>
       </nav>
 
       {/* SECTOR DE PLANES */}
-      <div className="max-w-5xl mx-auto w-full py-12 text-center">
-        <h1 className="text-5xl font-black uppercase tracking-tighter mb-4 italic">PLANES LUME CORE.</h1>
+      <div className="max-w-6xl mx-auto w-full py-12 text-center">
+        <h1 className="text-6xl font-black uppercase tracking-tighter mb-4 italic">PLANES.</h1>
         <div className="h-1 w-24 bg-black mx-auto mb-16"></div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -52,7 +55,7 @@ export default function PricingPage() {
                 <div className="text-4xl font-black italic mb-2 tracking-tighter">
                   ${plan.precio}<span className="text-[12px] font-mono not-italic uppercase tracking-widest text-neutral-400 group-hover:text-neutral-500">/mo</span>
                 </div>
-                <p className="text-[9px] font-mono uppercase tracking-widest leading-relaxed mt-6">
+                <p className="text-[9px] font-mono uppercase tracking-[0.2em] leading-relaxed mt-8 border-t border-neutral-100 group-hover:border-neutral-800 pt-6">
                   {plan.desc}
                 </p>
               </div>
@@ -69,10 +72,10 @@ export default function PricingPage() {
       {showPopup && (
         <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-6 z-50">
           <div className="bg-white p-10 max-w-sm w-full border border-black text-center space-y-8 animate-in fade-in zoom-in duration-300">
-            <h3 className="text-[12px] font-black tracking-[0.5em] uppercase italic">Aviso Legal</h3>
+            <h3 className="text-[12px] font-black tracking-[0.5em] uppercase italic">AVISO LEGAL</h3>
             <p className="text-[10px] font-mono uppercase tracking-[0.1em] leading-relaxed text-neutral-600">
-              Los precios se expresan en <span className="text-black font-bold">Dólares Estadounidenses (USD)</span>. 
-              Tenga en cuenta que el monto final puede variar según los impuestos locales y regulaciones fiscales de su región.
+              LOS PRECIOS SE EXPRESAN EN <span className="text-black font-bold">DÓLARES ESTADOUNIDENSES (USD)</span>. 
+              EL MONTO FINAL PUEDE VARIAR SEGÚN LOS IMPUESTOS LOCALES DE SU REGIÓN.
             </p>
             <button 
               onClick={proceedToCheckout}
@@ -95,9 +98,9 @@ export default function PricingPage() {
           </Link>
         </div>
         <div className="text-[10px] font-mono tracking-[0.5em] text-neutral-400 uppercase">
-          LUME GLOBAL CORE // 2026
+          LUME GLOBAL CORE 🌎 // 2026
         </div>
       </footer>
     </main>
   );
-}
+              }
