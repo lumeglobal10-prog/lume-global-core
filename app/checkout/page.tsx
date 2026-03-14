@@ -1,8 +1,6 @@
 import Link from 'next/link';
 
 export default function CheckoutPage() {
-  // Configuración de pasarelas. 
-  // En el futuro, este array podrá ser controlado externamente desde Lume Core.
   const paymentMethods = [
     { id: 'paddle', name: 'PADDLE // GLOBAL GATEWAY', active: true },
     { id: 'stripe', name: 'STRIPE // DEFERRED', active: false },
@@ -13,11 +11,14 @@ export default function CheckoutPage() {
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20">
       
-      {/* NAVEGACIÓN SUPERIOR: RETORNO A INICIO */}
-      <nav className="flex justify-start">
+      {/* NAVEGACIÓN SUPERIOR: LOGO IZQUIERDA Y RETORNO DERECHA */}
+      <nav className="flex justify-between items-center w-full">
+        <div className="text-xl font-black tracking-tighter italic">
+          LUME 🌎
+        </div>
         <Link href="/">
           <button className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 hover:bg-black hover:text-white transition-all">
-            ← INICIO
+            INICIO →
           </button>
         </Link>
       </nav>
@@ -47,7 +48,6 @@ export default function CheckoutPage() {
                   </option>
                 ))}
               </select>
-              {/* ÍCONO DEL SELECTOR */}
               <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[10px]">▼</div>
             </div>
           </div>
@@ -58,20 +58,20 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      {/* FOOTER UNIFICADO LUME CORE */}
+      {/* FOOTER UNIFICADO LUME CORE CON LOGO CORRECTO */}
       <footer className="flex flex-col items-center space-y-6 pt-20">
         <div className="flex space-x-8">
-          <Link href="/terms" className="text-[9px] font-black tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+          <Link href="/terms?from=checkout" className="text-[9px] font-black tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
             Términos y Condiciones
           </Link>
-          <Link href="/privacy" className="text-[9px] font-black tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+          <Link href="/privacy?from=checkout" className="text-[9px] font-black tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
             Privacidad
           </Link>
         </div>
         <div className="text-[10px] font-mono tracking-[0.5em] text-neutral-400 uppercase">
-          LUME GLOBAL CORE // 2026
+          LUME GLOBAL CORE 🌎 // 2026
         </div>
       </footer>
     </main>
   );
-              }
+                }
