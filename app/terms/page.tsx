@@ -6,8 +6,6 @@ import { useSearchParams } from 'next/navigation';
 export default function TermsPage() {
   const searchParams = useSearchParams();
   const from = searchParams.get('from');
-
-  // Si viene de 'checkout', el botón vuelve a /checkout. Si no, a / (Inicio).
   const backPath = from === 'checkout' ? '/checkout' : '/';
 
   return (
@@ -35,7 +33,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-black text-black mb-4">[ 02. EJECUCIÓN AUTÓNOMA ]</h2>
-            <p>El ecosistema Lume opera estrictamente mediante procesos algorítmicos y cálculos matemáticos sin intervención directa de inteligencia artificial para el renderizado final. La auditoría y validación del activo generado es responsabilidad exclusiva del suscriptor antes de su uso comercial.</p>
+            <p>El ecosistema Lume opera estrictamente mediante procesos algorítmicos y cálculos matemáticos. La auditoría y validación del activo generado es responsabilidad exclusiva del suscriptor antes de su uso comercial.</p>
           </section>
 
           <section>
@@ -46,6 +44,11 @@ export default function TermsPage() {
           <section>
             <h2 className="font-black text-black mb-4">[ 04. LÍMITES DE RESPONSABILIDAD ]</h2>
             <p>Lume no se responsabiliza por interpretaciones erróneas de los activos generados ni por el uso de los mismos en plataformas de terceros.</p>
+          </section>
+
+          <section className="border-l-2 border-black pl-6 py-2 bg-neutral-50">
+            <h2 className="font-black text-black mb-4">[ 05. PRINCIPIO DE IGUALDAD OPERATIVA ]</h2>
+            <p className="text-black font-bold">Lume Global Core garantiza que todos los suscriptores son iguales ante el Kernel de procesamiento. No existe prioridad de renderizado basada en el costo del plan contratado. La única jerarquía de procesamiento es cronológica, basada estrictamente en el orden de entrada de los activos al núcleo de procesamiento, siempre que la suscripción se encuentre activa.</p>
           </section>
         </div>
       </div>
@@ -58,4 +61,4 @@ export default function TermsPage() {
       </footer>
     </main>
   );
-}
+      }
