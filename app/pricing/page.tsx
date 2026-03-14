@@ -1,71 +1,103 @@
 'use client';
-import React, { useState } from 'react';
-import Link from 'next/link';
-import SmartPopup from '../../components/SmartPopup';
 
-const PLANS = [
-  { id: 'core', name: 'Core', price: 49, renders: 8 },
-  { id: 'empresarial', name: 'Empresarial', price: 99, renders: 20 },
-  { id: 'profesional', name: 'Profesional', price: 199, renders: 60 },
-  { id: 'business', name: 'Business', price: 499, renders: 200 }
-];
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function PricingPage() {
-  const [showTaxPopup, setShowTaxPopup] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const router = useRouter();
 
-  const handleSelectPlan = (planId: string) => {
-    setSelectedPlan(planId);
-    setShowTaxPopup(true);
+  const planes = [
+    { nombre: 'BASIC', precio: '29', desc: 'Ideal para agentes individuales.' },
+    { nombre: 'ADVANCE', precio: '99', desc: 'Optimización de flujo para oficinas.' },
+    { nombre: 'PRO', precio: '199', desc: 'Escalabilidad total y prioridad.' },
+    { nombre: 'ULTRA', precio: '399', desc: 'Máxima potencia de infraestructura.' }
+  ];
+
+  const handlePlanSelection = () => {
+    setShowPopup(true);
   };
 
   const proceedToCheckout = () => {
-    if (!isLoggedIn) {
-      window.location.href = '/login';
-    } else {
-      console.log("Iniciando checkout para:", selectedPlan);
-    }
+    router.push('/checkout');
   };
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans flex flex-col p-6 md:p-12">
-      {showTaxPopup && (
-        <SmartPopup 
-          trigger="tax_notice" 
-          onClose={proceedToCheckout} 
-        />
-      )}
-
-      <nav className="flex justify-between items-center w-full mb-12">
-        <Link href="/" className="text-[10px] font-bold tracking-[0.2em] uppercase hover:underline underline-offset-4">
-          ← Inicio
+    <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20">
+      
+      {/* NAVEGACIÓN SUPERIOR */}
+      <nav className="flex justify-start">
+        <Link href="/">
+          <button className="text-[10px] font-black tracking-[0.3em] uppercase border border-black px-6 py-2 hover:bg-black hover:text-white transition-all">
+            ← INICIO
+          </button>
         </Link>
       </nav>
 
-      <div className="text-center mb-16">
-        <p className="text-xl md:text-2xl font-extralight tracking-[0.2em] text-neutral-400 uppercase">Select your</p>
-        <h1 className="text-3xl md:text-6xl font-black tracking-tighter uppercase mt-1">Subscription.</h1>
+      {/* SECTOR DE PLANES */}
+      <div className="max-w-5xl mx-auto w-full py-12 text-center">
+        <h1 className="text-5xl font-black uppercase tracking-tighter mb-4 italic">PLANES LUME CORE.</h1>
+        <div className="h-1 w-24 bg-black mx-auto mb-16"></div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {planes.map((plan) => (
+            <div 
+              key={plan.nombre}
+              onClick={handlePlanSelection}
+              className="group border border-black p-8 flex flex-col items-center justify-between cursor-pointer hover:bg-black hover:text-white transition-all duration-300 active:scale-95"
+            >
+              <div>
+                <h2 className="text-[12px] font-black tracking-[0.4em] mb-4 uppercase">{plan.nombre}</h2>
+                <div className="text-4xl font-black italic mb-2 tracking-tighter">
+                  ${plan.precio}<span className="text-[12px] font-mono not-italic uppercase tracking-widest text-neutral-400 group-hover:text-neutral-500">/mo</span>
+                </div>
+                <p className="text-[9px] font-mono uppercase tracking-widest leading-relaxed mt-6">
+                  {plan.desc}
+                </p>
+              </div>
+              
+              <div className="mt-12 text-[10px] font-black tracking-[0.3em] uppercase border-b-2 border-black group-hover:border-white pb-1">
+                SELECCIONAR
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto w-full">
-        {PLANS.map((plan) => (
-          <div 
-            key={plan.id}
-            onClick={() => handleSelectPlan(plan.id)}
-            className="group cursor-pointer border-2 border-black rounded-2xl p-8 flex flex-col items-center justify-between hover:bg-black hover:text-white transition-all duration-300"
-          >
-            <div className="text-center">
-              <h2 className="text-xs font-black tracking-[0.3em] uppercase mb-4 opacity-60 group-hover:opacity-100">{plan.name}</h2>
-              <div className="flex items-start justify-center">
-                <span className="text-2xl font-light mt-2">$</span>
-                <span className="text-6xl font-black tracking-tighter">{plan.price}</span>
-              </div>
-              <p className="mt-6 text-[11px] font-bold tracking-widest uppercase">{plan.renders} Renders</p>
-            </div>
+      {/* POP-UP INFORMATIVO */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-6 z-50">
+          <div className="bg-white p-10 max-w-sm w-full border border-black text-center space-y-8 animate-in fade-in zoom-in duration-300">
+            <h3 className="text-[12px] font-black tracking-[0.5em] uppercase italic">Aviso Legal</h3>
+            <p className="text-[10px] font-mono uppercase tracking-[0.1em] leading-relaxed text-neutral-600">
+              Los precios se expresan en <span className="text-black font-bold">Dólares Estadounidenses (USD)</span>. 
+              Tenga en cuenta que el monto final puede variar según los impuestos locales y regulaciones fiscales de su región.
+            </p>
+            <button 
+              onClick={proceedToCheckout}
+              className="w-full bg-black text-white p-4 text-[11px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all"
+            >
+              ACEPTAR Y CONTINUAR
+            </button>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
+
+      {/* FOOTER UNIFICADO LUME CORE */}
+      <footer className="flex flex-col items-center space-y-6 pt-20">
+        <div className="flex space-x-8">
+          <Link href="/terms" className="text-[9px] font-black tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+            Términos y Condiciones
+          </Link>
+          <Link href="/privacy" className="text-[9px] font-black tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+            Privacidad
+          </Link>
+        </div>
+        <div className="text-[10px] font-mono tracking-[0.5em] text-neutral-400 uppercase">
+          LUME GLOBAL CORE // 2026
+        </div>
+      </footer>
     </main>
   );
 }
