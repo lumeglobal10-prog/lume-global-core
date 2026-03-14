@@ -1,130 +1,72 @@
-'use client';
-import React, { useState } from 'react';
 import Link from 'next/link';
 
 export default function LoginPage() {
-  // Estado para alternar entre Login y Registro
-  const [isRegistering, setIsRegistering] = useState(false);
-  
-  // Estados para el formulario
-  const [formData, setFormData] = useState({
-    company: '',
-    fullName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: ''
-  });
-
-  const [error, setError] = useState('');
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError(''); // Limpiar error al escribir
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (isRegistering) {
-      // Validación de coincidencia de contraseña
-      if (formData.password !== formData.confirmPassword) {
-        setError('Las contraseñas no coinciden. Por favor, verifíquelas.');
-        return;
-      }
-      // Aquí iría la lógica para guardar en base de datos
-      console.log("Registrando usuario...", formData);
-      window.location.href = '/pricing'; // Redirigir a planes tras registro
-    } else {
-      // Lógica de Login
-      console.log("Iniciando sesión...", formData.email);
-      // Simulación: Si es activo va a dashboard, si no a planes
-      window.location.href = '/dashboard'; 
-    }
-  };
-
   return (
-    <main className="min-h-screen bg-white text-black font-sans flex flex-col items-center justify-center p-6">
+    <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20">
       
-      {/* Botón Volver al Inicio (Arriba Izquierda) */}
-      <div className="absolute top-8 left-8">
-        <Link href="/" className="text-[10px] font-bold tracking-[0.2em] uppercase hover:underline underline-offset-4">
-          ← Back to Home
+      {/* NAVEGACIÓN SUPERIOR: RETORNO A INICIO */}
+      <nav className="flex justify-start">
+        <Link href="/">
+          <button className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 hover:bg-black hover:text-white transition-all">
+            ← INICIO
+          </button>
         </Link>
-      </div>
+      </nav>
 
-      <div className="w-full max-w-md space-y-8 bg-neutral-50 p-10 rounded-2xl shadow-sm border border-neutral-100">
-        <div className="text-center">
-          <h2 className="text-3xl font-black tracking-tighter uppercase italic">L U M E</h2>
-          <p className="mt-2 text-sm text-neutral-500 tracking-widest uppercase">
-            {isRegistering ? 'Crea tu cuenta corporativa' : 'Acceso a la plataforma'}
-          </p>
-        </div>
-
-        <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
-          {isRegistering && (
-            <>
-              <div>
-                <label className="block text-[9px] font-bold uppercase tracking-widest mb-1">Nombre de la Empresa</label>
-                <input name="company" type="text" required className="w-full px-4 py-3 bg-white border border-neutral-200 rounded text-sm focus:outline-none focus:border-black transition-all" placeholder="EJ: ESTUDIO LUME" onChange={handleInputChange}/>
-              </div>
-              <div>
-                <label className="block text-[9px] font-bold uppercase tracking-widest mb-1">Nombre del Titular</label>
-                <input name="fullName" type="text" required className="w-full px-4 py-3 bg-white border border-neutral-200 rounded text-sm focus:outline-none focus:border-black transition-all" placeholder="EJ: JORGE DELLARIA" onChange={handleInputChange}/>
-              </div>
-              <div>
-                <label className="block text-[9px] font-bold uppercase tracking-widest mb-1">Teléfono</label>
-                <input name="phone" type="tel" required className="w-full px-4 py-3 bg-white border border-neutral-200 rounded text-sm focus:outline-none focus:border-black transition-all" placeholder="+54 9 11 ..." onChange={handleInputChange}/>
-              </div>
-            </>
-          )}
-
-          <div>
-            <label className="block text-[9px] font-bold uppercase tracking-widest mb-1">Email Corporativo</label>
-            <input name="email" type="email" required className="w-full px-4 py-3 bg-white border border-neutral-200 rounded text-sm focus:outline-none focus:border-black transition-all" placeholder="admin@empresa.com" onChange={handleInputChange}/>
+      {/* CONTENIDO CENTRAL: ACCESO AL SISTEMA */}
+      <div className="max-w-md mx-auto w-full flex flex-col items-center py-12">
+        <h1 className="text-4xl font-black uppercase tracking-tighter mb-2 italic text-center">ACCESO AL CORE.</h1>
+        <div className="h-1 w-20 bg-black mb-12"></div>
+        
+        <div className="w-full space-y-6">
+          <div className="space-y-2">
+            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">
+              Identificación de Suscriptor
+            </label>
+            <input 
+              type="email" 
+              placeholder="EMAIL@EJEMPLO.COM"
+              className="w-full bg-white border border-black p-4 text-[11px] font-mono uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors placeholder:text-neutral-300"
+            />
           </div>
 
-          <div>
-            <label className="block text-[9px] font-bold uppercase tracking-widest mb-1">Contraseña</label>
-            <input name="password" type="password" required className="w-full px-4 py-3 bg-white border border-neutral-200 rounded text-sm focus:outline-none focus:border-black transition-all" placeholder="••••••••" onChange={handleInputChange}/>
+          <div className="space-y-2">
+            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">
+              Protocolo de Seguridad
+            </label>
+            <input 
+              type="password" 
+              placeholder="CONTRASEÑA"
+              className="w-full bg-white border border-black p-4 text-[11px] font-mono uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors placeholder:text-neutral-300"
+            />
           </div>
 
-          {isRegistering && (
-            <div>
-              <label className="block text-[9px] font-bold uppercase tracking-widest mb-1">Confirmar Contraseña</label>
-              <input name="confirmPassword" type="password" required className="w-full px-4 py-3 bg-white border border-neutral-200 rounded text-sm focus:outline-none focus:border-black transition-all" placeholder="••••••••" onChange={handleInputChange}/>
-            </div>
-          )}
-
-          {error && <p className="text-red-500 text-[10px] font-bold uppercase text-center">{error}</p>}
-
-          {!isRegistering && (
-            <div className="flex justify-end">
-              <button type="button" className="text-[9px] text-neutral-400 hover:text-black uppercase tracking-tighter">¿Olvidó su contraseña?</button>
-            </div>
-          )}
-
-          <button type="submit" className="w-full py-4 bg-black text-white text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-neutral-800 transition-all mt-4">
-            {isRegistering ? 'Continuar a Planes' : 'Ingresar'}
+          <button className="w-full bg-black text-white p-5 text-[12px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all shadow-xl active:scale-95">
+            INGRESAR
           </button>
-        </form>
-
-        <div className="text-center pt-4 border-t border-neutral-200 mt-6">
-          <button 
-            onClick={() => setIsRegistering(!isRegistering)}
-            className="text-[10px] font-bold text-neutral-500 hover:text-black uppercase tracking-widest"
-          >
-            {isRegistering ? '¿Ya tienes cuenta? Iniciar Sesión' : '¿No tienes cuenta? Regístrate'}
-          </button>
+          
+          <div className="text-center">
+            <Link href="/pricing" className="text-[9px] font-bold tracking-[0.2em] uppercase hover:underline underline-offset-4">
+              ¿No tiene una suscripción activa? Ver planes
+            </Link>
+          </div>
         </div>
       </div>
 
-      {/* Botón Directo a Planes (Abajo) */}
-      <div className="mt-8">
-        <Link href="/pricing" className="text-[10px] font-bold text-neutral-400 hover:text-black uppercase tracking-[0.2em] border-b border-transparent hover:border-black pb-1 transition-all">
-          Explorar Planes de Suscripción →
-        </Link>
-      </div>
+      {/* FOOTER UNIFICADO LUME CORE */}
+      <footer className="flex flex-col items-center space-y-6 pt-20">
+        <div className="flex space-x-8">
+          <Link href="/terms" className="text-[9px] font-black tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+            Términos y Condiciones
+          </Link>
+          <Link href="/privacy" className="text-[9px] font-black tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+            Privacidad
+          </Link>
+        </div>
+        <div className="text-[10px] font-mono tracking-[0.5em] text-neutral-400 uppercase">
+          LUME GLOBAL CORE // 2026
+        </div>
+      </footer>
     </main>
   );
-      }
+}
