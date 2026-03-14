@@ -1,54 +1,50 @@
 import Link from 'next/link';
+import HeroSlider from '../components/HeroSlider';
 
-export default function Home() {
+export default function LumeHome() {
+  const siteName = "L U M E";
+
   return (
-    <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20">
-      
-      {/* NAVEGACIÓN SUPERIOR: LOGO Y LOGIN */}
-      <nav className="flex justify-between items-center w-full">
-        <div className="text-xl font-black tracking-tighter italic uppercase">
-          LUME 🌎
+    <main className="flex flex-col h-screen w-full bg-white text-black font-sans overflow-hidden">
+      <nav className="w-full p-6 md:p-8 flex justify-between items-center shrink-0 z-50">
+        <div className="text-sm font-black tracking-[0.4em] uppercase">
+          {siteName}
         </div>
-        <Link href="/login">
-          <button className="text-[10px] font-black tracking-[0.3em] uppercase border border-black px-6 py-2 hover:bg-black hover:text-white transition-all">
-            LOG IN →
+        <Link href="/dashboard">
+          <button className="bg-black text-white px-6 py-2 text-[10px] font-bold tracking-[0.2em] uppercase active:scale-95 transition-all">
+            ENTER DASHBOARD
           </button>
         </Link>
       </nav>
 
-      {/* CONTENIDO CENTRAL */}
-      <div className="flex flex-col items-center text-center space-y-8">
-        <h1 className="text-7xl md:text-9xl font-black tracking-tighter italic uppercase leading-none">
-          LUME<br />GLOBAL<br />CORE.
-        </h1>
-        
-        <div className="h-2 w-32 bg-black"></div>
-        
-        <p className="max-w-md text-[10px] md:text-[12px] font-mono uppercase tracking-[0.4em] leading-loose text-neutral-500">
-          Infraestructura de alto rendimiento para la optimización autónoma de activos inmobiliarios.
+      <section className="flex-grow flex flex-col items-center justify-center px-4 min-h-0">
+        <div className="text-center mb-4 md:mb-6 shrink-0">
+          <h1 className="text-3xl md:text-5xl font-extralight tracking-tight leading-tight">
+            Absolute Precision.
+          </h1>
+        </div>
+        <div className="w-full max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto flex flex-col items-center justify-center">
+          <HeroSlider />
+          <Link href="/pricing" className="mt-8 group flex flex-col items-center gap-2">
+            <span className="text-[10px] font-bold tracking-[0.4em] uppercase border-b border-black pb-1 transition-all">
+              Ver Planes de Suscripción
+            </span>
+            <span className="text-lg animate-bounce mt-2">↓</span>
+          </Link>
+        </div>
+      </section>
+
+      <footer className="w-full p-6 mt-auto border-t border-neutral-100 flex flex-col items-center gap-2 shrink-0 bg-white z-50">
+        <p className="max-w-2xl text-[8px] md:text-[9px] font-mono text-neutral-700 text-center leading-relaxed tracking-[0.15em] uppercase">
+          LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE.
         </p>
-
-        <div className="pt-12">
-          <Link href="/pricing">
-            <button className="bg-black text-white px-12 py-5 text-[12px] font-black uppercase tracking-[0.5em] hover:bg-neutral-800 transition-all shadow-2xl active:scale-95">
-              ENTER DASHBOARD
-            </button>
+        <div className="flex gap-8 font-mono text-[9px] text-neutral-500 uppercase pb-2">
+          <Link href="/terms" className="hover:text-black underline underline-offset-4">
+            [ Términos y Condiciones ]
           </Link>
-        </div>
-      </div>
-
-      {/* FOOTER UNIFICADO LUME CORE */}
-      <footer className="flex flex-col items-center space-y-6">
-        <div className="flex space-x-8">
-          <Link href="/terms" className="text-[9px] font-black tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
-            Términos y Condiciones
+          <Link href="/privacy" className="hover:text-black underline underline-offset-4">
+            [ Privacidad ]
           </Link>
-          <Link href="/privacy" className="text-[9px] font-black tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
-            Privacidad
-          </Link>
-        </div>
-        <div className="text-[10px] font-mono tracking-[0.5em] text-neutral-400 uppercase">
-          LUME GLOBAL CORE 🌎 // 2026
         </div>
       </footer>
     </main>
