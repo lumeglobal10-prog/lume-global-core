@@ -10,9 +10,9 @@ function PrivacyContent() {
   const backPath = from === 'checkout' ? '/checkout' : '/';
 
   return (
-    <div className="max-w-3xl mx-auto w-full">
-      <nav className="flex justify-between items-center w-full mb-12">
-        <div className="text-xl font-black tracking-tighter italic">
+    <div className="max-w-4xl mx-auto w-full">
+      <nav className="flex justify-between items-center w-full mb-16">
+        <div className="text-sm font-black tracking-[0.4em] uppercase italic text-black">
           LUME 🌎
         </div>
         <Link href={backPath}>
@@ -22,16 +22,27 @@ function PrivacyContent() {
         </Link>
       </nav>
       
-      <h1 className="text-4xl font-black uppercase tracking-tighter mb-12 italic">Privacidad de Datos.</h1>
+      <h1 className="text-4xl font-extralight tracking-tight mb-12">Privacidad de Datos.</h1>
       
-      <div className="space-y-10 text-[11px] leading-relaxed font-mono uppercase tracking-wider text-neutral-800">
+      <div className="space-y-12 text-[10px] md:text-[11px] leading-relaxed font-mono uppercase tracking-wider text-neutral-700">
         <section>
-          <h2 className="font-black text-black mb-4">[ 01. TRATAMIENTO DE DATOS ]</h2>
-          <p>Recolectamos únicamente los datos mínimos necesarios para la gestión de la suscripción.</p>
+          <h2 className="font-black text-black mb-4 tracking-[0.2em] text-sm leading-none">[ 01. RECOLECCIÓN MÍNIMA ]</h2>
+          <p>En cumplimiento con las normativas globales de protección de datos (GDPR/Ley 25.326), Lume Global Core solo solicita la información estrictamente necesaria para la creación de la cuenta y la gestión de la suscripción. No comercializamos ni cedemos bases de datos a terceros.</p>
         </section>
+
         <section>
-          <h2 className="font-black text-black mb-4">[ 02. ACTIVOS VISUALES ]</h2>
-          <p>Las imágenes son procesadas de manera efímera mediante algoritmos propietarios.</p>
+          <h2 className="font-black text-black mb-4 tracking-[0.2em] text-sm leading-none">[ 02. PROCESAMIENTO DE IMÁGENES ]</h2>
+          <p>Los activos visuales cargados al sistema son procesados de forma efímera. Nuestros algoritmos actúan sobre la imagen para su optimización y, una vez generado el resultado final para el suscriptor, el sistema no conserva copias persistentes en servidores de acceso público.</p>
+        </section>
+
+        <section>
+          <h2 className="font-black text-black mb-4 tracking-[0.2em] text-sm leading-none">[ 03. SEGURIDAD Y ENCRIPTACIÓN ]</h2>
+          <p>Utilizamos protocolos de seguridad de transporte de datos (SSL/TLS) y encriptación en reposo para asegurar que la interacción entre el suscriptor y el Kernel de Lume sea privada e inviolable.</p>
+        </section>
+
+        <section>
+          <h2 className="font-black text-black mb-4 tracking-[0.2em] text-sm leading-none">[ 04. DERECHOS DEL USUARIO ]</h2>
+          <p>El suscriptor mantiene en todo momento el derecho de acceso, rectificación y supresión de sus datos personales. Estas solicitudes pueden gestionarse de forma autónoma desde el panel de control del usuario.</p>
         </section>
       </div>
     </div>
@@ -40,15 +51,15 @@ function PrivacyContent() {
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-white text-black font-sans p-8 md:p-20 flex flex-col justify-between">
-      <Suspense fallback={<div className="text-[10px] font-mono uppercase tracking-widest">Cargando Protocolo...</div>}>
+    <main className="min-h-screen bg-white text-black font-sans p-8 md:p-20 flex flex-col justify-between overflow-x-hidden">
+      <Suspense fallback={<div className="font-mono text-[10px] uppercase tracking-widest animate-pulse text-neutral-400">Accediendo a Bóveda de Datos...</div>}>
         <PrivacyContent />
       </Suspense>
-      <footer className="flex flex-col items-center space-y-6 pt-20">
-        <div className="text-[10px] font-mono tracking-[0.5em] text-neutral-400 uppercase">
-          LUME GLOBAL CORE 🌎 // 2026
+      <footer className="w-full mt-20 pt-8 border-t border-neutral-100 flex flex-col items-center">
+        <div className="text-[10px] font-mono tracking-[0.5em] text-neutral-400 uppercase italic leading-none">
+          LUME GLOBAL CORE 🌎 // SEGURIDAD CERTIFICADA 2026
         </div>
       </footer>
     </main>
   );
-}
+        }
