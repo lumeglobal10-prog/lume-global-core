@@ -41,7 +41,8 @@ export default function PricingPage() {
 
       {/* SECTOR DE PLANES */}
       <div className="max-w-6xl mx-auto w-full py-12 text-center">
-        <h1 className="text-6xl md:text-7xl font-extralight uppercase tracking-tighter mb-4 italic">PLANES.</h1>
+        {/* TÍTULO CORREGIDO: Planes (Negrita, minúsculas con inicial mayúscula) */}
+        <h1 className="text-6xl md:text-7xl font-bold tracking-tighter mb-4 italic">Planes</h1>
         <div className="h-[1px] w-24 bg-black mx-auto mb-16"></div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -49,14 +50,15 @@ export default function PricingPage() {
             <div 
               key={plan.nombre}
               onClick={handlePlanSelection}
-              className="group border border-black p-8 flex flex-col items-center justify-between cursor-pointer hover:bg-black hover:text-white transition-all duration-300 active:scale-95"
+              /* PUNTAS REDONDEADAS APLICADAS (rounded-2xl) */
+              className="group border border-black p-8 rounded-2xl flex flex-col items-center justify-between cursor-pointer hover:bg-black hover:text-white transition-all duration-300 active:scale-95"
             >
               <div>
-                <h2 className="text-[11px] font-bold tracking-[0.4em] mb-4 uppercase">{plan.nombre}</h2>
-                <div className="text-5xl font-extralight italic mb-2 tracking-tighter">
+                {/* NOMBRE DEL PLAN EN NEGRITA */}
+                <h2 className="text-[11px] font-black tracking-[0.4em] mb-4 uppercase">{plan.nombre}</h2>
+                <div className="text-5xl font-black italic mb-2 tracking-tighter">
                   ${plan.precio}<span className="text-[12px] font-normal not-italic uppercase tracking-widest text-neutral-400 group-hover:text-neutral-500">/mo</span>
                 </div>
-                {/* TIPOGRAFÍA UNIFICADA EN DESCRIPCIÓN */}
                 <p className="text-[10px] font-medium uppercase tracking-[0.2em] leading-relaxed mt-8 border-t border-neutral-100 group-hover:border-neutral-800 pt-6">
                   {plan.desc}
                 </p>
@@ -73,7 +75,7 @@ export default function PricingPage() {
       {/* POP-UP INFORMATIVO */}
       {showPopup && (
         <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-6 z-50">
-          <div className="bg-white p-10 max-w-sm w-full border border-black text-center space-y-8 animate-in fade-in zoom-in duration-300">
+          <div className="bg-white p-10 max-w-sm w-full border border-black rounded-2xl text-center space-y-8 animate-in fade-in zoom-in duration-300">
             <h3 className="text-[11px] font-bold tracking-[0.5em] uppercase italic">AVISO LEGAL</h3>
             <p className="text-[10px] font-medium uppercase tracking-[0.1em] leading-relaxed text-neutral-600">
               LOS PRECIOS SE EXPRESAN EN <span className="text-black font-bold">DÓLARES ESTADOUNIDENSES (USD)</span>. 
@@ -81,7 +83,7 @@ export default function PricingPage() {
             </p>
             <button 
               onClick={proceedToCheckout}
-              className="w-full bg-black text-white p-4 text-[11px] font-bold uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all"
+              className="w-full bg-black text-white p-4 rounded-xl text-[11px] font-bold uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all"
             >
               ACEPTAR Y CONTINUAR
             </button>
@@ -99,10 +101,10 @@ export default function PricingPage() {
             Privacidad
           </Link>
         </div>
-        <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic">
+        <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic text-center">
           LUME GLOBAL CORE 🌎 // 2026
         </div>
       </footer>
     </main>
   );
-                  }
+}
