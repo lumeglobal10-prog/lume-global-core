@@ -1,47 +1,73 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  // BYPASS: Ingreso directo al dashboard de renderizado
-  const handleLogin = () => {
-    router.push('/dashboard');
+  // HANDSHAKE DE AUTORIDAD CON LONDRES
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      // Intento de validación con el Bridge de Londres
+      const response = await fetch('http://165.22.114.116:5000/api/v1/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer LUME_SVR_2026_ALPHA'
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      // Independientemente del resultado (mientras terminamos el túnel), 
+      // permitimos el acceso para no frenar la auditoría visual
+      router.push('/dashboard');
+    } catch (error) {
+      console.warn("Handshake Fallido: Operando en Modo Local / Túnel No Detectado");
+      router.push('/dashboard');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20 overflow-x-hidden">
       
-      {/* NAVEGACIÓN SUPERIOR: LOGO Y RETORNO */}
       <nav className="flex justify-between items-center w-full">
         <div className="text-xl font-black tracking-tighter italic uppercase">
           LUME 🌎
         </div>
         <button 
           onClick={() => router.back()}
-          className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 hover:bg-black hover:text-white transition-all"
+          className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl hover:bg-black hover:text-white transition-all"
         >
           ← VOLVER
         </button>
       </nav>
 
-      {/* CONTENIDO CENTRAL: ACCESO */}
       <div className="max-w-md mx-auto w-full flex flex-col items-center py-12">
-        {/* TÍTULO CORREGIDO: Acceso de Suscriptores (Negrita, Tipografía unificada) */}
         <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center leading-tight">
           Acceso de Suscriptores
         </h1>
         <div className="h-[1px] w-20 bg-black mb-16"></div>
         
-        <div className="w-full space-y-6">
+        <form onSubmit={handleLogin} className="w-full space-y-6">
           <div className="space-y-2">
             <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">
               Ingrese Mail
             </label>
             <input 
               type="email" 
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="EMAIL@EJEMPLO.COM"
               className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors placeholder:text-neutral-200"
             />
@@ -53,17 +79,22 @@ export default function LoginPage() {
             </label>
             <input 
               type="password" 
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="CONTRASEÑA"
               className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors placeholder:text-neutral-200"
             />
           </div>
 
-          {/* BOTÓN CON ACCESO DIRECTO AL DASHBOARD */}
           <button 
-            onClick={handleLogin}
-            className="w-full bg-black text-white p-5 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all shadow-xl active:scale-95 mt-4"
+            type="submit"
+            disabled={loading}
+            className="w-full bg-black text-white p-5 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all shadow-xl active:scale-95 mt-4 flex justify-center items-center"
           >
-            INGRESAR
+            {loading ? (
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : "INGRESAR"}
           </button>
           
           <div className="text-center pt-4">
@@ -71,10 +102,9 @@ export default function LoginPage() {
               ¿No tiene una suscripción activa? Ver planes
             </Link>
           </div>
-        </div>
+        </form>
       </div>
 
-      {/* FOOTER UNIFICADO LUME CORE */}
       <footer className="flex flex-col items-center space-y-6 pt-20">
         <div className="flex space-x-8">
           <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
