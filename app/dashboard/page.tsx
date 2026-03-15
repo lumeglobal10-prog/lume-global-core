@@ -13,13 +13,17 @@ export default function DashboardPage() {
   const [userMail, setUserMail] = useState('');
 
   useEffect(() => {
-    // RECUPERAR SESIÓN DE LA BÓVEDA
+    // 🛡️ VALIDACIÓN DE BÓVEDA DE SESIÓN
     const session = localStorage.getItem('lume_session_token');
     const mail = localStorage.getItem('lume_user_mail');
-    if (!session) router.push('/login'); // Protección de ruta
-    if (mail) setUserMail(mail);
+    
+    if (!session) {
+      router.push('/login');
+    } else {
+      setUserMail(mail || 'USUARIO_LUME');
+    }
 
-    // ESCUCHA DE EMERGENCIA (LONDRES)
+    // 📡 ESCUCHA DE EMERGENCIA (LONDRES)
     const socket = new WebSocket('ws://165.22.114.116:5000/ws/emergency');
     socket.onopen = () => setIsSystemOnline(true);
     socket.onerror = () => setIsSystemOnline(false);
@@ -28,13 +32,27 @@ export default function DashboardPage() {
     return () => socket.close();
   }, [router]);
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
+    if (file && isSystemOnline) {
       setSelectedFile(file);
-      // GATILLAR PROCESAMIENTO
       setUploading(true);
-      setTimeout(() => setUploading(false), 4000); // Simulación de renderizado
+
+      // PREPARACIÓN DE PAYLOAD PARA LONDRES
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('user', userMail);
+
+      try {
+        // Simulación de envío al Kernel de Londres
+        // En producción: await fetch('http://165.22.114.116:5000/api/v1/render', { method: 'POST', body: formData });
+        setTimeout(() => {
+          setUploading(false);
+          alert("ACTIVO RECIBIDO POR LUME GLOBAL CORE. PROCESANDO RENDERING...");
+        }, 4000);
+      } catch (error) {
+        setUploading(false);
+      }
     }
   };
 
@@ -60,7 +78,7 @@ export default function DashboardPage() {
         <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center leading-tight">
           Panel de Renderizado
         </h1>
-        <p className="text-[10px] font-bold tracking-widest text-neutral-400 uppercase mb-8 italic">
+        <p className="text-[9px] font-black tracking-widest text-neutral-400 uppercase mb-8 italic">
           SESIÓN ACTIVA: {userMail}
         </p>
         <div className="h-[1px] w-20 bg-black mb-12"></div>
@@ -78,14 +96,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* INPUT DE ARCHIVO OCULTO */}
-        <input 
-          type="file" 
-          ref={fileInputRef} 
-          onChange={handleFileSelect} 
-          className="hidden" 
-          accept="image/*"
-        />
+        <input type="file" ref={fileInputRef} onChange={handleFileSelect} className="hidden" accept="image/*" />
 
         <div 
           onClick={() => isSystemOnline && !uploading && fileInputRef.current?.click()}
@@ -103,7 +114,7 @@ export default function DashboardPage() {
             <>
               <span className="text-4xl mb-6">{isSystemOnline ? '+' : '×'}</span>
               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-center px-8">
-                {isSystemOnline ? 'Seleccionar activo inmobiliario' : 'Esperando conexión segura'}
+                {isSystemOnline ? 'Seleccionar activo inmobiliario' : 'Esperando conexión con el núcleo'}
               </span>
             </>
           )}
@@ -112,10 +123,10 @@ export default function DashboardPage() {
 
       <footer className="flex flex-col items-center space-y-6 pt-20">
         <div className="flex space-x-8">
-          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4 text-black">
             Términos y Condiciones
           </Link>
-          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4 text-black">
             Privacidad
           </Link>
         </div>
@@ -125,4 +136,4 @@ export default function DashboardPage() {
       </footer>
     </main>
   );
-}
+          }
