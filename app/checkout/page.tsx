@@ -9,6 +9,7 @@ export default function CheckoutPage() {
   const [selectedPlan, setSelectedPlan] = useState({ nombre: 'NO SELECCIONADO', precio: '0' });
   const [loading, setLoading] = useState(false);
 
+  // RECUPERACIÓN DE DATOS DEL KERNEL LOCAL
   useEffect(() => {
     const planName = localStorage.getItem('lume_selected_plan') || 'CORE';
     const precios: Record<string, string> = {
@@ -26,7 +27,9 @@ export default function CheckoutPage() {
 
   const handlePayment = () => {
     setLoading(true);
+    // Simulación de conexión con Paddle / Londres
     setTimeout(() => {
+      // Por ahora, redirigimos al dashboard tras "simular" el éxito
       router.push('/dashboard');
       setLoading(false);
     }, 2500);
@@ -48,12 +51,13 @@ export default function CheckoutPage() {
       </nav>
 
       <div className="max-w-md mx-auto w-full flex flex-col items-center py-12">
-        <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter mb-4 italic text-center leading-tight">
+        <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter mb-4 italic text-center">
           Pasarela de Pagos
         </h1>
         <div className="h-[1px] w-20 bg-black mb-12"></div>
         
-        <div className="w-full border border-black p-8 rounded-2xl mb-8 space-y-4 bg-neutral-50/50 text-black">
+        {/* RESUMEN DEL PLAN SELECCIONADO */}
+        <div className="w-full border border-black p-8 rounded-2xl mb-8 space-y-4 bg-neutral-50/50">
           <div className="flex justify-between items-end">
             <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400 italic">Plan Seleccionado</span>
             <span className="text-lg font-black italic">{selectedPlan.nombre}</span>
@@ -65,13 +69,17 @@ export default function CheckoutPage() {
         </div>
 
         <div className="w-full space-y-8">
-          <div className="space-y-4 text-black">
+          <div className="space-y-4">
             <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-black italic leading-relaxed block text-center">
               Seleccione el método de procesamiento
             </label>
+            
             <div className="relative">
-              <select className="w-full bg-white border border-black p-5 rounded-2xl text-[11px] font-bold uppercase tracking-widest focus:outline-none appearance-none cursor-pointer">
+              <select 
+                className="w-full bg-white border border-black p-5 rounded-2xl text-[11px] font-bold uppercase tracking-widest focus:outline-none appearance-none cursor-pointer hover:bg-neutral-50 transition-colors shadow-sm"
+              >
                 <option value="paddle">PADDLE // GLOBAL GATEWAY (ACTIVO)</option>
+                <option value="crypto" disabled>CRYPTO // ENCRYPTED (PRÓXIMAMENTE)</option>
               </select>
               <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-[10px]">▼</div>
             </div>
@@ -82,13 +90,15 @@ export default function CheckoutPage() {
             disabled={loading}
             className="w-full bg-black text-white p-6 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all shadow-xl active:scale-95 flex justify-center items-center"
           >
-            {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "EJECUTAR PAGO"}
+            {loading ? (
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : "EJECUTAR PAGO"}
           </button>
         </div>
       </div>
 
       <footer className="flex flex-col items-center space-y-6 pt-20">
-        <div className="flex space-x-8 text-black">
+        <div className="flex space-x-8">
           <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
             Términos y Condiciones
           </Link>
