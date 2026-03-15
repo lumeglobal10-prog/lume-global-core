@@ -9,7 +9,7 @@ export default function PricingPage() {
   const [userRegion, setUserRegion] = useState('GLOBAL');
   const router = useRouter();
 
-  // M.I.C. SENSOR
+  // M.I.C. SENSOR: Captura de región para segmentación de pasarela
   useEffect(() => {
     const detectRegion = async () => {
       try {
@@ -31,6 +31,7 @@ export default function PricingPage() {
   ];
 
   const handlePlanSelection = (plan: string) => {
+    // Guardamos la intención de compra localmente para el checkout
     localStorage.setItem('lume_selected_plan', plan);
     localStorage.setItem('lume_user_region', userRegion);
     setShowPopup(true);
@@ -69,7 +70,7 @@ export default function PricingPage() {
               <div>
                 <h2 className="text-[11px] font-black tracking-[0.4em] mb-4 uppercase">{plan.nombre}</h2>
                 <div className="text-5xl font-black italic mb-2 tracking-tighter">
-                  ${plan.precio}
+                  ${plan.precio}<span className="text-[12px] font-normal not-italic uppercase tracking-widest text-neutral-400 group-hover:text-neutral-500">/mo</span>
                 </div>
                 <p className="text-[10px] font-medium uppercase tracking-[0.2em] leading-relaxed mt-8 border-t border-neutral-100 group-hover:border-neutral-800 pt-6">
                   {plan.desc}
@@ -90,7 +91,7 @@ export default function PricingPage() {
             <h3 className="text-[11px] font-bold tracking-[0.5em] uppercase italic">VERIFICACIÓN REGIONAL</h3>
             <p className="text-[10px] font-medium uppercase tracking-[0.1em] leading-relaxed text-neutral-600">
               ACCESO DETECTADO DESDE: <span className="text-black font-bold">{userRegion}</span>.<br/><br/>
-              TRANSACCIÓN EN USD SEGÚN IMPUESTOS LOCALES.
+              LOS PRECIOS SE EXPRESAN EN <span className="text-black font-bold">USD</span>. EL MONTO FINAL SE AJUSTARÁ SEGÚN IMPUESTOS LOCALES EN LA PASARELA.
             </p>
             <button 
               onClick={proceedToCheckout}
@@ -103,7 +104,7 @@ export default function PricingPage() {
       )}
 
       <footer className="flex flex-col items-center space-y-6 pt-20">
-        <div className="flex space-x-8 text-black">
+        <div className="flex space-x-8">
           <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
             Términos y Condiciones
           </Link>
@@ -117,4 +118,4 @@ export default function PricingPage() {
       </footer>
     </main>
   );
-              }
+}
