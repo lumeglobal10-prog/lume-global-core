@@ -13,17 +13,16 @@ export default function DashboardPage() {
   const [userMail, setUserMail] = useState('');
 
   useEffect(() => {
-    // 🛡️ VALIDACIÓN DE BÓVEDA DE SESIÓN
+    // 🛡️ BÓVEDA DE SESIÓN
     const session = localStorage.getItem('lume_session_token');
     const mail = localStorage.getItem('lume_user_mail');
-    
     if (!session) {
       router.push('/login');
     } else {
       setUserMail(mail || 'USUARIO_LUME');
     }
 
-    // 📡 ESCUCHA DE EMERGENCIA (LONDRES)
+    // 📡 ESCUCHA PASIVA - LONDRES (WS)
     const socket = new WebSocket('ws://165.22.114.116:5000/ws/emergency');
     socket.onopen = () => setIsSystemOnline(true);
     socket.onerror = () => setIsSystemOnline(false);
@@ -38,19 +37,26 @@ export default function DashboardPage() {
       setSelectedFile(file);
       setUploading(true);
 
-      // PREPARACIÓN DE PAYLOAD PARA LONDRES
+      // 🏛️ PREPARACIÓN DE PAYLOAD (MÓDULO 12 - S.I.D.)
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('user', userMail);
+      formData.append('user_mail', userMail);
+      // El servidor de Londres extraerá la IP automáticamente para el M.I.C.
 
       try {
-        // Simulación de envío al Kernel de Londres
-        // En producción: await fetch('http://165.22.114.116:5000/api/v1/render', { method: 'POST', body: formData });
-        setTimeout(() => {
-          setUploading(false);
-          alert("ACTIVO RECIBIDO POR LUME GLOBAL CORE. PROCESANDO RENDERING...");
-        }, 4000);
+        const response = await fetch('http://165.22.114.116:5000/api/v1/render', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          alert("ACTIVO RECIBIDO POR EL NÚCLEO. EL RENDER ESTÁ SIENDO PROCESADO.");
+        } else {
+          alert("ERROR TÉCNICO EN LONDRES. REINTENTANDO CONEXIÓN...");
+        }
       } catch (error) {
+        console.error("Fallo de Túnel:", error);
+      } finally {
         setUploading(false);
       }
     }
@@ -86,13 +92,15 @@ export default function DashboardPage() {
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           <div className="border border-black p-6 rounded-2xl flex flex-col items-center justify-center space-y-2">
             <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 italic">Estado del Kernel</span>
-            <span className={`text-[11px] font-bold uppercase tracking-widest ${isSystemOnline ? 'text-green-500' : 'text-red-500 animate-pulse'}`}>
-              {isSystemOnline ? '● ONLINE (LONDRES)' : '● CONNECTING / OFFLINE'}
+            <span className={`text-[11px] font-bold uppercase tracking-widest ${isSystemOnline ? 'text-green-500 font-black' : 'text-red-500 animate-pulse'}`}>
+              {isSystemOnline ? '● NÚCLEO ONLINE (LONDRES)' : '● CONNECTING / OFFLINE'}
             </span>
           </div>
           <div className="border border-black p-6 rounded-2xl flex flex-col items-center justify-center space-y-2">
-            <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 italic">Renders Disponibles</span>
-            <span className="text-2xl font-black italic tracking-tighter">-- / --</span>
+            <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 italic text-center">Protocolo de Pago</span>
+            <span className="text-[11px] font-bold uppercase tracking-widest text-black">
+              PADDLE ACTIVE ✓
+            </span>
           </div>
         </div>
 
@@ -100,21 +108,21 @@ export default function DashboardPage() {
 
         <div 
           onClick={() => isSystemOnline && !uploading && fileInputRef.current?.click()}
-          className={`w-full h-80 border-2 border-dashed border-black rounded-3xl flex flex-col items-center justify-center cursor-pointer transition-all ${!isSystemOnline ? 'opacity-40 cursor-not-allowed' : 'hover:bg-neutral-50 active:scale-[0.98]'}`}
+          className={`w-full h-80 border-2 border-dashed border-black rounded-3xl flex flex-col items-center justify-center cursor-pointer transition-all ${!isSystemOnline ? 'opacity-40 cursor-not-allowed bg-neutral-50' : 'hover:bg-neutral-50 active:scale-[0.98]'}`}
         >
           {uploading ? (
             <div className="flex flex-col items-center space-y-4">
               <div className="w-12 h-12 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
               <span className="text-[10px] font-bold uppercase tracking-[0.4em] animate-pulse text-center">
-                Enviando Activo a Londres...<br/>
-                <span className="text-[8px] italic text-neutral-400">"{selectedFile?.name}"</span>
+                PROCESANDO EN NODO LONDRES...<br/>
+                <span className="text-[8px] italic text-neutral-400 uppercase">{selectedFile?.name}</span>
               </span>
             </div>
           ) : (
             <>
               <span className="text-4xl mb-6">{isSystemOnline ? '+' : '×'}</span>
               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-center px-8">
-                {isSystemOnline ? 'Seleccionar activo inmobiliario' : 'Esperando conexión con el núcleo'}
+                {isSystemOnline ? 'SUBIR ACTIVO PARA OPTIMIZACIÓN' : 'ESPERANDO HANDSHAKE DE RED'}
               </span>
             </>
           )}
@@ -136,4 +144,4 @@ export default function DashboardPage() {
       </footer>
     </main>
   );
-          }
+}
