@@ -45,7 +45,7 @@ export default function LoginPage() {
       </nav>
 
       <div className="max-w-md mx-auto w-full flex flex-col items-center py-12">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center">Acceso</h1>
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center uppercase">Acceso</h1>
         <div className="h-[1px] w-20 bg-black mb-16"></div>
         
         <form onSubmit={handleLogin} className="w-full space-y-6">
@@ -70,7 +70,7 @@ export default function LoginPage() {
         <div className="flex flex-wrap justify-center gap-8 text-black">
           <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">Términos</Link>
           <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">Privacidad</Link>
-          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase text-red-500 hover:underline decoration-2 underline-offset-4">Política de Reembolso</Link>
+          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">Política de Reembolso</Link>
         </div>
         <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic text-center">LUME GLOBAL CORE 🌎 // 2026</div>
       </footer>
