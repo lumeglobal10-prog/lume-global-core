@@ -1,52 +1,51 @@
-import Link from 'next/link';
-import HeroSlider from '../components/HeroSlider';
+'use client';
 
-export default function LumeHome() {
-  const siteName = "LUME 🌎";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+export default function HomePage() {
+  const router = useRouter();
 
   return (
-    <main className="flex flex-col h-screen w-full bg-white text-black font-sans overflow-hidden">
-      {/* NAVEGACIÓN: LOGO IZQUIERDA Y LOG IN DERECHA */}
-      <nav className="w-full p-6 md:p-8 flex justify-between items-center shrink-0 z-50">
-        <div className="text-sm font-black tracking-[0.4em] uppercase italic">
-          {siteName}
+    <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20 overflow-x-hidden">
+      <nav className="flex justify-between items-center w-full">
+        <div className="text-xl font-black tracking-tighter italic uppercase">
+          LUME 🌎
         </div>
-        <Link href="/login">
-          <button className="bg-black text-white px-6 py-2 text-[10px] font-bold tracking-[0.2em] uppercase active:scale-95 transition-all">
-            LOG IN →
+        <div className="flex space-x-6">
+          <button onClick={() => router.push('/login')} className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl hover:bg-black hover:text-white transition-all">
+            ACCESO
           </button>
-        </Link>
+        </div>
       </nav>
 
-      <section className="flex-grow flex flex-col items-center justify-center px-4 min-h-0">
-        <div className="text-center mb-4 md:mb-6 shrink-0">
-          <h1 className="text-3xl md:text-5xl font-extralight tracking-tight leading-tight">
-            Absolute Precision.
-          </h1>
-        </div>
-        <div className="w-full max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto flex flex-col items-center justify-center">
-          <HeroSlider />
-          <Link href="/pricing" className="mt-8 group flex flex-col items-center gap-2">
-            <span className="text-[10px] font-bold tracking-[0.4em] uppercase border-b border-black pb-1 transition-all group-hover:tracking-[0.5em]">
-              Ver Planes de Suscripción
-            </span>
-            <span className="text-lg animate-bounce mt-2">↓</span>
-          </Link>
-        </div>
-      </section>
-
-      {/* FOOTER CON LUME GLOBAL CORE 🌎 */}
-      <footer className="w-full p-6 mt-auto border-t border-neutral-100 flex flex-col items-center gap-2 shrink-0 bg-white z-50">
-        <p className="max-w-2xl text-[8px] md:text-[9px] font-mono text-neutral-700 text-center leading-relaxed tracking-[0.15em] uppercase">
-          LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE 🌎
+      <div className="max-w-4xl mx-auto text-center py-20">
+        <h1 className="text-7xl md:text-9xl font-bold tracking-tighter italic mb-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          LUME GLOBAL CORE
+        </h1>
+        <p className="text-[11px] font-black tracking-[0.5em] text-neutral-400 uppercase italic mb-12">
+          Optimización Visual de Activos mediante Kernel Propietario
         </p>
-        <div className="flex gap-8 font-mono text-[9px] text-neutral-500 uppercase pb-2">
-          <Link href="/terms" className="hover:text-black underline underline-offset-4 decoration-2">
-            Términos y Condiciones
+        <div className="h-[1px] w-24 bg-black mx-auto mb-16"></div>
+        <button onClick={() => router.push('/pricing')} className="bg-black text-white px-12 py-5 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] hover:scale-105 transition-all">
+          INICIAR PROCESAMIENTO
+        </button>
+      </div>
+
+      <footer className="flex flex-col items-center space-y-6 pt-20">
+        <div className="flex flex-wrap justify-center gap-8 text-black">
+          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+            Términos
           </Link>
-          <Link href="/privacy" className="hover:text-black underline underline-offset-4 decoration-2">
+          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
             Privacidad
           </Link>
+          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+            Política de Reembolso
+          </Link>
+        </div>
+        <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic text-center">
+          LUME GLOBAL CORE 🌎 // 2026
         </div>
       </footer>
     </main>
