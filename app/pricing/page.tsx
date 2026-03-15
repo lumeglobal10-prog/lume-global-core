@@ -40,7 +40,7 @@ export default function PricingPage() {
       </nav>
 
       <div className="max-w-6xl mx-auto w-full py-12 text-center">
-        <h1 className="text-6xl md:text-7xl font-bold tracking-tighter mb-4 italic">Planes</h1>
+        <h1 className="text-6xl md:text-7xl font-bold tracking-tighter mb-4 italic uppercase">Planes</h1>
         <div className="h-[1px] w-24 bg-black mx-auto mb-16"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {planes.map((plan) => (
@@ -58,20 +58,22 @@ export default function PricingPage() {
         <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-6 z-50">
           <div className="bg-white p-10 max-w-sm w-full border border-black rounded-2xl text-center space-y-8 animate-in zoom-in duration-300">
             <h3 className="text-[11px] font-bold tracking-[0.5em] uppercase italic">VERIFICACIÓN M.I.C.</h3>
-            <p className="text-[10px] font-medium uppercase tracking-[0.1em] leading-relaxed">DETECCIÓN: <span className="font-bold">{userRegion}</span>.<br/>TRANSACCIÓN EN USD SEGÚN IMPUESTOS LOCALES.</p>
+            <p className="text-[10px] font-medium uppercase tracking-[0.1em] leading-relaxed text-neutral-600">
+              DETECCIÓN: <span className="font-bold text-black">{userRegion}</span>.<br/>TRANSACCIÓN EN USD SEGÚN IMPUESTOS LOCALES.
+            </p>
             <button onClick={() => router.push('/checkout')} className="w-full bg-black text-white p-4 rounded-xl text-[11px] font-bold uppercase tracking-[0.4em]">CONFIRMAR PROTOCOLO</button>
           </div>
         </div>
       )}
 
       <footer className="flex flex-col items-center space-y-6 pt-20 border-t border-neutral-100 mt-20">
-        <div className="flex flex-wrap justify-center gap-8">
+        <div className="flex flex-wrap justify-center gap-8 text-black">
           <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">Términos</Link>
           <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">Privacidad</Link>
-          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase text-red-500 hover:underline decoration-2 underline-offset-4">Política de Reembolso</Link>
+          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">Política de Reembolso</Link>
         </div>
         <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic text-center">LUME GLOBAL CORE 🌎 // 2026</div>
       </footer>
     </main>
   );
-}
+    }
