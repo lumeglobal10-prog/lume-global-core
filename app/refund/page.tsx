@@ -30,7 +30,7 @@ export default function RefundPage() {
             </section>
             <section>
               <h2 className="text-[11px] font-black tracking-[0.3em] uppercase mb-4 text-black italic">3. Proceso de Solicitud</h2>
-              <p>Las suscripciones pueden cancelarse en cualquier momento para evitar renovaciones futuras. Para solicitar el reembolso de una suscripción no utilizada, el usuario deberá enviar una notificación vía correo electrónico a <strong>reembolso@lumeglobalcore.com</strong> con copia a la plataforma de procesamiento de pagos correspondiente.</p>
+              <p>Las suscripciones pueden cancelarse en cualquier momento para evitar renovaciones futuras. Para solicitar el reembolso de una suscripción no utilizada, el usuario deberá enviar una notificación vía correo electrónico a <strong>reembolso@lumeglobalcore.com</strong> con copia a la plataforma de pagos correspondiente.</p>
             </section>
             <hr className="border-neutral-100 my-12" />
             <section className="text-center pb-12">
