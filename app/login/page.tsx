@@ -112,13 +112,17 @@ export default function LoginPage() {
         </form>
       </div>
 
+      {/* FOOTER CON LUME GLOBAL CORE 🌎 Y BÚNKER LEGAL TRIPLE */}
       <footer className="flex flex-col items-center space-y-6 pt-20">
-        <div className="flex space-x-8">
-          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+        <div className="flex flex-wrap justify-center gap-8 font-sans text-neutral-500">
+          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
             Términos y Condiciones
           </Link>
-          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
             Privacidad
+          </Link>
+          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
+            Política de Reembolso
           </Link>
         </div>
         <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic text-center">
@@ -127,4 +131,4 @@ export default function LoginPage() {
       </footer>
     </main>
   );
-}
+      }
