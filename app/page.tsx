@@ -35,20 +35,23 @@ export default function LumeHome() {
         </div>
       </section>
 
-      {/* FOOTER CON LUME GLOBAL CORE 🌎 */}
+      {/* FOOTER CON LUME GLOBAL CORE 🌎 Y BÚNKER LEGAL TRIPLE */}
       <footer className="w-full p-6 mt-auto border-t border-neutral-100 flex flex-col items-center gap-2 shrink-0 bg-white z-50">
         <p className="max-w-2xl text-[8px] md:text-[9px] font-mono text-neutral-700 text-center leading-relaxed tracking-[0.15em] uppercase">
           LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE 🌎
         </p>
-        <div className="flex gap-8 font-mono text-[9px] text-neutral-500 uppercase pb-2">
+        <div className="flex flex-wrap justify-center gap-8 font-mono text-[9px] text-neutral-500 uppercase pb-2">
           <Link href="/terms" className="hover:text-black underline underline-offset-4 decoration-2">
             Términos y Condiciones
           </Link>
           <Link href="/privacy" className="hover:text-black underline underline-offset-4 decoration-2">
             Privacidad
           </Link>
+          <Link href="/refund" className="hover:text-black underline underline-offset-4 decoration-2">
+            Política de Reembolso
+          </Link>
         </div>
       </footer>
     </main>
   );
-}
+      }
