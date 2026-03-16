@@ -103,13 +103,17 @@ export default function PricingPage() {
         </div>
       )}
 
+      {/* FOOTER CON LUME GLOBAL CORE 🌎 Y BÚNKER LEGAL TRIPLE */}
       <footer className="flex flex-col items-center space-y-6 pt-20">
-        <div className="flex space-x-8">
+        <div className="flex flex-wrap justify-center gap-8 text-black">
           <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
             Términos y Condiciones
           </Link>
           <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
             Privacidad
+          </Link>
+          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+            Política de Reembolso
           </Link>
         </div>
         <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic text-center">
