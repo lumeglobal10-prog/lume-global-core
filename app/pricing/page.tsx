@@ -38,7 +38,13 @@ export default function PricingPage() {
   };
 
   const proceedToCheckout = () => {
-    router.push('/checkout');
+    // VERIFICACIÓN DE SESIÓN: Si no hay usuario, debe registrarse primero
+    const session = localStorage.getItem('lume_session_token');
+    if (session) {
+      router.push('/checkout');
+    } else {
+      router.push('/register');
+    }
   };
 
   return (
@@ -50,14 +56,14 @@ export default function PricingPage() {
         </div>
         <button 
           onClick={() => router.back()}
-          className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl hover:bg-black hover:text-white transition-all"
+          className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl active:scale-95 transition-all"
         >
           ← VOLVER
         </button>
       </nav>
 
       <div className="max-w-6xl mx-auto w-full py-12 text-center">
-        <h1 className="text-6xl md:text-7xl font-bold tracking-tighter mb-4 italic">Planes</h1>
+        <h1 className="text-6xl md:text-7xl font-bold tracking-tighter mb-4 italic uppercase leading-none">Planes</h1>
         <div className="h-[1px] w-24 bg-black mx-auto mb-16"></div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -95,7 +101,7 @@ export default function PricingPage() {
             </p>
             <button 
               onClick={proceedToCheckout}
-              className="w-full bg-black text-white p-4 rounded-xl text-[11px] font-bold uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all"
+              className="w-full bg-black text-white p-4 rounded-xl text-[11px] font-bold uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all active:scale-95"
             >
               CONFIRMAR PROTOCOLO
             </button>
@@ -103,16 +109,15 @@ export default function PricingPage() {
         </div>
       )}
 
-      {/* FOOTER CON LUME GLOBAL CORE 🌎 Y BÚNKER LEGAL TRIPLE */}
       <footer className="flex flex-col items-center space-y-6 pt-20">
-        <div className="flex flex-wrap justify-center gap-8 text-black">
-          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+        <div className="flex flex-wrap justify-center gap-8 font-sans text-neutral-500">
+          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
             Términos y Condiciones
           </Link>
-          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
             Privacidad
           </Link>
-          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
             Política de Reembolso
           </Link>
         </div>
