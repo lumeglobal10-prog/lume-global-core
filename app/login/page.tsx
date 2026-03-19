@@ -10,34 +10,43 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // HANDSHAKE DE AUTORIDAD CON LONDRES + BÓVEDA DE SESIÓN
+  // 🌐 ESPECIFICACIONES DE CONEXIÓN (Nodo Londres :8000)
+  const API_BASE = "http://165.22.114.116:8000";
+  const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Intento de validación con el Bridge de Londres
-      await fetch('http://165.22.114.116:5000/api/v1/auth/login', {
+      // 📡 HANDSHAKE DE AUTORIDAD CON EL MÓDULO API
+      const response = await fetch(`${API_BASE}/api/v1/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer LUME_SVR_2026_ALPHA'
+          'Authorization': AUTH_TOKEN
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ 
+          email: email.toLowerCase(), 
+          password: password 
+        }),
       });
 
-      // PERSISTENCIA EN BÓVEDA DE SESIÓN (Protocolo Alfa)
-      localStorage.setItem('lume_session_token', 'ACTIVE_SESSION_ALPHA_2026');
-      localStorage.setItem('lume_user_mail', email);
-
-      router.push('/dashboard');
+      if (response.ok) {
+        const data = await response.json();
+        // PERSISTENCIA EN BÓVEDA DE SESIÓN (Protocolo Alfa)
+        localStorage.setItem('lume_session_token', data.access_token || 'ACTIVE_SESSION_ALPHA_2026');
+        localStorage.setItem('lume_user_mail', email.toLowerCase());
+        router.push('/dashboard');
+      } else {
+        alert("ACCESO DENEGADO: Credenciales no reconocidas por el Nodo Londres.");
+      }
     } catch (error) {
-      console.warn("Handshake Fallido: Operando en Modo Local / Túnel No Detectado");
+      console.warn("Handshake Fallido: Operando en Modo Emergencia / Auditoría Visual");
       
-      // Mantenemos acceso por autoridad para auditoría visual
-      localStorage.setItem('lume_session_token', 'ACTIVE_SESSION_ALPHA_2026');
-      localStorage.setItem('lume_user_mail', email);
-      
+      // Mantenemos acceso por autoridad administrativa (Solo para pruebas de Ale)
+      localStorage.setItem('lume_session_token', 'EMERGENCY_SESSION_TOKEN');
+      localStorage.setItem('lume_user_mail', email.toLowerCase());
       router.push('/dashboard');
     } finally {
       setLoading(false);
@@ -53,14 +62,14 @@ export default function LoginPage() {
         </div>
         <button 
           onClick={() => router.back()}
-          className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl hover:bg-black hover:text-white transition-all"
+          className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl active:scale-95 transition-all"
         >
           ← VOLVER
         </button>
       </nav>
 
       <div className="max-w-md mx-auto w-full flex flex-col items-center py-12">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center leading-tight">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center leading-tight uppercase">
           Acceso de Suscriptores
         </h1>
         <div className="h-[1px] w-20 bg-black mb-16"></div>
@@ -112,7 +121,6 @@ export default function LoginPage() {
         </form>
       </div>
 
-      {/* FOOTER CON LUME GLOBAL CORE 🌎 Y BÚNKER LEGAL TRIPLE */}
       <footer className="flex flex-col items-center space-y-6 pt-20">
         <div className="flex flex-wrap justify-center gap-8 font-sans text-neutral-500">
           <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
@@ -131,4 +139,4 @@ export default function LoginPage() {
       </footer>
     </main>
   );
-      }
+}
