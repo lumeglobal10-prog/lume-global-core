@@ -9,25 +9,42 @@ export default function DashboardPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSystemOnline, setIsSystemOnline] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [userMail, setUserMail] = useState('Alejodella@hotmail.com'); // Mail de testeo del pliego
+  const [userMail, setUserMail] = useState('Alejodella@hotmail.com');
   const [qualityFlag, setQualityFlag] = useState('WEB_SOCIAL');
+  const [credits, setCredits] = useState({ used: 0, total: 0 });
 
   // 🌐 ESPECIFICACIONES TÉCNICAS (Nodo Londres :8000)
   const API_BASE = "http://165.22.114.116:8000";
   const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
   const WS_URL = "ws://165.22.114.116:8000/heartbeat";
 
+  // 📊 FUNCIÓN DE LECTURA DE RECURSOS
+  const fetchCredits = async (mail: string) => {
+    try {
+      const response = await fetch(`${API_BASE}/api/v1/user/credits?email=${mail}`, {
+        headers: { 'Authorization': AUTH_TOKEN }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setCredits({ used: data.used, total: data.total });
+      }
+    } catch (e) {
+      console.warn("Error al sincronizar créditos con Londres.");
+    }
+  };
+
   useEffect(() => {
-    // 📡 HEARTBEAT: Sincronización con Módulo API
+    const mail = localStorage.getItem('lume_user_mail') || 'Alejodella@hotmail.com';
+    setUserMail(mail);
+    fetchCredits(mail);
+
     let socket: WebSocket | null = null;
     try {
       socket = new WebSocket(WS_URL);
       socket.onopen = () => setIsSystemOnline(true);
       socket.onerror = () => setIsSystemOnline(false);
       socket.onclose = () => setIsSystemOnline(false);
-    } catch (e) {
-      setIsSystemOnline(false);
-    }
+    } catch (e) { setIsSystemOnline(false); }
 
     return () => socket?.close();
   }, []);
@@ -39,19 +56,18 @@ export default function DashboardPage() {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('user_mail', userMail);
-      formData.append('quality_flag', qualityFlag); // FLAG INNEGOCIABLE
+      formData.append('quality_flag', qualityFlag);
 
       try {
         const response = await fetch(`${API_BASE}/api/v1/upload`, {
           method: 'POST',
-          headers: {
-            'Authorization': AUTH_TOKEN
-          },
+          headers: { 'Authorization': AUTH_TOKEN },
           body: formData,
         });
 
         if (response.ok) {
-          alert(`ÉXITO: ACTIVO RECIBIDO EN LONDRES (${qualityFlag}).`);
+          alert(`ÉXITO: ACTIVO ENVIADO. ACTUALIZANDO SALDO...`);
+          fetchCredits(userMail); // Recarga automática de créditos post-render
         } else {
           alert("ERROR: Aduana Sanitaria rechazó el activo.");
         }
@@ -77,19 +93,25 @@ export default function DashboardPage() {
       </nav>
 
       <div className="max-w-4xl mx-auto w-full flex flex-col items-center flex-grow justify-center py-2">
-        <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-1 italic uppercase">Panel de Renderizado</h1>
+        <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-1 italic uppercase leading-none">Panel de Renderizado</h1>
         <p className="text-[8px] font-black tracking-widest text-neutral-400 uppercase mb-4 italic">GATEWAY: NODO LONDRES // {userMail}</p>
         
-        <div className="w-full grid grid-cols-2 gap-3 mb-6">
+        <div className="w-full grid grid-cols-3 gap-3 mb-6">
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
-            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Módulo API (Status)</span>
+            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Módulo API</span>
             <span className={`text-[9px] font-bold ${isSystemOnline ? 'text-green-500' : 'text-red-500 animate-pulse'}`}>
-              {isSystemOnline ? '● OPERATIONAL (-20 NICE)' : '● CONNECTING...'}
+              {isSystemOnline ? '● OPERATIONAL' : '● OFFLINE'}
+            </span>
+          </div>
+          <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center bg-neutral-50">
+            <span className="text-[7px] font-black uppercase text-black italic">Saldo de Renders</span>
+            <span className="text-[11px] font-black tracking-tighter">
+              {credits.used} / {credits.total}
             </span>
           </div>
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
-            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Auth Token</span>
-            <span className="text-[8px] font-mono text-neutral-500 tracking-tighter uppercase">LUME_SVR_2026_ALPHA</span>
+            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Auth Status</span>
+            <span className="text-[8px] font-mono text-neutral-500 tracking-tighter uppercase">VERIFIED_2026</span>
           </div>
         </div>
 
