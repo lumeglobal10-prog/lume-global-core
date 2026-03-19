@@ -9,25 +9,25 @@ export default function DashboardPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSystemOnline, setIsSystemOnline] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [userMail, setUserMail] = useState('USUARIO_LUME');
+  const [userMail, setUserMail] = useState('Alejodella@hotmail.com'); // Mail de testeo del pliego
   const [qualityFlag, setQualityFlag] = useState('WEB_SOCIAL');
 
-  // CONFIGURACIÓN DE NODO LONDRES (Directiva 18/03/2026)
+  // 🌐 ESPECIFICACIONES TÉCNICAS (Nodo Londres :8000)
   const API_BASE = "http://165.22.114.116:8000";
   const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
+  const WS_URL = "ws://165.22.114.116:8000/heartbeat";
 
   useEffect(() => {
-    const mail = typeof window !== 'undefined' ? localStorage.getItem('lume_user_mail') : null;
-    if (mail) setUserMail(mail);
-
-    // ESCUCHA PASIVA DE KERNEL (WS continúa en puerto 5000 o según config de red)
+    // 📡 HEARTBEAT: Sincronización con Módulo API
     let socket: WebSocket | null = null;
     try {
-      socket = new WebSocket('ws://165.22.114.116:5000/ws/emergency');
+      socket = new WebSocket(WS_URL);
       socket.onopen = () => setIsSystemOnline(true);
       socket.onerror = () => setIsSystemOnline(false);
       socket.onclose = () => setIsSystemOnline(false);
-    } catch (e) { setIsSystemOnline(false); }
+    } catch (e) {
+      setIsSystemOnline(false);
+    }
 
     return () => socket?.close();
   }, []);
@@ -46,18 +46,17 @@ export default function DashboardPage() {
           method: 'POST',
           headers: {
             'Authorization': AUTH_TOKEN
-            // Nota: El Content-Type se establece automáticamente para FormData
           },
           body: formData,
         });
 
         if (response.ok) {
-          alert(`ÉXITO: ACTIVO EN COLA DE PROCESAMIENTO (${qualityFlag}).`);
+          alert(`ÉXITO: ACTIVO RECIBIDO EN LONDRES (${qualityFlag}).`);
         } else {
-          throw new Error("Handshake Fallido");
+          alert("ERROR: Aduana Sanitaria rechazó el activo.");
         }
       } catch (error) {
-        alert("ERROR CRÍTICO: El Módulo API no autorizó la ingesta.");
+        alert("ERROR CRÍTICO: Nodo Londres fuera de alcance.");
       } finally {
         setUploading(false);
       }
@@ -66,7 +65,7 @@ export default function DashboardPage() {
 
   const options = [
     { id: 'WEB_SOCIAL', label: 'WEB / SOCIAL', sub: 'OPTIMIZADO' },
-    { id: 'HD_PRO', label: 'HD PRO', sub: 'ALTA FIDELIDAD' },
+    { id: 'HD_PRO', label: 'HD PRO', sub: 'FIDELIDAD' },
     { id: 'FORCE_8K', label: 'LUME 8K ULTRA', sub: 'TENSOR PWR' }
   ];
 
@@ -74,18 +73,18 @@ export default function DashboardPage() {
     <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-4 md:p-10 overflow-hidden">
       <nav className="flex justify-between items-center w-full shrink-0">
         <div className="text-xl font-black tracking-tighter italic uppercase">LUME 🌎</div>
-        <button onClick={() => router.push('/')} className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl active:scale-95 transition-all">SALIR →</button>
+        <button onClick={() => router.push('/')} className="text-[10px] font-bold tracking-[0.2em] uppercase border border-black px-6 py-2 rounded-xl active:scale-95 transition-all">SALIR →</button>
       </nav>
 
       <div className="max-w-4xl mx-auto w-full flex flex-col items-center flex-grow justify-center py-2">
         <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-1 italic uppercase">Panel de Renderizado</h1>
-        <p className="text-[8px] font-black tracking-widest text-neutral-400 uppercase mb-4 italic">NODO: LONDRES // {userMail}</p>
+        <p className="text-[8px] font-black tracking-widest text-neutral-400 uppercase mb-4 italic">GATEWAY: NODO LONDRES // {userMail}</p>
         
         <div className="w-full grid grid-cols-2 gap-3 mb-6">
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
-            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Estado API (:8000)</span>
+            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Módulo API (Status)</span>
             <span className={`text-[9px] font-bold ${isSystemOnline ? 'text-green-500' : 'text-red-500 animate-pulse'}`}>
-              {isSystemOnline ? '● SINCRONIZADO' : '● BUSCANDO NODO'}
+              {isSystemOnline ? '● OPERATIONAL (-20 NICE)' : '● CONNECTING...'}
             </span>
           </div>
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
@@ -94,7 +93,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* SELECTOR DE PERFIL (FLAGS EXACTOS) */}
         <div className="w-full mb-6 text-center">
           <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-neutral-500 italic mb-4">Seleccione Flag de Calidad</p>
           <div className="grid grid-cols-3 gap-2">
@@ -122,7 +120,7 @@ export default function DashboardPage() {
           ) : (
             <div className="flex flex-col items-center gap-1">
               <span className="text-xl font-bold">+</span>
-              <span className="text-[9px] font-black uppercase tracking-[0.4em]">{isSystemOnline ? 'CARGAR ACTIVOS' : 'CONECTANDO...'}</span>
+              <span className="text-[9px] font-black uppercase tracking-[0.4em]">{isSystemOnline ? 'INYECTAR ACTIVOS' : 'ESPERANDO KERNEL'}</span>
             </div>
           )}
         </div>
@@ -140,5 +138,4 @@ export default function DashboardPage() {
       </footer>
     </main>
   );
-                                                     }
-            
+}
