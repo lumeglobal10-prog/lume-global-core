@@ -6,12 +6,20 @@ import Link from 'next/link';
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const [selectedPlan, setSelectedPlan] = useState({ nombre: 'NO SELECCIONADO', precio: '0' });
+  const [selectedPlan, setSelectedPlan] = useState({ nombre: 'CORE', precio: '49' });
   const [loading, setLoading] = useState(false);
+  const [userMail, setUserMail] = useState('');
 
-  // RECUPERACIÓN DE DATOS DEL KERNEL LOCAL
+  // 🌐 ESPECIFICACIONES DE CONEXIÓN (Nodo Londres :8000)
+  const API_BASE = "http://165.22.114.116:8000";
+  const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
+
   useEffect(() => {
+    // RECUPERACIÓN DE DATOS DEL KERNEL LOCAL
     const planName = localStorage.getItem('lume_selected_plan') || 'CORE';
+    const mail = localStorage.getItem('lume_user_mail') || '';
+    setUserMail(mail);
+
     const precios: Record<string, string> = {
       'CORE': '49',
       'ADVANCE': '99',
@@ -25,14 +33,40 @@ export default function CheckoutPage() {
     });
   }, []);
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     setLoading(true);
-    // Simulación de conexión con Paddle / Londres
-    setTimeout(() => {
-      // Por ahora, redirigimos al dashboard tras "simular" el éxito
+
+    try {
+      // 📡 HANDSHAKE FINANCIERO CON EL MÓDULO API
+      const response = await fetch(`${API_BASE}/api/v1/payments/init`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': AUTH_TOKEN
+        },
+        body: JSON.stringify({ 
+          email: userMail, 
+          plan: selectedPlan.nombre,
+          amount: selectedPlan.precio,
+          gateway: 'PADDLE'
+        }),
+      });
+
+      if (response.ok) {
+        // En un entorno real, aquí se abriría el modal de Paddle. 
+        // Por ahora, confirmamos la inyección en la base de datos de Londres.
+        alert("PROTOCOLO DE PAGO INICIADO: Nodo Londres ha registrado la transacción.");
+        router.push('/dashboard');
+      } else {
+        alert("ERROR: El Módulo API rechazó la solicitud de pago.");
+      }
+    } catch (error) {
+      console.warn("Fallo de Conexión: Operando en Modo Emergencia (Simulación)");
+      // Permitimos avance para pruebas visuales de Ale
       router.push('/dashboard');
+    } finally {
       setLoading(false);
-    }, 2500);
+    }
   };
 
   return (
@@ -44,7 +78,7 @@ export default function CheckoutPage() {
         </div>
         <button 
           onClick={() => router.back()}
-          className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl hover:bg-black hover:text-white transition-all"
+          className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl active:scale-95 transition-all"
         >
           ← VOLVER
         </button>
@@ -57,7 +91,7 @@ export default function CheckoutPage() {
         <div className="h-[1px] w-20 bg-black mb-12"></div>
         
         {/* RESUMEN DEL PLAN SELECCIONADO */}
-        <div className="w-full border border-black p-8 rounded-2xl mb-8 space-y-4 bg-neutral-50/50">
+        <div className="w-full border border-black p-8 rounded-2xl mb-8 space-y-4 bg-neutral-50/50 shadow-sm">
           <div className="flex justify-between items-end">
             <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400 italic">Plan Seleccionado</span>
             <span className="text-lg font-black italic">{selectedPlan.nombre}</span>
@@ -97,16 +131,15 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      {/* FOOTER CON LUME GLOBAL CORE 🌎 Y BÚNKER LEGAL TRIPLE */}
       <footer className="flex flex-col items-center space-y-6 pt-20">
-        <div className="flex flex-wrap justify-center gap-8 text-black">
-          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+        <div className="flex flex-wrap justify-center gap-8 font-sans text-neutral-500">
+          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
             Términos y Condiciones
           </Link>
-          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
             Privacidad
           </Link>
-          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:underline decoration-2 underline-offset-4">
+          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
             Política de Reembolso
           </Link>
         </div>
