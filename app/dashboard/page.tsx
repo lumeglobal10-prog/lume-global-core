@@ -9,16 +9,16 @@ export default function DashboardPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSystemOnline, setIsSystemOnline] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [userMail, setUserMail] = useState('Alejodella@hotmail.com');
+  const [userMail, setUserMail] = useState('Alejodella@hotmail.com'); // Mail de testeo del pliego
   const [qualityFlag, setQualityFlag] = useState('WEB_SOCIAL');
-  const [credits, setCredits] = useState({ used: 0, total: 0 });
+  const [credits, setCredits] = useState({ used: 0, total: 0 }); // Sincronización Nivel 2
 
   // 🌐 ESPECIFICACIONES TÉCNICAS (Nodo Londres :8000)
   const API_BASE = "http://165.22.114.116:8000";
   const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
   const WS_URL = "ws://165.22.114.116:8000/heartbeat";
 
-  // 📊 FUNCIÓN DE LECTURA DE RECURSOS
+  // 📊 FUNCIÓN DE LECTURA DE RECURSOS (Nivel 2)
   const fetchCredits = async (mail: string) => {
     try {
       const response = await fetch(`${API_BASE}/api/v1/user/credits?email=${mail}`, {
@@ -34,17 +34,23 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
+    // Recuperar mail de sesión o usar el de testeo
     const mail = localStorage.getItem('lume_user_mail') || 'Alejodella@hotmail.com';
     setUserMail(mail);
+    
+    // Consultar saldo inicial
     fetchCredits(mail);
 
+    // 📡 HEARTBEAT: Sincronización con Módulo API
     let socket: WebSocket | null = null;
     try {
       socket = new WebSocket(WS_URL);
       socket.onopen = () => setIsSystemOnline(true);
       socket.onerror = () => setIsSystemOnline(false);
       socket.onclose = () => setIsSystemOnline(false);
-    } catch (e) { setIsSystemOnline(false); }
+    } catch (e) {
+      setIsSystemOnline(false);
+    }
 
     return () => socket?.close();
   }, []);
@@ -56,12 +62,14 @@ export default function DashboardPage() {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('user_mail', userMail);
-      formData.append('quality_flag', qualityFlag);
+      formData.append('quality_flag', qualityFlag); // FLAG INNEGOCIABLE
 
       try {
         const response = await fetch(`${API_BASE}/api/v1/upload`, {
           method: 'POST',
-          headers: { 'Authorization': AUTH_TOKEN },
+          headers: {
+            'Authorization': AUTH_TOKEN
+          },
           body: formData,
         });
 
@@ -92,30 +100,30 @@ export default function DashboardPage() {
         <button onClick={() => router.push('/')} className="text-[10px] font-bold tracking-[0.2em] uppercase border border-black px-6 py-2 rounded-xl active:scale-95 transition-all">SALIR →</button>
       </nav>
 
-      <div className="max-w-4xl mx-auto w-full flex flex-col items-center flex-grow justify-center py-2">
-        <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-1 italic uppercase leading-none">Panel de Renderizado</h1>
+      <div className="max-w-4xl mx-auto w-full flex flex-col items-center flex-grow justify-center py-2 leading-none">
+        <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-1 italic uppercase">Panel de Renderizado</h1>
         <p className="text-[8px] font-black tracking-widest text-neutral-400 uppercase mb-4 italic">GATEWAY: NODO LONDRES // {userMail}</p>
         
         <div className="w-full grid grid-cols-3 gap-3 mb-6">
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
-            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Módulo API</span>
+            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Módulo API (Status)</span>
             <span className={`text-[9px] font-bold ${isSystemOnline ? 'text-green-500' : 'text-red-500 animate-pulse'}`}>
               {isSystemOnline ? '● OPERATIONAL' : '● OFFLINE'}
             </span>
           </div>
-          <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center bg-neutral-50">
+          <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center bg-neutral-50 shadow-inner">
             <span className="text-[7px] font-black uppercase text-black italic">Saldo de Renders</span>
             <span className="text-[11px] font-black tracking-tighter">
               {credits.used} / {credits.total}
             </span>
           </div>
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
-            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Auth Status</span>
-            <span className="text-[8px] font-mono text-neutral-500 tracking-tighter uppercase">VERIFIED_2026</span>
+            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Auth Token</span>
+            <span className="text-[8px] font-mono text-neutral-500 tracking-tighter uppercase">VERIFIED_2026_ALPHA</span>
           </div>
         </div>
 
-        <div className="w-full mb-6 text-center">
+        <div className="w-full mb-6 text-center shrink-0">
           <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-neutral-500 italic mb-4">Seleccione Flag de Calidad</p>
           <div className="grid grid-cols-3 gap-2">
             {options.map((opt) => (
@@ -124,27 +132,56 @@ export default function DashboardPage() {
                 onClick={() => setQualityFlag(opt.id)}
                 className={`p-3 rounded-xl border flex flex-col items-center transition-all duration-300 ${qualityFlag === opt.id ? 'bg-black text-white border-black shadow-lg scale-105' : 'bg-white text-black border-neutral-100 hover:border-black'}`}
               >
-                <span className="text-[9px] font-black tracking-tighter">{opt.label}</span>
+                <span className="text-[9px] font-black tracking-tighter leading-none">{opt.label}</span>
                 <span className={`text-[7px] mt-1 ${qualityFlag === opt.id ? 'text-neutral-400' : 'text-neutral-300'}`}>{opt.sub}</span>
               </button>
             ))}
           </div>
         </div>
 
-        <input type="file" ref={fileInputRef} onChange={handleFileSelect} className="hidden" accept="image/*" />
+        {/* 📸 BOTONERA DE INYECCIÓN (CON SOPORTE DE CÁMARA NATIVA) */}
+        <div className="w-full grid grid-cols-2 gap-3 mb-6 shrink-0">
+          {/* OPCIÓN 1: ARCHIVO / GALERÍA */}
+          <button 
+            onClick={() => isSystemOnline && !uploading && fileInputRef.current?.click()}
+            className={`p-5 border-2 border-black rounded-2xl flex flex-col items-center justify-center gap-2 transition-all ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50 active:scale-95'}`}
+          >
+            <span className="text-xl font-bold">📂</span>
+            <span className="text-[8px] font-black uppercase tracking-[0.3em]">SUBIR GALERÍA</span>
+          </button>
+
+          {/* OPCIÓN 2: CÁMARA DIRECTA (Mobile First) */}
+          <button 
+            onClick={() => {
+              if (isSystemOnline && !uploading) {
+                // Antes de abrir, forzamos el atributo capture="environment" (cámara trasera)
+                fileInputRef.current?.setAttribute('capture', 'environment');
+                fileInputRef.current?.click();
+              }
+            }}
+            className={`p-5 border-2 border-black rounded-2xl flex flex-col items-center justify-center gap-2 transition-all ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50 active:scale-95'}`}
+          >
+            <span className="text-xl font-bold">📸</span>
+            <span className="text-[8px] font-black uppercase tracking-[0.3em]">SACAR FOTO</span>
+          </button>
+        </div>
+
+        {/* INPUT OCULTO CON ACTIVACIÓN DE CÁMARA DÁMICA */}
+        <input 
+          type="file" 
+          ref={fileInputRef} 
+          onChange={handleFileSelect} 
+          className="hidden" 
+          accept="image/*" 
+        />
         
-        <div 
-          onClick={() => isSystemOnline && !uploading && fileInputRef.current?.click()}
-          className={`w-full h-40 md:h-52 border-2 border-dashed border-black rounded-3xl flex flex-col items-center justify-center cursor-pointer transition-all ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50 active:scale-[0.98]'}`}
-        >
-          {uploading ? (
-            <div className="animate-spin w-8 h-8 border-4 border-black border-t-transparent rounded-full"></div>
-          ) : (
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-xl font-bold">+</span>
-              <span className="text-[9px] font-black uppercase tracking-[0.4em]">{isSystemOnline ? 'INYECTAR ACTIVOS' : 'ESPERANDO KERNEL'}</span>
+        <div className="w-full text-center shrink-0 min-h-[40px] flex items-center justify-center mt-4">
+           {uploading && (
+            <div className="flex flex-col items-center gap-2 animate-in fade-in">
+              <div className="animate-spin w-8 h-8 border-4 border-black border-t-transparent rounded-full"></div>
+              <span className="text-[8px] font-black uppercase tracking-widest animate-pulse">Inyectando Activo en Londres...</span>
             </div>
-          )}
+           )}
         </div>
       </div>
 
