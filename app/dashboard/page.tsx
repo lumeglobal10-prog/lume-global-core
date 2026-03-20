@@ -9,16 +9,15 @@ export default function DashboardPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSystemOnline, setIsSystemOnline] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [userMail, setUserMail] = useState('Alejodella@hotmail.com'); // Mail de testeo del pliego
+  const [userMail, setUserMail] = useState('Alejodella@hotmail.com'); // Mail de testeo interno
   const [qualityFlag, setQualityFlag] = useState('WEB_SOCIAL');
-  const [credits, setCredits] = useState({ used: 0, total: 0 }); // Sincronización Nivel 2
+  const [credits, setCredits] = useState({ used: 0, total: 0 });
 
   // 🌐 ESPECIFICACIONES TÉCNICAS (Nodo Londres :8000)
   const API_BASE = "http://165.22.114.116:8000";
   const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
   const WS_URL = "ws://165.22.114.116:8000/heartbeat";
 
-  // 📊 FUNCIÓN DE LECTURA DE RECURSOS (Nivel 2)
   const fetchCredits = async (mail: string) => {
     try {
       const response = await fetch(`${API_BASE}/api/v1/user/credits?email=${mail}`, {
@@ -34,14 +33,10 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
-    // Recuperar mail de sesión o usar el de testeo
     const mail = localStorage.getItem('lume_user_mail') || 'Alejodella@hotmail.com';
     setUserMail(mail);
-    
-    // Consultar saldo inicial
     fetchCredits(mail);
 
-    // 📡 HEARTBEAT: Sincronización con Módulo API
     let socket: WebSocket | null = null;
     try {
       socket = new WebSocket(WS_URL);
@@ -62,7 +57,7 @@ export default function DashboardPage() {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('user_mail', userMail);
-      formData.append('quality_flag', qualityFlag); // FLAG INNEGOCIABLE
+      formData.append('quality_flag', qualityFlag);
 
       try {
         const response = await fetch(`${API_BASE}/api/v1/upload`, {
@@ -75,7 +70,7 @@ export default function DashboardPage() {
 
         if (response.ok) {
           alert(`ÉXITO: ACTIVO ENVIADO. ACTUALIZANDO SALDO...`);
-          fetchCredits(userMail); // Recarga automática de créditos post-render
+          fetchCredits(userMail);
         } else {
           alert("ERROR: Aduana Sanitaria rechazó el activo.");
         }
@@ -101,8 +96,7 @@ export default function DashboardPage() {
       </nav>
 
       <div className="max-w-4xl mx-auto w-full flex flex-col items-center flex-grow justify-center py-2 leading-none">
-        <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-1 italic uppercase">Panel de Renderizado</h1>
-        <p className="text-[8px] font-black tracking-widest text-neutral-400 uppercase mb-4 italic">GATEWAY: NODO LONDRES // {userMail}</p>
+        <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-6 italic uppercase">Panel de Renderizado</h1>
         
         <div className="w-full grid grid-cols-3 gap-3 mb-6">
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
@@ -139,9 +133,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* 📸 BOTONERA DE INYECCIÓN (CON SOPORTE DE CÁMARA NATIVA) */}
         <div className="w-full grid grid-cols-2 gap-3 mb-6 shrink-0">
-          {/* OPCIÓN 1: ARCHIVO / GALERÍA */}
           <button 
             onClick={() => isSystemOnline && !uploading && fileInputRef.current?.click()}
             className={`p-5 border-2 border-black rounded-2xl flex flex-col items-center justify-center gap-2 transition-all ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50 active:scale-95'}`}
@@ -150,11 +142,9 @@ export default function DashboardPage() {
             <span className="text-[8px] font-black uppercase tracking-[0.3em]">SUBIR GALERÍA</span>
           </button>
 
-          {/* OPCIÓN 2: CÁMARA DIRECTA (Mobile First) */}
           <button 
             onClick={() => {
               if (isSystemOnline && !uploading) {
-                // Antes de abrir, forzamos el atributo capture="environment" (cámara trasera)
                 fileInputRef.current?.setAttribute('capture', 'environment');
                 fileInputRef.current?.click();
               }
@@ -166,7 +156,6 @@ export default function DashboardPage() {
           </button>
         </div>
 
-        {/* INPUT OCULTO CON ACTIVACIÓN DE CÁMARA DÁMICA */}
         <input 
           type="file" 
           ref={fileInputRef} 
@@ -197,4 +186,4 @@ export default function DashboardPage() {
       </footer>
     </main>
   );
-}
+     }
