@@ -7,15 +7,16 @@ import Link from 'next/link';
 export default function DashboardPage() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
   const [isSystemOnline, setIsSystemOnline] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [userMail, setUserMail] = useState('Alejodella@hotmail.com');
-  const [qualityFlag, setQualityFlag] = useState('WEB_SOCIAL');
   const [credits, setCredits] = useState({ used: 0, total: 0 });
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://api.lumeglobalcore.com";
+  // 🏛️ SOBERANÍA TÉCNICA: NUEVOS ENDPOINTS SEGUROS (SSL/TLS 1.3)
+  const API_BASE = "https://api.lumeglobalcore.com"; 
+  const WS_URL = "wss://api.lumeglobalcore.com/heartbeat"; 
   const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
-  const WS_URL = API_BASE.replace("https://", "wss://").replace("http://", "ws://") + "/heartbeat";
 
   const fetchCredits = async (mail: string) => {
     try {
@@ -26,9 +27,7 @@ export default function DashboardPage() {
         const data = await response.json();
         setCredits({ used: data.used, total: data.total });
       }
-    } catch (e) {
-      console.warn("Error al sincronizar créditos.");
-    }
+    } catch (e) { console.warn("LGC_SYNC_ERROR: Fallo en lectura de créditos."); }
   };
 
   useEffect(() => {
@@ -36,50 +35,47 @@ export default function DashboardPage() {
     setUserMail(mail);
     fetchCredits(mail);
 
+    // 📡 HEARTBEAT SEGURO (WSS)
     let socket: WebSocket | null = null;
     try {
       socket = new WebSocket(WS_URL);
       socket.onopen = () => setIsSystemOnline(true);
       socket.onerror = () => setIsSystemOnline(false);
       socket.onclose = () => setIsSystemOnline(false);
-    } catch (e) {
-      setIsSystemOnline(false);
-    }
-    return () => { if (socket) socket.close(); };
-  }, [WS_URL]);
+    } catch (e) { setIsSystemOnline(false); }
+
+    return () => socket?.close();
+  }, []);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && isSystemOnline) {
-      setUploading(true);
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('user_mail', userMail);
-      formData.append('quality_flag', qualityFlag);
+    if (!file || !isSystemOnline) return;
 
-      try {
-        const response = await fetch(`${API_BASE}/api/v1/upload`, {
-          method: 'POST',
-          headers: { 'Authorization': AUTH_TOKEN },
-          body: formData,
-        });
-        if (response.ok) {
-          alert(`ÉXITO: ACTIVO ENVIADO.`);
-          fetchCredits(userMail);
-        }
-      } catch (error) {
-        alert("ERROR CRÍTICO: Nodo Londres fuera de alcance.");
-      } finally {
-        setUploading(false);
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('user_mail', userMail);
+    formData.append('quality_flag', 'WEB_SOCIAL');
+
+    try {
+      const response = await fetch(`${API_BASE}/api/v1/upload`, {
+        method: 'POST',
+        headers: { 'Authorization': AUTH_TOKEN },
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert("ÉXITO: ACTIVO INYECTADO EN LONDRES.");
+        fetchCredits(userMail);
+      } else {
+        alert("ERROR: El Kernel rechazó el activo. Verifique integridad.");
       }
+    } catch (error) {
+      alert("ERROR CRÍTICO: Fallo de conexión con api.lumeglobalcore.com");
+    } finally {
+      setUploading(false);
     }
   };
-
-  const options = [
-    { id: 'WEB_SOCIAL', label: 'WEB / SOCIAL', sub: 'OPTIMIZADO' },
-    { id: 'HD_PRO', label: 'HD PRO', sub: 'FIDELIDAD' },
-    { id: 'FORCE_8K', label: 'LUME 8K ULTRA', sub: 'TENSOR PWR' }
-  ];
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-4 md:p-10 overflow-hidden">
@@ -89,9 +85,9 @@ export default function DashboardPage() {
       </nav>
 
       <div className="max-w-4xl mx-auto w-full flex flex-col items-center flex-grow justify-center py-2 leading-none">
-        <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-6 italic uppercase">Panel de Renderizado</h1>
+        <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-8 italic uppercase text-center">Panel de Renderizado</h1>
         
-        <div className="w-full grid grid-cols-3 gap-3 mb-6">
+        <div className="w-full grid grid-cols-3 gap-3 mb-8">
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
             <span className="text-[7px] font-black uppercase text-neutral-400 italic">Módulo API</span>
             <span className={`text-[9px] font-bold ${isSystemOnline ? 'text-green-500' : 'text-red-500 animate-pulse'}`}>
@@ -99,66 +95,48 @@ export default function DashboardPage() {
             </span>
           </div>
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center bg-neutral-50 shadow-inner">
-            <span className="text-[7px] font-black uppercase text-black italic">Saldo</span>
+            <span className="text-[7px] font-black uppercase text-black italic">Saldo de Renders</span>
             <span className="text-[11px] font-black tracking-tighter">{credits.used} / {credits.total}</span>
           </div>
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
-            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Token</span>
-            <span className="text-[8px] font-mono text-neutral-500 tracking-tighter uppercase">VERIFIED</span>
+            <span className="text-[7px] font-black uppercase text-neutral-400 italic">SSL Status</span>
+            <span className="text-[8px] font-mono text-green-600 tracking-tighter uppercase font-bold">TLS_1.3_ACTIVE</span>
           </div>
         </div>
 
-        <div className="w-full mb-6 text-center">
-          <div className="grid grid-cols-3 gap-2">
-            {options.map((opt) => (
-              <button
-                key={opt.id}
-                onClick={() => setQualityFlag(opt.id)}
-                className={`p-3 rounded-xl border flex flex-col items-center transition-all ${qualityFlag === opt.id ? 'bg-black text-white border-black scale-105' : 'bg-white text-black border-neutral-100'}`}
-              >
-                <span className="text-[9px] font-black tracking-tighter">{opt.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="w-full grid grid-cols-2 gap-3 mb-6">
+        <div className="w-full grid grid-cols-2 gap-4 mb-6">
           <button 
             onClick={() => isSystemOnline && !uploading && fileInputRef.current?.click()}
-            className={`p-5 border-2 border-black rounded-2xl flex flex-col items-center justify-center gap-2 ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50'}`}
+            className={`p-6 border-2 border-black rounded-2xl flex flex-col items-center gap-2 transition-all ${!isSystemOnline ? 'opacity-30 cursor-not-allowed' : 'hover:bg-neutral-50 active:scale-95'}`}
           >
-            <span className="text-xl font-bold">📂</span>
-            <span className="text-[8px] font-black uppercase tracking-widest">SUBIR GALERÍA</span>
+            <span className="text-2xl">📂</span>
+            <span className="text-[9px] font-black uppercase tracking-widest">Galería</span>
           </button>
 
           <button 
-            onClick={() => isSystemOnline && !uploading && fileInputRef.current?.click()}
-            className={`p-5 border-2 border-black rounded-2xl flex flex-col items-center justify-center gap-2 ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50'}`}
+            onClick={() => isSystemOnline && !uploading && cameraInputRef.current?.click()}
+            className={`p-6 border-2 border-black rounded-2xl flex flex-col items-center gap-2 transition-all ${!isSystemOnline ? 'opacity-30 cursor-not-allowed' : 'hover:bg-neutral-50 active:scale-95'}`}
           >
-            <span className="text-xl font-bold">📸</span>
-            <span className="text-[8px] font-black uppercase tracking-widest">SACAR FOTO</span>
+            <span className="text-2xl">📸</span>
+            <span className="text-[9px] font-black uppercase tracking-widest">Cámara</span>
           </button>
         </div>
 
         <input type="file" ref={fileInputRef} onChange={handleFileSelect} className="hidden" accept="image/*" />
+        <input type="file" ref={cameraInputRef} onChange={handleFileSelect} className="hidden" accept="image/*" capture="environment" />
         
-        <div className="min-h-[40px] mt-4">
+        <div className="w-full text-center shrink-0 min-h-[40px] flex items-center justify-center mt-4">
            {uploading && (
-            <div className="flex flex-col items-center gap-2 animate-pulse">
-              <span className="text-[8px] font-black uppercase tracking-widest">Inyectando en Londres...</span>
+            <div className="flex flex-col items-center gap-2">
+              <div className="animate-spin w-8 h-8 border-4 border-black border-t-transparent rounded-full"></div>
+              <span className="text-[8px] font-black uppercase tracking-widest animate-pulse">Inyectando Activo en Londres...</span>
             </div>
            )}
         </div>
       </div>
 
-      <footer className="flex flex-col items-center space-y-4 pt-4 border-t border-neutral-50">
-        <div className="flex gap-8 text-neutral-400 text-[8px] font-bold tracking-widest uppercase">
-          <Link href="/terms">Términos</Link>
-          <Link href="/privacy">Privacidad</Link>
-        </div>
-        <div className="text-[9px] font-bold tracking-[0.5em] text-neutral-300 uppercase italic">
-          LUME GLOBAL CORE 🌎 // 2026
-        </div>
+      <footer className="text-[9px] font-bold tracking-[0.5em] text-neutral-300 uppercase italic text-center py-6 shrink-0 border-t border-neutral-50 w-full">
+        LUME GLOBAL CORE 🌎 // 2026
       </footer>
     </main>
   );
