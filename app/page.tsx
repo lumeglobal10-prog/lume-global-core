@@ -37,7 +37,8 @@ export default function LumeHome() {
           <p className="text-[9px] font-black tracking-[0.5em] text-neutral-400 mt-2 uppercase">Lume Global Core // AI Infrastructure</p>
         </div>
         
-        <div className="w-full max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto flex flex-col items-center justify-center">
+        {/* CONTENEDOR AJUSTADO (-15% MAX-WIDTH PARA CORREGIR DESFASE EN NOTEBOOK) */}
+        <div className="w-full max-w-md md:max-w-xl lg:max-w-2xl mx-auto flex flex-col items-center justify-center">
           <HeroSlider />
           
           <Link href="/pricing" className="mt-8 group flex flex-col items-center gap-2">
