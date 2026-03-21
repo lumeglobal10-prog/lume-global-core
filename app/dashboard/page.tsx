@@ -9,15 +9,12 @@ export default function DashboardPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSystemOnline, setIsSystemOnline] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [userMail, setUserMail] = useState('Alejodella@hotmail.com'); // Mail de testeo interno
+  const [userMail, setUserMail] = useState('Alejodella@hotmail.com');
   const [qualityFlag, setQualityFlag] = useState('WEB_SOCIAL');
   const [credits, setCredits] = useState({ used: 0, total: 0 });
 
-  // 🌐 ESPECIFICACIONES TÉCNICAS DINÁMICAS (Lume Global Core)
-  // Prioriza la variable de Vercel, si no existe, usa el dominio seguro por defecto.
   const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://api.lumeglobalcore.com";
   const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
-  // Genera automáticamente la URL de WebSocket segura (wss) basada en la API_BASE
   const WS_URL = API_BASE.replace("https://", "wss://").replace("http://", "ws://") + "/heartbeat";
 
   const fetchCredits = async (mail: string) => {
@@ -30,7 +27,7 @@ export default function DashboardPage() {
         setCredits({ used: data.used, total: data.total });
       }
     } catch (e) {
-      console.warn("Error al sincronizar créditos con Londres.");
+      console.warn("Error al sincronizar créditos.");
     }
   };
 
@@ -41,7 +38,6 @@ export default function DashboardPage() {
 
     let socket: WebSocket | null = null;
     try {
-      // Intentamos conexión de latido (Heartbeat)
       socket = new WebSocket(WS_URL);
       socket.onopen = () => setIsSystemOnline(true);
       socket.onerror = () => setIsSystemOnline(false);
@@ -49,8 +45,7 @@ export default function DashboardPage() {
     } catch (e) {
       setIsSystemOnline(false);
     }
-
-    return () => socket?.close();
+    return () => { if (socket) socket.close(); };
   }, [WS_URL]);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,17 +60,12 @@ export default function DashboardPage() {
       try {
         const response = await fetch(`${API_BASE}/api/v1/upload`, {
           method: 'POST',
-          headers: {
-            'Authorization': AUTH_TOKEN
-          },
+          headers: { 'Authorization': AUTH_TOKEN },
           body: formData,
         });
-
         if (response.ok) {
-          alert(`ÉXITO: ACTIVO ENVIADO. ACTUALIZANDO SALDO...`);
+          alert(`ÉXITO: ACTIVO ENVIADO.`);
           fetchCredits(userMail);
-        } else {
-          alert("ERROR: Aduana Sanitaria rechazó el activo.");
         }
       } catch (error) {
         alert("ERROR CRÍTICO: Nodo Londres fuera de alcance.");
@@ -103,87 +93,70 @@ export default function DashboardPage() {
         
         <div className="w-full grid grid-cols-3 gap-3 mb-6">
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
-            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Módulo API (Status)</span>
+            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Módulo API</span>
             <span className={`text-[9px] font-bold ${isSystemOnline ? 'text-green-500' : 'text-red-500 animate-pulse'}`}>
               {isSystemOnline ? '● OPERATIONAL' : '● OFFLINE'}
             </span>
           </div>
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center bg-neutral-50 shadow-inner">
-            <span className="text-[7px] font-black uppercase text-black italic">Saldo de Renders</span>
-            <span className="text-[11px] font-black tracking-tighter">
-              {credits.used} / {credits.total}
-            </span>
+            <span className="text-[7px] font-black uppercase text-black italic">Saldo</span>
+            <span className="text-[11px] font-black tracking-tighter">{credits.used} / {credits.total}</span>
           </div>
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
-            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Auth Token</span>
-            <span className="text-[8px] font-mono text-neutral-500 tracking-tighter uppercase">VERIFIED_2026_ALPHA</span>
+            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Token</span>
+            <span className="text-[8px] font-mono text-neutral-500 tracking-tighter uppercase">VERIFIED</span>
           </div>
         </div>
 
-        <div className="w-full mb-6 text-center shrink-0">
-          <p className="text-[9px] font-bold tracking-[0.2em] uppercase text-neutral-500 italic mb-4">Seleccione Flag de Calidad</p>
+        <div className="w-full mb-6 text-center">
           <div className="grid grid-cols-3 gap-2">
             {options.map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => setQualityFlag(opt.id)}
-                className={`p-3 rounded-xl border flex flex-col items-center transition-all duration-300 ${qualityFlag === opt.id ? 'bg-black text-white border-black shadow-lg scale-105' : 'bg-white text-black border-neutral-100 hover:border-black'}`}
+                className={`p-3 rounded-xl border flex flex-col items-center transition-all ${qualityFlag === opt.id ? 'bg-black text-white border-black scale-105' : 'bg-white text-black border-neutral-100'}`}
               >
-                <span className="text-[9px] font-black tracking-tighter leading-none">{opt.label}</span>
-                <span className={`text-[7px] mt-1 ${qualityFlag === opt.id ? 'text-neutral-400' : 'text-neutral-300'}`}>{opt.sub}</span>
+                <span className="text-[9px] font-black tracking-tighter">{opt.label}</span>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="w-full grid grid-cols-2 gap-3 mb-6 shrink-0">
+        <div className="w-full grid grid-cols-2 gap-3 mb-6">
           <button 
             onClick={() => isSystemOnline && !uploading && fileInputRef.current?.click()}
-            className={`p-5 border-2 border-black rounded-2xl flex flex-col items-center justify-center gap-2 transition-all ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50 active:scale-95'}`}
+            className={`p-5 border-2 border-black rounded-2xl flex flex-col items-center justify-center gap-2 ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50'}`}
           >
             <span className="text-xl font-bold">📂</span>
-            <span className="text-[8px] font-black uppercase tracking-[0.3em]">SUBIR GALERÍA</span>
+            <span className="text-[8px] font-black uppercase tracking-widest">SUBIR GALERÍA</span>
           </button>
 
           <button 
-            onClick={() => {
-              if (isSystemOnline && !uploading) {
-                fileInputRef.current?.setAttribute('capture', 'environment');
-                fileInputRef.current?.click();
-              }
-            }}
-            className={`p-5 border-2 border-black rounded-2xl flex flex-col items-center justify-center gap-2 transition-all ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50 active:scale-95'}`}
+            onClick={() => isSystemOnline && !uploading && fileInputRef.current?.click()}
+            className={`p-5 border-2 border-black rounded-2xl flex flex-col items-center justify-center gap-2 ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50'}`}
           >
             <span className="text-xl font-bold">📸</span>
-            <span className="text-[8px] font-black uppercase tracking-[0.3em]">SACAR FOTO</span>
+            <span className="text-[8px] font-black uppercase tracking-widest">SACAR FOTO</span>
           </button>
         </div>
 
-        <input 
-          type="file" 
-          ref={fileInputRef} 
-          onChange={handleFileSelect} 
-          className="hidden" 
-          accept="image/*" 
-        />
+        <input type="file" ref={fileInputRef} onChange={handleFileSelect} className="hidden" accept="image/*" />
         
-        <div className="w-full text-center shrink-0 min-h-[40px] flex items-center justify-center mt-4">
+        <div className="min-h-[40px] mt-4">
            {uploading && (
-            <div className="flex flex-col items-center gap-2 animate-in fade-in">
-              <div className="animate-spin w-8 h-8 border-4 border-black border-t-transparent rounded-full"></div>
-              <span className="text-[8px] font-black uppercase tracking-widest animate-pulse">Inyectando Activo en Londres...</span>
+            <div className="flex flex-col items-center gap-2 animate-pulse">
+              <span className="text-[8px] font-black uppercase tracking-widest">Inyectando en Londres...</span>
             </div>
            )}
         </div>
       </div>
 
-      <footer className="flex flex-col items-center space-y-4 pt-4 shrink-0 border-t border-neutral-50">
-        <div className="flex flex-wrap justify-center gap-8 font-sans text-neutral-400">
-          <Link href="/terms" className="text-[8px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-1">Términos</Link>
-          <Link href="/privacy" className="text-[8px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-1">Privacidad</Link>
-          <Link href="/refund" className="text-[8px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-1">Reembolso</Link>
+      <footer className="flex flex-col items-center space-y-4 pt-4 border-t border-neutral-50">
+        <div className="flex gap-8 text-neutral-400 text-[8px] font-bold tracking-widest uppercase">
+          <Link href="/terms">Términos</Link>
+          <Link href="/privacy">Privacidad</Link>
         </div>
-        <div className="text-[9px] font-bold tracking-[0.5em] text-neutral-300 uppercase italic text-center">
+        <div className="text-[9px] font-bold tracking-[0.5em] text-neutral-300 uppercase italic">
           LUME GLOBAL CORE 🌎 // 2026
         </div>
       </footer>
