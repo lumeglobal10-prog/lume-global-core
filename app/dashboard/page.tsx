@@ -13,10 +13,12 @@ export default function DashboardPage() {
   const [qualityFlag, setQualityFlag] = useState('WEB_SOCIAL');
   const [credits, setCredits] = useState({ used: 0, total: 0 });
 
-  // 🌐 ESPECIFICACIONES TÉCNICAS (Nodo Londres :8000)
-  const API_BASE = "http://165.22.114.116:8000";
+  // 🌐 ESPECIFICACIONES TÉCNICAS DINÁMICAS (Lume Global Core)
+  // Prioriza la variable de Vercel, si no existe, usa el dominio seguro por defecto.
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://api.lumeglobalcore.com";
   const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
-  const WS_URL = "ws://165.22.114.116:8000/heartbeat";
+  // Genera automáticamente la URL de WebSocket segura (wss) basada en la API_BASE
+  const WS_URL = API_BASE.replace("https://", "wss://").replace("http://", "ws://") + "/heartbeat";
 
   const fetchCredits = async (mail: string) => {
     try {
@@ -39,6 +41,7 @@ export default function DashboardPage() {
 
     let socket: WebSocket | null = null;
     try {
+      // Intentamos conexión de latido (Heartbeat)
       socket = new WebSocket(WS_URL);
       socket.onopen = () => setIsSystemOnline(true);
       socket.onerror = () => setIsSystemOnline(false);
@@ -48,7 +51,7 @@ export default function DashboardPage() {
     }
 
     return () => socket?.close();
-  }, []);
+  }, [WS_URL]);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -186,4 +189,4 @@ export default function DashboardPage() {
       </footer>
     </main>
   );
-     }
+}
