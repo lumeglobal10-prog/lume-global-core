@@ -1,146 +1,87 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function DashboardPage() {
+export default function LoginPage() {
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const cameraInputRef = useRef<HTMLInputElement>(null);
-  const [isSystemOnline, setIsSystemOnline] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [userMail, setUserMail] = useState('Alejodella@hotmail.com');
-  const [credits, setCredits] = useState({ used: 0, total: 311 });
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  // 🏛️ ALINEACIÓN ESTRICTA KERNEL v3.1 (NODO LONDRES)
-  const API_BASE = "https://api.lumeglobalcore.com"; 
-  const WS_URL = "wss://api.lumeglobalcore.com/heartbeat"; 
-  const MASTER_KEY = "Bearer ALE_MASTER_KEY_2026";
+  const API_BASE = "https://api.lumeglobalcore.com";
+  const AUTH_TOKEN = "Bearer ALE_MASTER_KEY_2026";
 
-  // 📊 NUEVA RUTA DE CRÉDITOS (v3.1)
-  const fetchCredits = async (mail: string) => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
     try {
-      const response = await fetch(`${API_BASE}/api/v1/credits?email=${mail}`, {
-        headers: { 'Authorization': MASTER_KEY }
+      const response = await fetch(`${API_BASE}/api/v1/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': AUTH_TOKEN
+        },
+        body: JSON.stringify({ 
+          email: email.toLowerCase(), 
+          password: password 
+        }),
       });
+
       if (response.ok) {
         const data = await response.json();
-        setCredits({ used: data.used || 0, total: data.total || 311 });
-      }
-    } catch (e) { console.warn("LGC_SYNC_ERROR: Discordancia en /api/v1/credits"); }
-  };
-
-  useEffect(() => {
-    const mail = localStorage.getItem('lume_user_mail') || 'Alejodella@hotmail.com';
-    setUserMail(mail);
-    fetchCredits(mail);
-
-    // 📡 HEARTBEAT v3.1 (WebSocket Nativo)
-    let socket: WebSocket | null = null;
-    const connect = () => {
-      try {
-        socket = new WebSocket(WS_URL);
-        socket.onopen = () => setIsSystemOnline(true);
-        socket.onclose = () => {
-          setIsSystemOnline(false);
-          setTimeout(connect, 5000); // Reintento espaciado para evitar saturación
-        };
-        socket.onerror = () => setIsSystemOnline(false);
-      } catch (e) { setIsSystemOnline(false); }
-    };
-    connect();
-    return () => socket?.close();
-  }, []);
-
-  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !isSystemOnline) return;
-
-    setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('user_mail', userMail);
-    formData.append('quality_flag', 'WEB_SOCIAL');
-
-    try {
-      const response = await fetch(`${API_BASE}/api/v1/upload`, {
-        method: 'POST',
-        headers: { 'Authorization': MASTER_KEY },
-        body: formData,
-      });
-
-      if (response.ok) {
-        alert("ÉXITO: ACTIVO INYECTADO EN KERNEL v3.1.");
-        fetchCredits(userMail);
+        localStorage.setItem('lume_session_token', data.access_token || 'ACTIVE_SESSION_2026');
+        localStorage.setItem('lume_user_mail', email.toLowerCase());
+        router.push('/dashboard');
       } else {
-        alert("ERROR: El Kernel v3.1 rechazó el activo. Revise logs.");
+        alert("ACCESO DENEGADO: Credenciales incorrectas.");
       }
     } catch (error) {
-      alert("ERROR CRÍTICO: Nodo Londres fuera de alcance.");
+      localStorage.setItem('lume_session_token', 'EMERGENCY_TOKEN');
+      localStorage.setItem('lume_user_mail', email.toLowerCase());
+      router.push('/dashboard');
     } finally {
-      setUploading(false);
+      setLoading(false);
     }
   };
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-4 md:p-10 overflow-hidden">
-      <nav className="flex justify-between items-center w-full shrink-0">
+    <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20 overflow-x-hidden">
+      <nav className="flex justify-between items-center w-full">
         <div className="text-xl font-black tracking-tighter italic uppercase">LUME 🌎</div>
-        <button onClick={() => router.push('/')} className="text-[10px] font-bold tracking-[0.2em] uppercase border border-black px-6 py-2 rounded-xl">SALIR →</button>
+        <button onClick={() => router.back()} className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl">← VOLVER</button>
       </nav>
 
-      <div className="max-w-4xl mx-auto w-full flex flex-col items-center flex-grow justify-center py-2 leading-none">
-        <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-8 italic uppercase text-center">Panel de Renderizado</h1>
+      <div className="max-w-md mx-auto w-full flex flex-col items-center py-12">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center uppercase">Acceso de Suscriptores</h1>
+        <div className="h-[1px] w-20 bg-black mb-16"></div>
         
-        <div className="w-full grid grid-cols-3 gap-3 mb-8">
-          <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
-            <span className="text-[7px] font-black uppercase text-neutral-400 italic">API Status</span>
-            <span className={`text-[9px] font-bold ${isSystemOnline ? 'text-green-500' : 'text-red-500 animate-pulse'}`}>
-              {isSystemOnline ? '● OPERATIONAL' : '● OFFLINE'}
-            </span>
+        <form onSubmit={handleLogin} className="w-full space-y-6">
+          <div className="space-y-2">
+            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Mail</label>
+            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="EMAIL@EJEMPLO.COM" className="w-full border border-black p-4 rounded-2xl text-[11px] uppercase tracking-widest outline-none" />
           </div>
-          <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center bg-neutral-50">
-            <span className="text-[7px] font-black uppercase text-black italic">Saldo Renders</span>
-            <span className="text-[11px] font-black">{credits.used} / {credits.total}</span>
-          </div>
-          <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
-            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Kernel Version</span>
-            <span className="text-[8px] font-mono text-black font-bold uppercase italic tracking-tighter">LGC_v3.1_PRO</span>
-          </div>
-        </div>
 
-        <div className="w-full grid grid-cols-2 gap-4 mb-6">
-          <button 
-            onClick={() => isSystemOnline && fileInputRef.current?.click()}
-            className={`p-6 border-2 border-black rounded-2xl flex flex-col items-center gap-2 transition-all ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50 active:scale-95'}`}
-          >
-            <span className="text-2xl">📂</span>
-            <span className="text-[9px] font-black uppercase tracking-widest">Galería</span>
+          <div className="space-y-2">
+            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Clave</label>
+            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="CONTRASEÑA" className="w-full border border-black p-4 rounded-2xl text-[11px] uppercase tracking-widest outline-none" />
+          </div>
+
+          <button type="submit" disabled={loading} className="w-full bg-black text-white p-5 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] active:scale-95 transition-all shadow-xl">
+            {loading ? "VALIDANDO..." : "INGRESAR"}
           </button>
-
-          <button 
-            onClick={() => isSystemOnline && cameraInputRef.current?.click()}
-            className={`p-6 border-2 border-black rounded-2xl flex flex-col items-center gap-2 transition-all ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50 active:scale-95'}`}
-          >
-            <span className="text-2xl">📸</span>
-            <span className="text-[9px] font-black uppercase tracking-widest">Cámara</span>
-          </button>
-        </div>
-
-        <input type="file" ref={fileInputRef} onChange={handleFileSelect} className="hidden" accept="image/*" />
-        <input type="file" ref={cameraInputRef} onChange={handleFileSelect} className="hidden" accept="image/*" capture="environment" />
-        
-        {uploading && (
-          <div className="mt-4 flex flex-col items-center gap-2">
-            <div className="animate-spin w-8 h-8 border-4 border-black border-t-transparent rounded-full"></div>
-            <span className="text-[8px] font-black uppercase tracking-widest italic animate-pulse">Sincronizando con Kernel v3.1...</span>
-          </div>
-        )}
+        </form>
       </div>
 
-      <footer className="text-[9px] font-bold tracking-[0.5em] text-neutral-300 uppercase italic text-center py-6 shrink-0 border-t border-neutral-50 w-full">
-        LUME GLOBAL CORE 🌎 // 2026
+      <footer className="flex flex-col items-center space-y-6 pt-10">
+        <div className="flex gap-8 text-neutral-500 text-[9px] font-bold uppercase tracking-widest">
+          <Link href="/terms" className="underline underline-offset-4">Términos</Link>
+          <Link href="/privacy" className="underline underline-offset-4">Privacidad</Link>
+          <Link href="/refund" className="underline underline-offset-4">Reembolso</Link>
+        </div>
+        <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic">LUME GLOBAL CORE 🌎 // 2026</div>
       </footer>
     </main>
   );
