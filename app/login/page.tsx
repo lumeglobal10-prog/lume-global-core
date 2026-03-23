@@ -13,12 +13,12 @@ export default function LoginPage() {
   const API_BASE = "https://api.lumeglobalcore.com";
   const AUTH_TOKEN = "Bearer ALE_MASTER_KEY_2026";
 
-  const handleLogin = async (e: React.FormEvent) => {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE}/api/v1/auth/login`, {
+      const res = await fetch(`${API_BASE}/api/v1/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -30,59 +30,58 @@ export default function LoginPage() {
         }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('lume_session_token', data.access_token || 'ACTIVE_SESSION_2026');
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem('lume_session_token', data.access_token || 'ACTIVE_2026');
         localStorage.setItem('lume_user_mail', email.toLowerCase());
         router.push('/dashboard');
       } else {
-        alert("ACCESO DENEGADO: Credenciales incorrectas.");
+        alert("ACCESO DENEGADO");
       }
-    } catch (error) {
-      console.warn("Handshake fallback.");
+    } catch (err) {
       localStorage.setItem('lume_session_token', 'EMERGENCY_TOKEN');
       localStorage.setItem('lume_user_mail', email.toLowerCase());
       router.push('/dashboard');
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20 overflow-x-hidden">
-      <nav className="flex justify-between items-center w-full">
+      <nav className="flex justify-between items-center w-full shrink-0">
         <div className="text-xl font-black tracking-tighter italic uppercase">LUME 🌎</div>
-        <button onClick={() => router.back()} className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl active:scale-95 transition-all">← VOLVER</button>
+        <button onClick={() => router.back()} className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl">← VOLVER</button>
       </nav>
 
-      <div className="max-w-md mx-auto w-full flex flex-col items-center py-12">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center leading-tight uppercase">Acceso de Suscriptores</h1>
+      <div className="max-w-md mx-auto w-full flex flex-col items-center py-12 flex-grow justify-center">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center uppercase">Acceso Core</h1>
         <div className="h-[1px] w-20 bg-black mb-16"></div>
         
         <form onSubmit={handleLogin} className="w-full space-y-6">
-          <div className="space-y-2 text-left">
-            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Ingrese Mail</label>
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="EMAIL@EJEMPLO.COM" className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest outline-none focus:bg-neutral-50 transition-colors" />
+          <div className="space-y-2">
+            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Identidad</label>
+            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="EMAIL@LUME.COM" className="w-full border border-black p-4 rounded-2xl text-[11px] uppercase tracking-widest outline-none focus:bg-neutral-50 transition-all" />
           </div>
 
-          <div className="space-y-2 text-left">
-            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Ingrese Clave</label>
-            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="CONTRASEÑA" className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest outline-none focus:bg-neutral-50 transition-colors" />
+          <div className="space-y-2">
+            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Clave</label>
+            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className="w-full border border-black p-4 rounded-2xl text-[11px] uppercase tracking-widest outline-none focus:bg-neutral-50 transition-all" />
           </div>
 
-          <button type="submit" disabled={loading} className="w-full bg-black text-white p-5 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all shadow-xl active:scale-95 mt-4 flex justify-center items-center">
-            {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "INGRESAR"}
+          <button type="submit" disabled={loading} className="w-full bg-black text-white p-5 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] active:scale-95 shadow-xl transition-all">
+            {loading ? "PROCESANDO..." : "INGRESAR →"}
           </button>
         </form>
       </div>
 
-      <footer className="flex flex-col items-center space-y-6 pt-20">
-        <div className="flex flex-wrap justify-center gap-8 font-sans text-neutral-500">
-          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">Términos</Link>
-          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">Privacidad</Link>
-          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">Reembolso</Link>
+      <footer className="w-full flex flex-col items-center space-y-6 pt-10 shrink-0">
+        <div className="flex gap-8 text-neutral-500 text-[9px] font-bold uppercase tracking-widest">
+          <Link href="/terms" className="underline underline-offset-4">Términos</Link>
+          <Link href="/privacy" className="underline underline-offset-4">Privacidad</Link>
+          <Link href="/refund" className="underline underline-offset-4">Reembolso</Link>
         </div>
-        <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic text-center">LUME GLOBAL CORE 🌎 // 2026</div>
+        <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic">LUME GLOBAL CORE 🌎 // 2026</div>
       </footer>
     </main>
   );
