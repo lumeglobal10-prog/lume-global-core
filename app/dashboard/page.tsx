@@ -13,13 +13,14 @@ export default function DashboardPage() {
   const [userMail, setUserMail] = useState('Alejodella@hotmail.com');
   const [credits, setCredits] = useState({ used: 0, total: 0 });
 
-  // 🏛️ SOBERANÍA TÉCNICA: NUEVOS ENDPOINTS SEGUROS (SSL/TLS 1.3)
+  // 🏛️ SINCRONIZACIÓN NODO LONDRES: KERNEL v3.1
   const API_BASE = "https://api.lumeglobalcore.com"; 
   const WS_URL = "wss://api.lumeglobalcore.com/heartbeat"; 
-  const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
+  const AUTH_TOKEN = "Bearer ALE_MASTER_KEY_2026"; // Actualizado según requerimiento
 
   const fetchCredits = async (mail: string) => {
     try {
+      // Ruta actualizada: /api/v1/user/credits?email={user_email}
       const response = await fetch(`${API_BASE}/api/v1/user/credits?email=${mail}`, {
         headers: { 'Authorization': AUTH_TOKEN }
       });
@@ -35,7 +36,7 @@ export default function DashboardPage() {
     setUserMail(mail);
     fetchCredits(mail);
 
-    // 📡 HEARTBEAT SEGURO (WSS)
+    // 📡 LATIDO (HEARTBEAT) FASTAPI WEBSOCKET
     let socket: WebSocket | null = null;
     try {
       socket = new WebSocket(WS_URL);
@@ -45,7 +46,7 @@ export default function DashboardPage() {
     } catch (e) { setIsSystemOnline(false); }
 
     return () => socket?.close();
-  }, []);
+  }, [WS_URL]);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -58,6 +59,7 @@ export default function DashboardPage() {
     formData.append('quality_flag', 'WEB_SOCIAL');
 
     try {
+      // Ruta actualizada: /api/v1/upload
       const response = await fetch(`${API_BASE}/api/v1/upload`, {
         method: 'POST',
         headers: { 'Authorization': AUTH_TOKEN },
@@ -140,4 +142,4 @@ export default function DashboardPage() {
       </footer>
     </main>
   );
-                 }
+            }
