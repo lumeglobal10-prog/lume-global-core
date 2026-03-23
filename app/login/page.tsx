@@ -2,87 +2,50 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const API_BASE = "https://api.lumeglobalcore.com";
-  const AUTH_TOKEN = "Bearer ALE_MASTER_KEY_2026";
-
-  async function handleLogin(e: React.FormEvent) {
+  async function entrar(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-
     try {
-      const res = await fetch(`${API_BASE}/api/v1/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': AUTH_TOKEN
-        },
-        body: JSON.stringify({ 
-          email: email.toLowerCase(), 
-          password: password 
-        }),
+      const r = await fetch("https://api.lumeglobalcore.com/api/v1/credits?email=" + email, {
+        headers: { 'Authorization': "Bearer ALE_MASTER_KEY_2026" }
       });
-
-      if (res.ok) {
-        const data = await res.json();
-        localStorage.setItem('lume_session_token', data.access_token || 'ACTIVE_2026');
-        localStorage.setItem('lume_user_mail', email.toLowerCase());
+      if (r.ok) {
+        localStorage.setItem('lume_user_mail', email);
+        localStorage.setItem('lume_session_token', 'VALID_2026');
         router.push('/dashboard');
       } else {
         alert("ACCESO DENEGADO");
       }
     } catch (err) {
-      localStorage.setItem('lume_session_token', 'EMERGENCY_TOKEN');
-      localStorage.setItem('lume_user_mail', email.toLowerCase());
-      router.push('/dashboard');
+      router.push('/dashboard'); // Fallback de autoridad
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20 overflow-x-hidden">
-      <nav className="flex justify-between items-center w-full shrink-0">
-        <div className="text-xl font-black tracking-tighter italic uppercase">LUME 🌎</div>
-        <button onClick={() => router.back()} className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl">← VOLVER</button>
-      </nav>
-
-      <div className="max-w-md mx-auto w-full flex flex-col items-center py-12 flex-grow justify-center">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center uppercase">Acceso Core</h1>
-        <div className="h-[1px] w-20 bg-black mb-16"></div>
-        
-        <form onSubmit={handleLogin} className="w-full space-y-6">
-          <div className="space-y-2">
-            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Identidad</label>
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="EMAIL@LUME.COM" className="w-full border border-black p-4 rounded-2xl text-[11px] uppercase tracking-widest outline-none focus:bg-neutral-50 transition-all" />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Clave</label>
-            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className="w-full border border-black p-4 rounded-2xl text-[11px] uppercase tracking-widest outline-none focus:bg-neutral-50 transition-all" />
-          </div>
-
-          <button type="submit" disabled={loading} className="w-full bg-black text-white p-5 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] active:scale-95 shadow-xl transition-all">
-            {loading ? "PROCESANDO..." : "INGRESAR →"}
+    <main className="min-h-screen bg-white flex flex-col items-center justify-center p-6">
+      <div className="max-w-md w-full border-2 border-black p-10 rounded-[40px] shadow-2xl">
+        <h1 className="text-4xl font-black italic uppercase tracking-tighter mb-8 text-center">LUME CORE</h1>
+        <form onSubmit={entrar} className="space-y-4">
+          <input 
+            type="email" 
+            required 
+            placeholder="EMAIL DE SUSCRIPTOR" 
+            className="w-full border-2 border-black p-4 rounded-2xl text-[10px] font-bold tracking-widest uppercase"
+            onChange={(e) => setEmail(e.target.value)} 
+          />
+          <button type="submit" className="w-full bg-black text-white p-5 rounded-2xl text-[10px] font-black tracking-[0.3em] uppercase active:scale-95 transition-all">
+            {loading ? "VALIDANDO..." : "INGRESAR →"}
           </button>
         </form>
       </div>
-
-      <footer className="w-full flex flex-col items-center space-y-6 pt-10 shrink-0">
-        <div className="flex gap-8 text-neutral-500 text-[9px] font-bold uppercase tracking-widest">
-          <Link href="/terms" className="underline underline-offset-4">Términos</Link>
-          <Link href="/privacy" className="underline underline-offset-4">Privacidad</Link>
-          <Link href="/refund" className="underline underline-offset-4">Reembolso</Link>
-        </div>
-        <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic">LUME GLOBAL CORE 🌎 // 2026</div>
-      </footer>
     </main>
   );
 }
