@@ -39,6 +39,7 @@ export default function LoginPage() {
         alert("ACCESO DENEGADO: Credenciales incorrectas.");
       }
     } catch (error) {
+      console.warn("Handshake fallback.");
       localStorage.setItem('lume_session_token', 'EMERGENCY_TOKEN');
       localStorage.setItem('lume_user_mail', email.toLowerCase());
       router.push('/dashboard');
@@ -61,12 +62,12 @@ export default function LoginPage() {
         <form onSubmit={handleLogin} className="w-full space-y-6">
           <div className="space-y-2 text-left">
             <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Ingrese Mail</label>
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="EMAIL@EJEMPLO.COM" className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors" />
+            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="EMAIL@EJEMPLO.COM" className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest outline-none focus:bg-neutral-50 transition-colors" />
           </div>
 
           <div className="space-y-2 text-left">
             <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Ingrese Clave</label>
-            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="CONTRASEÑA" className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors" />
+            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="CONTRASEÑA" className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest outline-none focus:bg-neutral-50 transition-colors" />
           </div>
 
           <button type="submit" disabled={loading} className="w-full bg-black text-white p-5 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all shadow-xl active:scale-95 mt-4 flex justify-center items-center">
@@ -86,4 +87,3 @@ export default function LoginPage() {
     </main>
   );
 }
-// LGC_BUILD_SYNC_HASH_ALFA_001
