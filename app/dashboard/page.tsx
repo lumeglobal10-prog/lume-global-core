@@ -1,87 +1,117 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function LoginPage() {
+export default function DashboardPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userMail, setUserMail] = useState('');
+  const [credits, setCredits] = useState('...');
+  const [mounted, setMounted] = useState(false);
 
-  const API_BASE = "https://api.lumeglobalcore.com";
-  const AUTH_TOKEN = "Bearer ALE_MASTER_KEY_2026";
+  useEffect(() => {
+    setMounted(true);
+    const token = localStorage.getItem('lume_session_token');
+    const mail = localStorage.getItem('lume_user_mail');
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const response = await fetch(`${API_BASE}/api/v1/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': AUTH_TOKEN
-        },
-        body: JSON.stringify({ 
-          email: email.toLowerCase(), 
-          password: password 
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('lume_session_token', data.access_token || 'ACTIVE_SESSION_2026');
-        localStorage.setItem('lume_user_mail', email.toLowerCase());
-        router.push('/dashboard');
-      } else {
-        alert("ACCESO DENEGADO: Credenciales incorrectas.");
-      }
-    } catch (error) {
-      localStorage.setItem('lume_session_token', 'EMERGENCY_TOKEN');
-      localStorage.setItem('lume_user_mail', email.toLowerCase());
-      router.push('/dashboard');
-    } finally {
-      setLoading(false);
+    if (!token) {
+      router.push('/login');
+      return;
     }
-  };
+    
+    if (mail) setUserMail(mail);
+
+    // Consulta de créditos al Kernel
+    fetch(`https://api.lumeglobalcore.com/api/v1/credits?email=${mail}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(data => setCredits(data.remaining || '0'))
+    .catch(() => setCredits('0'));
+  }, [router]);
+
+  if (!mounted) return null;
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20 overflow-x-hidden">
-      <nav className="flex justify-between items-center w-full">
-        <div className="text-xl font-black tracking-tighter italic uppercase">LUME 🌎</div>
-        <button onClick={() => router.back()} className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl">← VOLVER</button>
+    <main className="min-h-screen bg-white text-black font-sans flex flex-col p-8 md:p-20 overflow-x-hidden">
+      {/* Header Ejecutivo */}
+      <nav className="flex justify-between items-center w-full mb-20">
+        <div className="text-xl font-black tracking-tighter italic uppercase">LUME GLOBAL CORE 🌎</div>
+        <div className="flex items-center gap-6">
+          <span className="text-[10px] font-bold tracking-widest uppercase text-neutral-400 hidden md:block">
+            Socio: {userMail}
+          </span>
+          <button 
+            onClick={() => { localStorage.clear(); router.push('/login'); }}
+            className="text-[9px] font-black tracking-[0.3em] uppercase border border-black px-5 py-2 rounded-full hover:bg-black hover:text-white transition-all"
+          >
+            Desconexión
+          </button>
+        </div>
       </nav>
 
-      <div className="max-w-md mx-auto w-full flex flex-col items-center py-12">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center uppercase">Acceso de Suscriptores</h1>
-        <div className="h-[1px] w-20 bg-black mb-16"></div>
+      {/* Grid de Control */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 flex-grow">
         
-        <form onSubmit={handleLogin} className="w-full space-y-6">
-          <div className="space-y-2">
-            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Mail</label>
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="EMAIL@EJEMPLO.COM" className="w-full border border-black p-4 rounded-2xl text-[11px] uppercase tracking-widest outline-none" />
+        {/* Módulo de Estado */}
+        <div className="col-span-1 md:col-span-2 space-y-8">
+          <div className="border-l-4 border-black pl-8 py-4">
+            <h2 className="text-[10px] font-black tracking-[0.4em] uppercase text-neutral-400 mb-2">Estado del Ecosistema</h2>
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter italic uppercase leading-none">
+              Operativo <span className="text-[20px] not-italic ml-2 text-green-500">●</span>
+            </h1>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Clave</label>
-            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="CONTRASEÑA" className="w-full border border-black p-4 rounded-2xl text-[11px] uppercase tracking-widest outline-none" />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-neutral-50 p-8 rounded-3xl border border-neutral-100">
+              <p className="text-[9px] font-black tracking-widest text-neutral-400 uppercase mb-4">Créditos Disponibles</p>
+              <p className="text-4xl font-bold tracking-tighter">{credits}</p>
+            </div>
+            <div className="bg-neutral-50 p-8 rounded-3xl border border-neutral-100">
+              <p className="text-[9px] font-black tracking-widest text-neutral-400 uppercase mb-4">Plan Activo</p>
+              <p className="text-4xl font-bold tracking-tighter italic uppercase">Global</p>
+            </div>
           </div>
+        </div>
 
-          <button type="submit" disabled={loading} className="w-full bg-black text-white p-5 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] active:scale-95 transition-all shadow-xl">
-            {loading ? "VALIDANDO..." : "INGRESAR"}
-          </button>
-        </form>
+        {/* Acciones Rápidas */}
+        <div className="bg-black text-white p-10 rounded-[40px] flex flex-col justify-between shadow-2xl">
+          <div>
+            <h3 className="text-[11px] font-black tracking-[0.5em] uppercase mb-10 italic">Terminal de Control</h3>
+            <div className="space-y-4">
+              <Link href="/create" className="flex items-center justify-between group cursor-pointer border-b border-neutral-800 pb-4">
+                <span className="text-lg font-bold tracking-tighter uppercase group-hover:translate-x-2 transition-transform">Nueva Generación AI</span>
+                <span>→</span>
+              </Link>
+              <Link href="/history" className="flex items-center justify-between group cursor-pointer border-b border-neutral-800 pb-4">
+                <span className="text-lg font-bold tracking-tighter uppercase group-hover:translate-x-2 transition-transform">Archivo de Activos</span>
+                <span>→</span>
+              </Link>
+              <Link href="/billing" className="flex items-center justify-between group cursor-pointer border-b border-neutral-800 pb-4">
+                <span className="text-lg font-bold tracking-tighter uppercase group-hover:translate-x-2 transition-transform">Hub de Facturación</span>
+                <span>→</span>
+              </Link>
+            </div>
+          </div>
+          <div className="mt-20">
+            <p className="text-[8px] font-bold tracking-[0.4em] text-neutral-500 uppercase leading-relaxed">
+              Sistema Sentinel v4.0.1<br/>Protección de datos activa
+            </p>
+          </div>
+        </div>
+
       </div>
 
-      <footer className="flex flex-col items-center space-y-6 pt-10">
-        <div className="flex gap-8 text-neutral-500 text-[9px] font-bold uppercase tracking-widest">
-          <Link href="/terms" className="underline underline-offset-4">Términos</Link>
-          <Link href="/privacy" className="underline underline-offset-4">Privacidad</Link>
-          <Link href="/refund" className="underline underline-offset-4">Reembolso</Link>
+      {/* Footer Minimalista */}
+      <footer className="mt-20 pt-10 border-t border-neutral-100 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="flex gap-8 text-[9px] font-black tracking-widest text-neutral-400 uppercase">
+          <Link href="/support" className="hover:text-black">Soporte Técnico</Link>
+          <Link href="/api-docs" className="hover:text-black">Documentación API</Link>
         </div>
-        <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic">LUME GLOBAL CORE 🌎 // 2026</div>
+        <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-300 uppercase italic">
+          LUME GLOBAL CORE // 2026
+        </div>
       </footer>
     </main>
   );
