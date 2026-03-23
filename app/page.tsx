@@ -1,32 +1,50 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import HeroSlider from '../components/HeroSlider';
 
 export default function LumeHome() {
+  const router = useRouter();
   const [isLogged, setIsLogged] = useState(false);
   const siteName = "LUME 🌎";
 
-  // VERIFICACIÓN DE AUTORIDAD PARA BOTÓN DINÁMICO
   useEffect(() => {
     const session = localStorage.getItem('lume_session_token');
     if (session) setIsLogged(true);
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem('lume_session_token');
+    localStorage.removeItem('lume_user_mail');
+    window.location.reload(); // Refresco total para limpiar estado de autoridad
+  };
+
   return (
     <main className="flex flex-col h-screen w-full bg-white text-black font-sans overflow-hidden">
       
-      {/* NAVEGACIÓN: SOBERANÍA TÉCNICA */}
+      {/* NAVEGACIÓN: SOBERANÍA TÉCNICA CON DOBLE BOTÓN */}
       <nav className="w-full p-6 md:p-8 flex justify-between items-center shrink-0 z-50">
         <div className="text-sm font-black tracking-[0.4em] uppercase italic">
           {siteName}
         </div>
-        <Link href={isLogged ? "/dashboard" : "/login"}>
-          <button className="bg-black text-white px-8 py-3 text-[10px] font-bold tracking-[0.3em] uppercase active:scale-95 transition-all shadow-lg hover:bg-neutral-800">
-            {isLogged ? "IR AL PANEL →" : "LOG IN →"}
-          </button>
-        </Link>
+        
+        <div className="flex gap-2">
+          {isLogged && (
+            <button 
+              onClick={handleLogout}
+              className="bg-neutral-400 text-white px-4 py-3 text-[9px] font-bold tracking-[0.2em] uppercase active:scale-95 transition-all shadow-md hover:bg-neutral-500"
+            >
+              SALIR ×
+            </button>
+          )}
+          <Link href={isLogged ? "/dashboard" : "/login"}>
+            <button className={`${isLogged ? 'bg-neutral-800' : 'bg-black'} text-white px-6 py-3 text-[9px] font-bold tracking-[0.2em] uppercase active:scale-95 transition-all shadow-lg hover:bg-neutral-700`}>
+              {isLogged ? "PANEL →" : "LOG IN →"}
+            </button>
+          </Link>
+        </div>
       </nav>
 
       <section className="flex-grow flex flex-col items-center justify-center px-4 min-h-0">
@@ -37,7 +55,6 @@ export default function LumeHome() {
           <p className="text-[9px] font-black tracking-[0.5em] text-neutral-400 mt-2 uppercase">Lume Global Core // AI Infrastructure</p>
         </div>
         
-        {/* CONTENEDOR AJUSTADO (-15% MAX-WIDTH PARA CORREGIR DESFASE EN NOTEBOOK) */}
         <div className="w-full max-w-md md:max-w-xl lg:max-w-2xl mx-auto flex flex-col items-center justify-center">
           <HeroSlider />
           
@@ -50,7 +67,6 @@ export default function LumeHome() {
         </div>
       </section>
 
-      {/* FOOTER: BÚNKER LEGAL TRIPLE (LGC-2026) */}
       <footer className="w-full p-6 mt-auto border-t border-neutral-100 flex flex-col items-center gap-2 shrink-0 bg-white z-50">
         <p className="max-w-2xl text-[8px] md:text-[9px] font-mono text-neutral-400 text-center leading-relaxed tracking-[0.2em] uppercase italic">
           LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE 🌎
