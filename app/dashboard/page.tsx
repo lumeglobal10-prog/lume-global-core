@@ -13,19 +13,19 @@ export default function DashboardPage() {
   const [userMail, setUserMail] = useState('Alejodella@hotmail.com');
   const [credits, setCredits] = useState({ used: 0, total: 0 });
 
-  // 🏛️ SOBERANÍA TÉCNICA: NUEVOS ENDPOINTS SEGUROS (SSL/TLS 1.3)
+  // 🏛️ ESPECIFICACIONES KERNEL v3.1 (NODO LONDRES)
   const API_BASE = "https://api.lumeglobalcore.com"; 
   const WS_URL = "wss://api.lumeglobalcore.com/heartbeat"; 
-  const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
+  const AUTH_HEADER = "Bearer ALE_MASTER_KEY_2026";
 
   const fetchCredits = async (mail: string) => {
     try {
       const response = await fetch(`${API_BASE}/api/v1/user/credits?email=${mail}`, {
-        headers: { 'Authorization': AUTH_TOKEN }
+        headers: { 'Authorization': AUTH_HEADER }
       });
       if (response.ok) {
         const data = await response.json();
-        setCredits({ used: data.used, total: data.total });
+        setCredits({ used: data.credits || 0, total: data.total || 311 });
       }
     } catch (e) { console.warn("LGC_SYNC_ERROR: Fallo en lectura de créditos."); }
   };
@@ -35,15 +35,20 @@ export default function DashboardPage() {
     setUserMail(mail);
     fetchCredits(mail);
 
-    // 📡 HEARTBEAT SEGURO (WSS)
+    // 📡 HEARTBEAT v3.1 (FastAPI WebSocket)
     let socket: WebSocket | null = null;
-    try {
-      socket = new WebSocket(WS_URL);
-      socket.onopen = () => setIsSystemOnline(true);
-      socket.onerror = () => setIsSystemOnline(false);
-      socket.onclose = () => setIsSystemOnline(false);
-    } catch (e) { setIsSystemOnline(false); }
-
+    const connectWS = () => {
+      try {
+        socket = new WebSocket(WS_URL);
+        socket.onopen = () => setIsSystemOnline(true);
+        socket.onclose = () => {
+          setIsSystemOnline(false);
+          setTimeout(connectWS, 3000); // Reconexión automática
+        };
+        socket.onerror = () => setIsSystemOnline(false);
+      } catch (e) { setIsSystemOnline(false); }
+    };
+    connectWS();
     return () => socket?.close();
   }, []);
 
@@ -60,18 +65,18 @@ export default function DashboardPage() {
     try {
       const response = await fetch(`${API_BASE}/api/v1/upload`, {
         method: 'POST',
-        headers: { 'Authorization': AUTH_TOKEN },
+        headers: { 'Authorization': AUTH_HEADER },
         body: formData,
       });
 
       if (response.ok) {
-        alert("ÉXITO: ACTIVO INYECTADO EN LONDRES.");
+        alert("ÉXITO: ACTIVO INYECTADO EN KERNEL v3.1.");
         fetchCredits(userMail);
       } else {
-        alert("ERROR: El Kernel rechazó el activo. Verifique integridad.");
+        alert("ERROR: El Kernel rechazó el activo. Revise logs de Londres.");
       }
     } catch (error) {
-      alert("ERROR CRÍTICO: Fallo de conexión con api.lumeglobalcore.com");
+      alert("ERROR CRÍTICO: Fallo de comunicación SSL con el Nodo.");
     } finally {
       setUploading(false);
     }
@@ -84,7 +89,7 @@ export default function DashboardPage() {
         <button onClick={() => router.push('/')} className="text-[10px] font-bold tracking-[0.2em] uppercase border border-black px-6 py-2 rounded-xl active:scale-95 transition-all">SALIR →</button>
       </nav>
 
-      <div className="max-w-4xl mx-auto w-full flex flex-col items-center flex-grow justify-center py-2 leading-none">
+      <div className="max-w-4xl mx-auto w-full flex flex-col items-center flex-grow justify-center py-2">
         <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-8 italic uppercase text-center">Panel de Renderizado</h1>
         
         <div className="w-full grid grid-cols-3 gap-3 mb-8">
@@ -99,8 +104,8 @@ export default function DashboardPage() {
             <span className="text-[11px] font-black tracking-tighter">{credits.used} / {credits.total}</span>
           </div>
           <div className="border border-black p-3 rounded-xl flex flex-col items-center justify-center">
-            <span className="text-[7px] font-black uppercase text-neutral-400 italic">SSL Status</span>
-            <span className="text-[8px] font-mono text-green-600 tracking-tighter uppercase font-bold">TLS_1.3_ACTIVE</span>
+            <span className="text-[7px] font-black uppercase text-neutral-400 italic">Kernel Version</span>
+            <span className="text-[8px] font-mono text-black font-bold uppercase tracking-tighter italic">LGC_v3.1_PRO</span>
           </div>
         </div>
 
@@ -129,7 +134,7 @@ export default function DashboardPage() {
            {uploading && (
             <div className="flex flex-col items-center gap-2">
               <div className="animate-spin w-8 h-8 border-4 border-black border-t-transparent rounded-full"></div>
-              <span className="text-[8px] font-black uppercase tracking-widest animate-pulse">Inyectando Activo en Londres...</span>
+              <span className="text-[8px] font-black uppercase tracking-widest animate-pulse italic">Inyectando Activo en Kernel v3.1...</span>
             </div>
            )}
         </div>
