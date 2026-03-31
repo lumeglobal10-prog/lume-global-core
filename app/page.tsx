@@ -10,7 +10,6 @@ export default function LumeHome() {
   const siteName = "LUME 🌎";
 
   useEffect(() => {
-    // Verificación de sesión en Nodo San Pablo
     const session = localStorage.getItem('lume_session_token');
     if (session) setIsLogged(true);
   }, []);
@@ -24,32 +23,32 @@ export default function LumeHome() {
   return (
     <main className="flex flex-col h-screen w-full bg-white text-black font-sans overflow-hidden">
       
-      {/* NAVEGACIÓN: AJUSTE ESTÉTICO SIN MARCOS */}
+      {/* NAVEGACIÓN: AJUSTE DE PRECISIÓN (SIN MARCOS, ESTILO FOOTER) */}
       <nav className="w-full p-6 md:p-8 flex justify-between items-center shrink-0 z-50">
         <div className="text-sm font-black tracking-[0.4em] uppercase italic">
           {siteName}
         </div>
         
-        <div className="flex gap-6 items-center">
+        <div className="flex gap-8 items-center">
           {isLogged && (
             <button 
               onClick={handleLogout}
-              className="text-neutral-400 hover:text-black text-[9px] font-sans uppercase tracking-[0.2em] underline underline-offset-4 decoration-1 transition-all active:scale-95"
+              className="text-black hover:text-neutral-500 text-[9px] font-sans uppercase tracking-[0.2em] underline underline-offset-8 decoration-1 transition-all active:scale-95"
             >
               SALIR ×
             </button>
           )}
-          <Link href={isLogged ? "/dashboard" : "/login"} className="hover:text-black text-neutral-400 transition-all">
-            <button className="text-[9px] font-sans uppercase tracking-[0.2em] underline underline-offset-4 decoration-1 active:scale-95">
+          <Link href={isLogged ? "/dashboard" : "/login"}>
+            <span className="text-black hover:text-neutral-500 text-[9px] font-sans uppercase tracking-[0.2em] underline underline-offset-8 decoration-1 transition-all cursor-pointer">
               {isLogged ? "PANEL →" : "LOG IN →"}
-            </button>
+            </span>
           </Link>
         </div>
       </nav>
 
       <section className="flex-grow flex flex-col items-center justify-center px-4 min-h-0">
         <div className="text-center mb-4 md:mb-6 shrink-0 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-          <h1 className="text-3xl md:text-5xl font-extralight tracking-tight leading-tight uppercase italic">
+          <h1 className="text-3xl md:text-5xl font-extralight tracking-tight leading-tight uppercase italic text-black">
             Absolute Precision.
           </h1>
           <p className="text-[9px] font-black tracking-[0.5em] text-neutral-400 mt-2 uppercase">Lume Global Core // AI Infrastructure</p>
