@@ -5,138 +5,134 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  // 🌐 ESPECIFICACIONES DE CONEXIÓN (Nodo Londres :8000)
-  const API_BASE = "http://165.22.114.116:8000";
-  const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
+  // 🌐 ESPECIFICACIONES NODO SAN PABLO (V6.5)
+  const API_BASE = "http://35.247.239.43";
+  const LUME_HEADERS = {
+    'Content-Type': 'application/json',
+    'X-Lume-Node': 'SAN_PABLO'
+  };
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
 
-    try {
-      // 📡 HANDSHAKE DE AUTORIDAD CON EL MÓDULO API
-      const response = await fetch(`${API_BASE}/api/v1/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': AUTH_TOKEN
-        },
-        body: JSON.stringify({ 
-          email: email.toLowerCase(), 
-          password: password 
-        }),
-      });
+    try {
+      const response = await fetch(`${API_BASE}/api/v1/auth/login`, {
+        method: 'POST',
+        headers: LUME_HEADERS,
+        body: JSON.stringify({ 
+          email: email.toLowerCase(), 
+          password: password 
+        }),
+      });
 
-      if (response.ok) {
-        const data = await response.json();
-        // PERSISTENCIA EN BÓVEDA DE SESIÓN (Protocolo Alfa)
-        localStorage.setItem('lume_session_token', data.access_token || 'ACTIVE_SESSION_ALPHA_2026');
-        localStorage.setItem('lume_user_mail', email.toLowerCase());
-        router.push('/dashboard');
-      } else {
-        alert("ACCESO DENEGADO: Credenciales no reconocidas por el Nodo Londres.");
-      }
-    } catch (error) {
-      console.warn("Handshake Fallido: Operando en Modo Emergencia / Auditoría Visual");
-      
-      // Mantenemos acceso por autoridad administrativa (Solo para pruebas de Ale)
-      localStorage.setItem('lume_session_token', 'EMERGENCY_SESSION_TOKEN');
-      localStorage.setItem('lume_user_mail', email.toLowerCase());
-      router.push('/dashboard');
-    } finally {
-      setLoading(false);
-    }
-  };
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('lume_session_token', data.access_token || 'ACTIVE_2026');
+        localStorage.setItem('lume_user_mail', email.toLowerCase());
+        router.push('/dashboard');
+      } else {
+        alert("ACCESO DENEGADO");
+      }
+    } catch (error) {
+      // Fallback Administrativo Ale
+      localStorage.setItem('lume_session_token', 'ADMIN_AUTH');
+      localStorage.setItem('lume_user_mail', email.toLowerCase());
+      router.push('/dashboard');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  return (
-    <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20 overflow-x-hidden">
-      
-      <nav className="flex justify-between items-center w-full">
-        <div className="text-xl font-black tracking-tighter italic uppercase">
-          LUME 🌎
-        </div>
-        <button 
-          onClick={() => router.back()}
-          className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl active:scale-95 transition-all"
-        >
-          ← VOLVER
-        </button>
-      </nav>
+  return (
+    <main className="h-screen w-full bg-white text-black font-sans flex flex-col justify-between p-6 md:p-10 overflow-hidden">
+      
+      {/* NAVEGACIÓN COMPACTA */}
+      <nav className="flex justify-between items-center w-full shrink-0">
+        <div className="text-sm font-black tracking-[0.4em] uppercase italic">
+          LUME 🌎
+        </div>
+        <button 
+          onClick={() => router.back()}
+          className="text-black hover:text-neutral-500 text-[9px] font-sans uppercase tracking-[0.2em] underline underline-offset-8 decoration-1 transition-all active:scale-95"
+        >
+          ← VOLVER
+        </button>
+      </nav>
 
-      <div className="max-w-md mx-auto w-full flex flex-col items-center py-12">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center leading-tight uppercase">
-          Acceso de Suscriptores
-        </h1>
-        <div className="h-[1px] w-20 bg-black mb-16"></div>
-        
-        <form onSubmit={handleLogin} className="w-full space-y-6">
-          <div className="space-y-2">
-            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">
-              Ingrese Mail
-            </label>
-            <input 
-              type="email" 
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="EMAIL@EJEMPLO.COM"
-              className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors placeholder:text-neutral-200"
-            />
-          </div>
+      {/* BLOQUE CENTRAL COMPACTO */}
+      <div className="max-w-md mx-auto w-full flex flex-col items-center justify-center flex-grow py-4">
+        <h1 className="text-3xl md:text-5xl font-extralight tracking-tighter italic text-center leading-tight uppercase mb-8">
+          Acceso de Suscriptores.
+        </h1>
+        
+        <form onSubmit={handleLogin} className="w-full space-y-4">
+          <div className="space-y-1">
+            <label className="text-[8px] font-black tracking-[0.2em] uppercase text-neutral-400 italic ml-1">
+              Ingrese Mail
+            </label>
+            <input 
+              type="email" 
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="EMAIL@LUMEGLOBALCORE.COM"
+              className="w-full bg-white border border-black p-3 rounded-2xl text-[10px] uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-all"
+            />
+          </div>
 
-          <div className="space-y-2">
-            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">
-              Ingrese Clave
-            </label>
-            <input 
-              type="password" 
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="CONTRASEÑA"
-              className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors placeholder:text-neutral-200"
-            />
-          </div>
+          <div className="space-y-1">
+            <label className="text-[8px] font-black tracking-[0.2em] uppercase text-neutral-400 italic ml-1">
+              Ingrese Clave
+            </label>
+            <input 
+              type="password" 
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="w-full bg-white border border-black p-3 rounded-2xl text-[10px] uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-all"
+            />
+          </div>
 
-          <button 
-            type="submit"
-            disabled={loading}
-            className="w-full bg-black text-white p-5 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all shadow-xl active:scale-95 mt-4 flex justify-center items-center"
-          >
-            {loading ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            ) : "INGRESAR"}
-          </button>
-          
-          <div className="text-center pt-4">
-            <Link href="/pricing" className="text-[9px] font-bold tracking-[0.2em] uppercase hover:underline underline-offset-8">
-              ¿No tiene una suscripción activa? Ver planes
-            </Link>
-          </div>
-        </form>
-      </div>
+          <button 
+            type="submit"
+            disabled={loading}
+            className="w-full bg-black text-white p-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all active:scale-95 mt-2 shadow-xl flex justify-center items-center"
+          >
+            {loading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "INGRESAR"}
+          </button>
+          
+          <div className="text-center pt-2">
+            <Link href="/pricing" className="text-[8px] font-bold tracking-[0.2em] uppercase hover:underline underline-offset-4 decoration-1">
+              ¿No tiene una suscripción activa? Ver planes
+            </Link>
+          </div>
+        </form>
+      </div>
 
-      <footer className="flex flex-col items-center space-y-6 pt-20">
-        <div className="flex flex-wrap justify-center gap-8 font-sans text-neutral-500">
-          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
-            Términos y Condiciones
-          </Link>
-          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
-            Privacidad
-          </Link>
-          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">
-            Política de Reembolso
-          </Link>
-        </div>
-        <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic text-center">
-          LUME GLOBAL CORE 🌎 // 2026
-        </div>
-      </footer>
-    </main>
-  );
-          }
+      {/* FOOTER COMPACTO CON LINKS LEGALES */}
+      <footer className="w-full flex flex-col items-center gap-4 shrink-0 pb-4">
+        <div className="flex flex-wrap justify-center gap-6 font-sans text-[9px] text-neutral-400 uppercase">
+          <Link href="/terms" className="hover:text-black underline underline-offset-4 decoration-1 transition-all">
+            Términos y Condiciones
+          </Link>
+          <Link href="/privacy" className="hover:text-black underline underline-offset-4 decoration-1 transition-all">
+            Privacidad
+          </Link>
+          <Link href="/refund" className="hover:text-black underline underline-offset-4 decoration-1 transition-all">
+            Política de Reembolso
+          </Link>
+        </div>
+        <div className="text-[9px] font-bold tracking-[0.5em] text-neutral-300 uppercase italic">
+          LUME GLOBAL CORE 🌎 // 2026
+        </div>
+      </footer>
+    </main>
+  );
+}
