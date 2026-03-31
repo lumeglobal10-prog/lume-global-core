@@ -10,6 +10,7 @@ export default function LumeHome() {
   const siteName = "LUME 🌎";
 
   useEffect(() => {
+    // Verificación de sesión en Nodo San Pablo
     const session = localStorage.getItem('lume_session_token');
     if (session) setIsLogged(true);
   }, []);
@@ -17,29 +18,29 @@ export default function LumeHome() {
   const handleLogout = () => {
     localStorage.removeItem('lume_session_token');
     localStorage.removeItem('lume_user_mail');
-    window.location.reload(); // Refresco total para limpiar estado de autoridad
+    window.location.reload(); 
   };
 
   return (
     <main className="flex flex-col h-screen w-full bg-white text-black font-sans overflow-hidden">
       
-      {/* NAVEGACIÓN: SOBERANÍA TÉCNICA CON DOBLE BOTÓN */}
+      {/* NAVEGACIÓN: AJUSTE ESTÉTICO SIN MARCOS */}
       <nav className="w-full p-6 md:p-8 flex justify-between items-center shrink-0 z-50">
         <div className="text-sm font-black tracking-[0.4em] uppercase italic">
           {siteName}
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex gap-6 items-center">
           {isLogged && (
             <button 
               onClick={handleLogout}
-              className="bg-neutral-400 text-white px-4 py-3 text-[9px] font-bold tracking-[0.2em] uppercase active:scale-95 transition-all shadow-md hover:bg-neutral-500"
+              className="text-neutral-400 hover:text-black text-[9px] font-sans uppercase tracking-[0.2em] underline underline-offset-4 decoration-1 transition-all active:scale-95"
             >
               SALIR ×
             </button>
           )}
-          <Link href={isLogged ? "/dashboard" : "/login"}>
-            <button className={`${isLogged ? 'bg-neutral-800' : 'bg-black'} text-white px-6 py-3 text-[9px] font-bold tracking-[0.2em] uppercase active:scale-95 transition-all shadow-lg hover:bg-neutral-700`}>
+          <Link href={isLogged ? "/dashboard" : "/login"} className="hover:text-black text-neutral-400 transition-all">
+            <button className="text-[9px] font-sans uppercase tracking-[0.2em] underline underline-offset-4 decoration-1 active:scale-95">
               {isLogged ? "PANEL →" : "LOG IN →"}
             </button>
           </Link>
