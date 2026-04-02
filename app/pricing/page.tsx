@@ -9,7 +9,6 @@ export default function PricingPage() {
   const [userRegion, setUserRegion] = useState('GLOBAL');
   const router = useRouter();
 
-  // M.I.C. SENSOR: Captura de región para segmentación de pasarela
   useEffect(() => {
     const detectRegion = async () => {
       try {
@@ -31,14 +30,12 @@ export default function PricingPage() {
   ];
 
   const handlePlanSelection = (plan: string) => {
-    // Guardamos la intención de compra localmente para el checkout
     localStorage.setItem('lume_selected_plan', plan);
     localStorage.setItem('lume_user_region', userRegion);
     setShowPopup(true);
   };
 
   const proceedToCheckout = () => {
-    // VERIFICACIÓN DE SESIÓN: Si no hay usuario, debe registrarse primero
     const session = localStorage.getItem('lume_session_token');
     if (session) {
       router.push('/checkout');
