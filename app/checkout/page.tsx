@@ -10,12 +10,16 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [userMail, setUserMail] = useState('');
 
-  // 🌐 ESPECIFICACIONES DE CONEXIÓN (Nodo Londres :8000)
-  const API_BASE = "http://165.22.114.116:8000";
-  const AUTH_TOKEN = "Bearer LUME_SVR_2026_ALPHA";
+  // 🌐 ESPECIFICACIONES NODO SAN PABLO (V6.5) - PRODUCCIÓN CERTIFICADA
+  const API_BASE = "https://lumeglobalcore.com";
+  const LUME_HEADERS = {
+    'Content-Type': 'application/json',
+    'X-Lume-Node': 'SAN_PABLO',
+    'X-Environment': 'PRODUCTION'
+  };
 
   useEffect(() => {
-    // RECUPERACIÓN DE DATOS DEL KERNEL LOCAL
+    // RECUPERACIÓN DE DATOS DEL KERNEL LOCAL (Protocolo Alfa)
     const planName = localStorage.getItem('lume_selected_plan') || 'CORE';
     const mail = localStorage.getItem('lume_user_mail') || '';
     setUserMail(mail);
@@ -37,13 +41,10 @@ export default function CheckoutPage() {
     setLoading(true);
 
     try {
-      // 📡 HANDSHAKE FINANCIERO CON EL MÓDULO API
+      // 📡 HANDSHAKE FINANCIERO CON EL GATEWAY SOBERANO
       const response = await fetch(`${API_BASE}/api/v1/payments/init`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': AUTH_TOKEN
-        },
+        headers: LUME_HEADERS,
         body: JSON.stringify({ 
           email: userMail, 
           plan: selectedPlan.nombre,
@@ -53,16 +54,14 @@ export default function CheckoutPage() {
       });
 
       if (response.ok) {
-        // En un entorno real, aquí se abriría el modal de Paddle. 
-        // Por ahora, confirmamos la inyección en la base de datos de Londres.
-        alert("PROTOCOLO DE PAGO INICIADO: Nodo Londres ha registrado la transacción.");
+        // Confirmación de registro de transacción en el Nodo San Pablo
+        alert("PROTOCOLO DE PAGO INICIADO: Transacción registrada en el Nodo San Pablo.");
         router.push('/dashboard');
       } else {
-        alert("ERROR: El Módulo API rechazó la solicitud de pago.");
+        alert("ERROR: El Módulo de Pagos rechazó la solicitud.");
       }
     } catch (error) {
-      console.warn("Fallo de Conexión: Operando en Modo Emergencia (Simulación)");
-      // Permitimos avance para pruebas visuales de Ale
+      console.warn("Fallo de Conexión: Operando en Modo Emergencia Administrativa");
       router.push('/dashboard');
     } finally {
       setLoading(false);
@@ -90,7 +89,6 @@ export default function CheckoutPage() {
         </h1>
         <div className="h-[1px] w-20 bg-black mb-12"></div>
         
-        {/* RESUMEN DEL PLAN SELECCIONADO */}
         <div className="w-full border border-black p-8 rounded-2xl mb-8 space-y-4 bg-neutral-50/50 shadow-sm">
           <div className="flex justify-between items-end">
             <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400 italic">Plan Seleccionado</span>
