@@ -9,9 +9,18 @@ export default function LumeHome() {
   const [isLogged, setIsLogged] = useState(false);
   const siteName = "LUME 🌎";
 
+  // 🏛️ ESPECIFICACIONES DE COMUNICACIÓN SOBERANA
+  const API_BASE = "https://lumeglobalcore.com";
+
   useEffect(() => {
+    // Verificación de sesión local alineada al Nodo San Pablo
     const session = localStorage.getItem('lume_session_token');
     if (session) setIsLogged(true);
+
+    // Handshake silencioso de integridad con el servidor estable
+    fetch(`${API_BASE}/api/v1/status`, {
+      headers: { 'X-Lume-Node': 'SAN_PABLO_CORE' }
+    }).catch(() => console.warn("LGC: Operando en modo desconectado."));
   }, []);
 
   const handleLogout = () => {
