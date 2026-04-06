@@ -85,3 +85,37 @@ export default function RegisterPage() {
               placeholder="MÍNIMO 8 CARACTERES"
               className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors"
             />
+          </div>
+
+          {/* CONTINUACIÓN DEL BLOQUE REPARADO */}
+          <div className="space-y-2">
+            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Confirmar Contraseña</label>
+            <input 
+              type="password" required value={formData.confirmPassword}
+              onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+              placeholder="REPITA SU CONTRASEÑA"
+              className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors"
+            />
+          </div>
+
+          <button type="submit" disabled={loading} className="w-full bg-black text-white p-5 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all shadow-xl active:scale-95 mt-4 flex justify-center items-center">
+            {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "CREAR CUENTA"}
+          </button>
+          
+          <div className="text-center pt-4">
+            <Link href="/login" className="text-[9px] font-bold tracking-[0.2em] uppercase hover:underline underline-offset-8">¿Ya tiene una suscripción? Inicie Sesión</Link>
+          </div>
+        </form>
+      </div>
+
+      <footer className="flex flex-col items-center space-y-6 pt-20">
+        <div className="flex flex-wrap justify-center gap-8 font-sans text-neutral-500">
+          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">Términos</Link>
+          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">Privacidad</Link>
+          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">Reembolso</Link>
+        </div>
+        <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic text-center">LUME GLOBAL CORE 🌎 // 2026</div>
+      </footer>
+    </main>
+  );
+}
