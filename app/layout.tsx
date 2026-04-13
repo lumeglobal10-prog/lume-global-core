@@ -1,8 +1,19 @@
 import "./globals.css";
-import { Inter, Roboto_Mono } from "next/font/google";
+import { Inter, Cormorant_Garamond } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const roboto = Roboto_Mono({ subsets: ["latin"], variable: "--font-mono" });
+// 🖋️ CONFIGURACIÓN TIPOGRÁFICA: ESTILO KARADA DECO
+const sans = Inter({ 
+  subsets: ["latin"], 
+  variable: "--font-sans",
+  weight: ["300", "400", "700", "900"] 
+});
+
+const serif = Cormorant_Garamond({ 
+  subsets: ["latin"], 
+  variable: "--font-serif",
+  weight: ["300", "400", "500"],
+  style: ["normal", "italic"]
+});
 
 // 🌐 META-DATOS DE SOBERANÍA DIGITAL (LGC-2026)
 export const metadata = {
@@ -24,14 +35,15 @@ export const metadata = {
     description: "Infraestructura de IA de precisión.",
   },
   icons: {
-    icon: "/favicon.ico", // Asegurate de subir el favicon a la carpeta public
+    icon: "/favicon.ico",
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${inter.variable} ${roboto.variable} scroll-smooth`}>
+    <html lang="es" className={`${sans.variable} ${serif.variable} scroll-smooth`}>
       <body className="bg-white text-black antialiased font-sans selection:bg-black selection:text-white">
+        {/* El children hereda las variables CSS para usar font-serif y font-sans */}
         {children}
       </body>
     </html>
