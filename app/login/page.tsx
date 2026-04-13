@@ -10,8 +10,8 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // 🌐 ESPECIFICACIONES NODO SAN PABLO (V6.5) - PRODUCCIÓN CERTIFICADA
-  const API_BASE = "https://lumeglobalcore.com";
+  // 🌐 ESPECIFICACIONES NODO SAN PABLO (V6.5) - PUERTO RECTIFICADO 8081
+  const API_BASE = "https://lumeglobalcore.com:8081";
   const LUME_HEADERS = {
     'Content-Type': 'application/json',
     'X-Lume-Node': 'SAN_PABLO',
@@ -53,28 +53,28 @@ export default function LoginPage() {
   return (
     <main className="h-screen w-full bg-white text-black font-sans flex flex-col justify-between p-6 md:p-10 overflow-hidden">
       
-      {/* NAVEGACIÓN COMPACTA */}
+      {/* NAVEGACIÓN COMPACTA - LOGO INMUTABLE */}
       <nav className="flex justify-between items-center w-full shrink-0">
         <div className="text-sm font-black tracking-[0.4em] uppercase italic">
           LUME 🌎
         </div>
         <button 
           onClick={() => router.back()}
-          className="text-black hover:text-neutral-500 text-[9px] font-sans uppercase tracking-[0.2em] underline underline-offset-8 decoration-1 transition-all active:scale-95"
+          className="text-black hover:text-neutral-500 text-[9px] font-sans font-bold uppercase tracking-[0.2em] underline underline-offset-8 decoration-1 transition-all active:scale-95"
         >
           ← VOLVER
         </button>
       </nav>
 
-      {/* BLOQUE CENTRAL COMPACTO */}
+      {/* BLOQUE CENTRAL: ESTILO KARADA DECO (SERIF) */}
       <div className="max-w-md mx-auto w-full flex flex-col items-center justify-center flex-grow py-4">
-        <h1 className="text-3xl md:text-5xl font-extralight tracking-tighter italic text-center leading-tight uppercase mb-8">
-          Acceso de Suscriptores.
+        <h1 className="text-3xl md:text-5xl font-serif font-light tracking-tight italic text-center leading-tight lowercase first-letter:uppercase mb-8">
+          Acceso de suscriptores.
         </h1>
         
         <form onSubmit={handleLogin} className="w-full space-y-4">
           <div className="space-y-1">
-            <label className="text-[8px] font-black tracking-[0.2em] uppercase text-neutral-400 italic ml-1">
+            <label className="text-[8px] font-sans font-black tracking-[0.2em] uppercase text-neutral-400 italic ml-1">
               Ingrese Mail
             </label>
             <input 
@@ -83,12 +83,12 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="EMAIL@LUMEGLOBALCORE.COM"
-              className="w-full bg-white border border-black p-3 rounded-2xl text-[10px] uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-all"
+              className="w-full bg-white border border-black/20 p-3 rounded-2xl text-[10px] font-sans font-medium uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-all"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-[8px] font-black tracking-[0.2em] uppercase text-neutral-400 italic ml-1">
+            <label className="text-[8px] font-sans font-black tracking-[0.2em] uppercase text-neutral-400 italic ml-1">
               Ingrese Clave
             </label>
             <input 
@@ -97,20 +97,20 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full bg-white border border-black p-3 rounded-2xl text-[10px] uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-all"
+              className="w-full bg-white border border-black/20 p-3 rounded-2xl text-[10px] font-sans font-medium uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-all"
             />
           </div>
 
           <button 
             type="submit"
             disabled={loading}
-            className="w-full bg-black text-white p-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all active:scale-95 mt-2 shadow-xl flex justify-center items-center"
+            className="w-full bg-black text-white p-4 rounded-2xl text-[10px] font-sans font-bold uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all active:scale-95 mt-2 shadow-lg flex justify-center items-center"
           >
             {loading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "INGRESAR"}
           </button>
           
           <div className="text-center pt-2">
-            <Link href="/pricing" className="text-[8px] font-bold tracking-[0.2em] uppercase hover:underline underline-offset-4 decoration-1">
+            <Link href="/pricing" className="text-[8px] font-sans font-bold tracking-[0.2em] uppercase text-neutral-400 hover:text-black hover:underline underline-offset-4 decoration-1">
               ¿No tiene una suscripción activa? Ver planes
             </Link>
           </div>
@@ -119,7 +119,7 @@ export default function LoginPage() {
 
       {/* FOOTER COMPACTO CON LINKS LEGALES */}
       <footer className="w-full flex flex-col items-center gap-4 shrink-0 pb-4">
-        <div className="flex flex-wrap justify-center gap-6 font-sans text-[9px] text-neutral-400 uppercase">
+        <div className="flex flex-wrap justify-center gap-6 font-sans text-[9px] text-neutral-300 uppercase">
           <Link href="/terms" className="hover:text-black underline underline-offset-4 decoration-1 transition-all">
             Términos y Condiciones
           </Link>
@@ -130,7 +130,7 @@ export default function LoginPage() {
             Política de Reembolso
           </Link>
         </div>
-        <div className="text-[9px] font-bold tracking-[0.5em] text-neutral-300 uppercase italic">
+        <div className="text-[9px] font-sans font-bold tracking-[0.5em] text-neutral-200 uppercase italic">
           LUME GLOBAL CORE 🌎 // 2026
         </div>
       </footer>
