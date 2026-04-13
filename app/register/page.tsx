@@ -13,8 +13,8 @@ export default function RegisterPage() {
     confirmPassword: ''
   });
 
-  // 🌐 ESPECIFICACIONES DE CONEXIÓN SOBERANA (GCP San Pablo)
-  const API_BASE = "https://lumeglobalcore.com";
+  // 🌐 ESPECIFICACIONES DE CONEXIÓN SOBERANA (GCP San Pablo - PUERTO RECTIFICADO 8081)
+  const API_BASE = "https://lumeglobalcore.com:8081";
   const LUME_HEADERS = {
     'Content-Type': 'application/json',
     'X-Lume-Node': 'SAN_PABLO',
@@ -57,65 +57,56 @@ export default function RegisterPage() {
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-8 md:p-20 overflow-x-hidden">
+      
       <nav className="flex justify-between items-center w-full">
+        {/* LOGO INMUTABLE */}
         <div className="text-xl font-black tracking-tighter italic uppercase">LUME 🌎</div>
-        <button onClick={() => router.back()} className="text-[10px] font-bold tracking-[0.3em] uppercase border border-black px-6 py-2 rounded-xl active:scale-95 transition-all">← VOLVER</button>
+        <button 
+          onClick={() => router.back()} 
+          className="text-[10px] font-sans font-bold tracking-[0.3em] uppercase border border-black/20 px-6 py-2 rounded-xl active:scale-95 transition-all hover:bg-neutral-50"
+        >
+          ← VOLVER
+        </button>
       </nav>
 
       <div className="max-w-md mx-auto w-full flex flex-col items-center py-12">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 italic text-center leading-tight uppercase">Nuevo Suscriptor</h1>
-        <div className="h-[1px] w-20 bg-black mb-16"></div>
+        {/* TÍTULO ESTILO KARADA DECO (SERIF) */}
+        <h1 className="text-4xl md:text-5xl font-serif font-light tracking-tighter mb-4 italic text-center leading-tight lowercase first-letter:uppercase">
+          Nuevo suscriptor
+        </h1>
+        <div className="h-[1px] w-20 bg-black/10 mb-16"></div>
         
         <form onSubmit={handleRegister} className="w-full space-y-6">
           <div className="space-y-2">
-            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Email de Suscripción</label>
+            <label className="text-[9px] font-sans font-black tracking-[0.2em] uppercase text-neutral-400 italic ml-1">
+              Email de Suscripción
+            </label>
             <input 
               type="email" required value={formData.email}
               onChange={(e) => setFormData({...formData, email: e.target.value})}
               placeholder="EMAIL@EJEMPLO.COM"
-              className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors"
+              className="w-full bg-white border border-black/20 p-4 rounded-2xl text-[11px] font-sans font-medium uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-all"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Crear Contraseña</label>
+            <label className="text-[9px] font-sans font-black tracking-[0.2em] uppercase text-neutral-400 italic ml-1">
+              Crear Contraseña
+            </label>
             <input 
               type="password" required value={formData.password}
               onChange={(e) => setFormData({...formData, password: e.target.value})}
               placeholder="MÍNIMO 8 CARACTERES"
-              className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors"
+              className="w-full bg-white border border-black/20 p-4 rounded-2xl text-[11px] font-sans font-medium uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-all"
             />
           </div>
 
-          {/* CONTINUACIÓN DEL BLOQUE REPARADO */}
           <div className="space-y-2">
-            <label className="text-[9px] font-black tracking-[0.2em] uppercase text-neutral-400 italic">Confirmar Contraseña</label>
+            <label className="text-[9px] font-sans font-black tracking-[0.2em] uppercase text-neutral-400 italic ml-1">
+              Confirmar Contraseña
+            </label>
             <input 
               type="password" required value={formData.confirmPassword}
               onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
               placeholder="REPITA SU CONTRASEÑA"
-              className="w-full bg-white border border-black p-4 rounded-2xl text-[11px] font-sans uppercase tracking-widest focus:outline-none focus:bg-neutral-50 transition-colors"
-            />
-          </div>
-
-          <button type="submit" disabled={loading} className="w-full bg-black text-white p-5 rounded-2xl text-[12px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all shadow-xl active:scale-95 mt-4 flex justify-center items-center">
-            {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "CREAR CUENTA"}
-          </button>
-          
-          <div className="text-center pt-4">
-            <Link href="/login" className="text-[9px] font-bold tracking-[0.2em] uppercase hover:underline underline-offset-8">¿Ya tiene una suscripción? Inicie Sesión</Link>
-          </div>
-        </form>
-      </div>
-
-      <footer className="flex flex-col items-center space-y-6 pt-20">
-        <div className="flex flex-wrap justify-center gap-8 font-sans text-neutral-500">
-          <Link href="/terms" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">Términos</Link>
-          <Link href="/privacy" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">Privacidad</Link>
-          <Link href="/refund" className="text-[9px] font-bold tracking-[0.3em] uppercase hover:text-black underline underline-offset-4 decoration-2">Reembolso</Link>
-        </div>
-        <div className="text-[10px] font-bold tracking-[0.5em] text-neutral-400 uppercase italic text-center">LUME GLOBAL CORE 🌎 // 2026</div>
-      </footer>
-    </main>
-  );
-}
+              className="w-full bg-white border border-black
