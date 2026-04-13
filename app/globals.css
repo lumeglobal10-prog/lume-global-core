@@ -1,15 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;700;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #000000;
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #000000;
+  }
+
+  /* LEY TIPOGRÁFICA LUME GLOBAL CORE */
+  html {
+    /* Definición de Sans por defecto */
+    font-family: 'Inter', sans-serif;
+  }
+
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Configuración de clases para Tailwind */
+  .font-serif {
+    font-family: 'Cormorant Garamond', serif !important;
+  }
+
+  .font-sans {
+    font-family: 'Inter', sans-serif !important;
+  }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Suavizado de transiciones para la interfaz */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
