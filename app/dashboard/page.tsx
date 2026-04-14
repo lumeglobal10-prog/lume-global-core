@@ -8,22 +8,40 @@ export default function DashboardPage() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+  
+  // ESTADOS DE SISTEMA Y DATOS
   const [isSystemOnline, setIsSystemOnline] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [userMail, setUserMail] = useState('');
   const [credits, setCredits] = useState({ used: 0, total: 0 });
+  
+  // ESTADOS DE CONFIGURACIÓN (V6.8)
+  const [quality, setQuality] = useState('CORE');
+  const [micStyle, setMicStyle] = useState('Nórdico');
+  const [recentRenders, setRecentRenders] = useState([]);
 
-  // 🌐 ESPECIFICACIONES SOBERANAS: NODO SAN PABLO (PRODUCCIÓN RECTIFICADA 8081)
-  const API_BASE = "https://lumeglobalcore.com:8081"; 
+  // 🌐 ESPECIFICACIONES SINCRO: TÚNEL NGINX (PUERTO 443)
+  const API_BASE = "https://lumeglobalcore.com/api"; 
   const LUME_HEADERS = {
     'Content-Type': 'application/json',
-    'X-Lume-Node': 'SAN_PABLO',
-    'X-Environment': 'PRODUCTION'
+    'X-Lume-Node': 'SAN_PABLO_01'
   };
+
+  useEffect(() => {
+    const mail = localStorage.getItem('lume_user_mail') || '';
+    setUserMail(mail);
+    
+    // Validación de integridad vía túnel
+    fetch(`${API_BASE}/v1/auth/validate`, { headers: LUME_HEADERS })
+      .then(res => setIsSystemOnline(res.ok))
+      .catch(() => setIsSystemOnline(false));
+
+    if (mail) fetchCredits(mail);
+  }, []);
 
   const fetchCredits = async (mail: string) => {
     try {
-      const response = await fetch(`${API_BASE}/api/v1/credits?email=${mail}`, {
+      const response = await fetch(`${API_BASE}/v1/payments/subscription-status?email=${mail}`, {
         headers: LUME_HEADERS
       });
       if (response.ok) {
@@ -33,136 +51,95 @@ export default function DashboardPage() {
     } catch (e) { console.warn("LGC_SYNC_ERROR: Comunicación restringida."); }
   };
 
-  useEffect(() => {
-    const mail = localStorage.getItem('lume_user_mail') || '';
-    setUserMail(mail);
-    
-    // Handshake con el Endpoint de Salud Rectificado
-    fetch(`${API_BASE}/api/v1/health`, { headers: LUME_HEADERS })
-      .then(res => res.text())
-      .then(status => setIsSystemOnline(status === "READY"))
-      .catch(() => setIsSystemOnline(false));
-
-    if (mail) fetchCredits(mail);
-  }, []);
-
   const handleLogout = () => {
     localStorage.removeItem('lume_session_token');
     localStorage.removeItem('lume_user_mail');
     router.push('/');
   };
 
-  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !isSystemOnline) return;
 
     setUploading(true);
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('quality', quality);
+    formData.append('style', micStyle);
     formData.append('user_mail', userMail);
 
     try {
-      const response = await fetch(`${API_BASE}/api/v1/upload`, {
+      const response = await fetch(`${API_BASE}/v1/render/create`, {
         method: 'POST',
-        headers: { 'X-Lume-Node': 'SAN_PABLO' }, 
+        headers: { 'X-Lume-Node': 'SAN_PABLO_01' },
         body: formData,
       });
 
       if (response.ok) {
-        alert("ÉXITO: ACTIVO PROCESADO EN SAN PABLO.");
+        alert("ACTIVO EN COLA DE PROCESAMIENTO.");
         fetchCredits(userMail);
       }
     } catch (error) {
-      alert("ERROR CRÍTICO: Fallo de conexión con Gateway San Pablo.");
+      alert("ERROR CRÍTICO: Fallo en volumen de ingesta.");
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between p-6 md:p-10 overflow-x-hidden">
+    <main className="min-h-screen bg-[#FCFAFA] text-black font-sans flex flex-col p-6 md:p-10">
       
-      {/* NAVEGACIÓN: LOGO INMUTABLE */}
-      <nav className="flex justify-between items-center w-full shrink-0">
+      {/* NAVEGACIÓN */}
+      <nav className="flex justify-between items-center w-full mb-12">
         <div className="text-sm font-black tracking-[0.4em] uppercase italic">LUME 🌎</div>
-        <button 
-          onClick={handleLogout}
-          className="text-black hover:text-neutral-500 text-[9px] font-sans font-bold uppercase tracking-[0.2em] underline underline-offset-8 decoration-1 transition-all active:scale-95"
-        >
+        <button onClick={handleLogout} className="text-[9px] font-bold uppercase tracking-[0.2em] underline underline-offset-8 decoration-1 transition-all">
           SALIR ×
         </button>
       </nav>
 
-      <div className="max-w-4xl mx-auto w-full flex flex-col items-center flex-grow justify-center py-4 leading-none">
-        {/* TÍTULO: ESTILO KARADA DECO (SERIF) */}
-        <h1 className="text-3xl md:text-5xl font-serif font-light tracking-tight leading-tight italic text-center mb-10 lowercase first-letter:uppercase">
+      <div className="max-w-6xl mx-auto w-full flex flex-col gap-10">
+        
+        {/* TITULO ESTILO KARADA */}
+        <h1 className="text-4xl md:text-6xl font-serif font-light italic text-center lowercase first-letter:uppercase mb-4">
           Panel de renderizado.
         </h1>
-        
-        <div className="w-full grid grid-cols-3 gap-3 mb-10">
-          <div className="border border-black/10 p-4 rounded-2xl flex flex-col items-center justify-center bg-neutral-50/30">
-            <span className="text-[7px] font-sans font-bold uppercase text-neutral-400 italic mb-1 tracking-widest">Módulo API</span>
-            <span className={`text-[9px] font-sans font-black ${isSystemOnline ? 'text-green-600' : 'text-red-500 animate-pulse'}`}>
-              {isSystemOnline ? '● READY' : '● OFFLINE'}
-            </span>
-          </div>
-          <div className="border border-black p-4 rounded-2xl flex flex-col items-center justify-center bg-white shadow-sm">
-            <span className="text-[7px] font-sans font-bold uppercase text-black italic mb-1 tracking-widest">Saldo de Renders</span>
-            <span className="text-[11px] font-serif font-medium italic tracking-tighter">{credits.used} / {credits.total}</span>
-          </div>
-          <div className="border border-black/10 p-4 rounded-2xl flex flex-col items-center justify-center bg-neutral-50/30">
-            <span className="text-[7px] font-sans font-bold uppercase text-neutral-400 italic mb-1 tracking-widest">Nodo</span>
-            <span className="text-[8px] font-sans text-black tracking-tighter uppercase font-bold italic">SAN_PABLO_v6.5</span>
-          </div>
-        </div>
 
-        <div className="w-full grid grid-cols-2 gap-4 mb-8">
-          <button 
-            onClick={() => isSystemOnline && !uploading && fileInputRef.current?.click()}
-            className={`p-10 border border-black rounded-[40px] flex flex-col items-center gap-2 transition-all ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50 active:scale-95 shadow-sm'}`}
-          >
-            <span className="text-3xl">📂</span>
-            <span className="text-[9px] font-sans font-bold uppercase tracking-[0.3em] mt-2">Galería</span>
-          </button>
-
-          <button 
-            onClick={() => isSystemOnline && !uploading && cameraInputRef.current?.click()}
-            className={`p-10 border border-black rounded-[40px] flex flex-col items-center gap-2 transition-all ${!isSystemOnline ? 'opacity-30' : 'hover:bg-neutral-50 active:scale-95 shadow-sm'}`}
-          >
-            <span className="text-3xl">📸</span>
-            <span className="text-[9px] font-sans font-bold uppercase tracking-[0.3em] mt-2">Cámara</span>
-          </button>
-        </div>
-
-        <input type="file" ref={fileInputRef} onChange={handleFileSelect} className="hidden" accept="image/*" />
-        <input type="file" ref={cameraInputRef} onChange={handleFileSelect} className="hidden" accept="image/*" capture="environment" />
-        
-        <div className="min-h-[60px] flex items-center">
-          {uploading && (
-            <div className="flex flex-col items-center gap-3">
-              <div className="animate-spin w-8 h-8 border-2 border-black border-t-transparent rounded-full"></div>
-              <span className="text-[8px] font-serif italic tracking-[0.2em] animate-pulse">Sincronizando con San Pablo...</span>
+        {/* 1. WIDGETS SUPERIORES CONSOLIDADOS */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="border border-black/5 bg-white p-6 rounded-3xl shadow-sm flex items-center justify-between">
+            <div className="flex flex-col">
+              <span className="text-[8px] font-bold uppercase tracking-widest text-neutral-400 mb-1">Status & Saldo</span>
+              <span className="text-xl font-serif italic">{credits.used} / {credits.total} <span className="text-[10px] font-sans not-italic font-bold text-neutral-300">renders</span></span>
             </div>
-          )}
-        </div>
-      </div>
+            <div className={`w-3 h-3 rounded-full ${isSystemOnline ? 'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : 'bg-red-500 animate-pulse'}`}></div>
+          </div>
 
-      <footer className="w-full p-6 mt-auto border-t border-neutral-100 flex flex-col items-center gap-4 shrink-0 bg-white">
-        <p className="text-[8px] md:text-[9px] font-sans font-medium text-neutral-400 text-center tracking-[0.2em] uppercase italic">
-          LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE 🌎
-        </p>
-        <div className="flex flex-wrap justify-center gap-8 font-sans text-[9px] text-neutral-300 uppercase pb-2">
-          <Link href="/terms" className="hover:text-black underline underline-offset-4 decoration-1 transition-all">
-            Términos y Condiciones
-          </Link>
-          <Link href="/privacy" className="hover:text-black underline underline-offset-4 decoration-1 transition-all">
-            Privacidad
-          </Link>
-          <Link href="/refund" className="hover:text-black underline underline-offset-4 decoration-1 transition-all">
-            Política de Reembolso
-          </Link>
+          {/* 2. SELECTORES DE CONFIGURACIÓN */}
+          <div className="border border-black/5 bg-white p-4 rounded-3xl shadow-sm">
+            <span className="text-[8px] font-bold uppercase tracking-widest text-neutral-400 mb-2 block">Calidad Híbrida</span>
+            <select value={quality} onChange={(e) => setQuality(e.target.value)} className="w-full bg-transparent font-serif italic text-lg focus:outline-none cursor-pointer">
+              <option value="SATELLITE">Satellite (1080p)</option>
+              <option value="CORE">Core (2K)</option>
+              <option value="ADVANCE">Advance (4K)</option>
+              <option value="ULTRA">Ultra (8K)</option>
+            </select>
+          </div>
+
+          <div className="border border-black/5 bg-white p-4 rounded-3xl shadow-sm">
+            <span className="text-[8px] font-bold uppercase tracking-widest text-neutral-400 mb-2 block">Estética M.I.C.</span>
+            <select value={micStyle} onChange={(e) => setMicStyle(e.target.value)} className="w-full bg-transparent font-serif italic text-lg focus:outline-none cursor-pointer">
+              <option value="Nórdico">Nórdico</option>
+              <option value="Industrial">Industrial</option>
+              <option value="Mediterráneo">Mediterráneo</option>
+              <option value="Minimalista">Minimalista</option>
+            </select>
+          </div>
         </div>
-      </footer>
-    </main>
-  );
-}
+
+        {/* 3. UNIFICACIÓN DE CAPTURA */}
+        <div 
+          onClick={() => isSystemOnline && !uploading && fileInputRef.current?.click()}
+          className={`relative group border-2 border-dashed border-black/10 hover:border-black/30 bg-white rounded-[40px] p-16 transition-all cursor-pointer flex flex-col items-center justify-center gap-4 ${!isSystemOnline ? 'opacity-40 grayscale' : ''}`}
+        >
+          <div className="text-4xl group-hover:scale-110 transition-transform">✨</div>
+          <p className="font-serif italic text-2xl text-center">Subir activo para render
