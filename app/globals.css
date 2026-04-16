@@ -10,10 +10,11 @@
     --foreground: #000000;
   }
 
-  /* LEY TIPOGRÁFICA LUME GLOBAL CORE */
+  /* LEY TIPOGRÁFICA LUME GLOBAL CORE (V5.8.1) */
   html {
-    /* Definición de Sans por defecto */
     font-family: 'Inter', sans-serif;
+    /* FORZADO DE MAYÚSCULAS GLOBAL */
+    text-transform: uppercase;
   }
 
   body {
@@ -21,19 +22,37 @@
     background: var(--background);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* ESPACIADO EJECUTIVO */
+    letter-spacing: 0.1em;
   }
 
-  /* Configuración de clases para Tailwind */
+  /* RESTRICCIÓN: LA FUENTE SERIF SOLO SE USA EN TÍTULOS E ITÁLICAS */
   .font-serif {
     font-family: 'Cormorant Garamond', serif !important;
+    letter-spacing: normal;
   }
 
   .font-sans {
     font-family: 'Inter', sans-serif !important;
   }
+
+  /* NORMALIZACIÓN PARA BLOQUES QUE REQUIERAN MINÚSCULAS (CASOS EXCEPCIONALES) */
+  .normal-case {
+    text-transform: none;
+  }
 }
 
-/* Suavizado de transiciones para la interfaz */
+/* SUAVIZADO DE INTERFAZ LUME HIGH-END */
 * {
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.4s ease, border-color 0.4s ease, opacity 0.4s ease;
+}
+
+/* ELIMINACIÓN DE SCROLLBAR PARA ESTÉTICA MINIMALISTA */
+::-webkit-scrollbar {
+  display: none;
+}
+
+::selection {
+  background: #000000;
+  color: #FFFFFF;
 }
