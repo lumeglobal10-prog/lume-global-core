@@ -1,12 +1,14 @@
 {
   "name": "lume-global-core",
-  "version": "1.2.1",
+  "version": "5.8.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "export": "next build && next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:prod": "export NEXT_PUBLIC_API_URL=/api/v1 && next build"
   },
   "dependencies": {
     "next": "14.2.3",
