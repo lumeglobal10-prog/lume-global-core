@@ -1,4 +1,6 @@
-# Ubicación: /var/www/lume_core/out/dashboard/index.html
+# Objetivo: Sincronizar validación de salud con /api/v1/auth/validate
+Ubicación: /var/www/lume_core/out/dashboard/index.html
+Ejecución:
 cat <<'EOF' | sudo tee /var/www/lume_core/out/dashboard/index.html
 <!DOCTYPE html>
 <html lang="es">
@@ -13,10 +15,8 @@ cat <<'EOF' | sudo tee /var/www/lume_core/out/dashboard/index.html
         <div class="text-[10px] font-black italic tracking-[0.5em]">LUME</div>
         <div onclick="localStorage.clear(); window.location.href='/login/'" class="text-[9px] font-bold opacity-30 cursor-pointer">SALIR ×</div>
     </nav>
-
     <div class="max-w-4xl mx-auto w-full space-y-12 flex-grow">
         <h1 class="text-4xl md:text-5xl font-serif font-light italic text-center lowercase first-letter:uppercase tracking-normal normal-case">Panel de renderizado.</h1>
-        
         <div class="flex justify-center">
             <div class="border border-black/5 bg-white px-8 py-4 rounded-full flex items-center gap-6 shadow-sm">
                 <div id="led" class="w-2.5 h-2.5 rounded-full bg-red-500 led-blink"></div>
@@ -24,14 +24,12 @@ cat <<'EOF' | sudo tee /var/www/lume_core/out/dashboard/index.html
                 <span class="text-lg font-serif italic normal-case" id="credits">0 / 0</span>
             </div>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="bg-neutral-50 p-6 rounded-3xl border border-black/5 space-y-3">
                 <span class="text-[7px] font-bold opacity-30">CALIDAD</span>
                 <div class="flex gap-2">
-                    <button onclick="window.q='SOCIAL'" class="flex-1 py-3 bg-black text-white rounded-xl text-[9px] font-bold">SOCIAL</button>
-                    <button onclick="window.q='2K'" class="flex-1 py-3 bg-white border border-black/5 rounded-xl text-[9px] font-bold">2K</button>
-                    <button onclick="window.q='4K'" class="flex-1 py-3 bg-white border border-black/5 rounded-xl text-[9px] font-bold">4K</button>
+                    <button class="flex-1 py-3 bg-black text-white rounded-xl text-[9px] font-bold">SOCIAL</button>
+                    <button class="flex-1 py-3 bg-white border border-black/5 rounded-xl text-[9px] font-bold opacity-30">2K</button>
                 </div>
             </div>
             <div class="bg-neutral-50 p-6 rounded-3xl border border-black/5 space-y-3">
@@ -39,19 +37,12 @@ cat <<'EOF' | sudo tee /var/www/lume_core/out/dashboard/index.html
                 <div class="text-[11px] font-serif italic normal-case">MEDITERRÁNEO ▼</div>
             </div>
         </div>
-
-        <div id="dropzone" class="border-2 border-dashed border-black/5 rounded-[40px] p-20 flex flex-col items-center gap-6 bg-white/50 cursor-pointer transition-all hover:bg-white">
-            <div class="text-3xl opacity-20">✨</div>
-            <p class="font-serif italic text-2xl normal-case">Carga de Activos</p>
-            <button class="px-8 py-2 border border-black text-[9px] font-bold rounded-full">ABRIR CÁMARA</button>
-        </div>
     </div>
-
     <script>
-        window.q = 'SOCIAL';
         async function sync() {
             try {
-                const res = await fetch('/api/v1/auth/validate', { headers: { 'X-Lume-Node': 'SAN_PABLO_01' } });
+                // Sincronización literal con la nueva estructura de ruteo Nginx
+                const res = await fetch('/api/v1/auth/validate');
                 if(res.ok) {
                     const led = document.getElementById('led');
                     led.classList.remove('bg-red-500', 'led-blink');
@@ -65,4 +56,3 @@ cat <<'EOF' | sudo tee /var/www/lume_core/out/dashboard/index.html
 </body>
 </html>
 EOF
-      
