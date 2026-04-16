@@ -8,17 +8,16 @@ interface PopupProps {
 
 export default function SmartPopup({ trigger, onClose }: PopupProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const [geoData, setGeoData] = useState('');
 
   useEffect(() => {
-    // 1. Verificar persistencia local (24hs)
+    // 1. VERIFICAR PERSISTENCIA LOCAL (24HS)
     const lastSeen = localStorage.getItem(`lume_popup_${trigger}`);
     const now = Date.now();
     
+    // LITERALIDAD: Si fue visto en las últimas 24hs, no se activa el trigger.
     if (lastSeen && now - parseInt(lastSeen) < 86400000) return;
 
-    // 2. Detectar Geo desde la cabecera (inyectada por el middleware)
-    // En una app real, esto se puede pasar via props o fetch inicial
+    // 2. ACTIVACIÓN DE INTERFAZ
     setIsVisible(true);
   }, [trigger]);
 
@@ -31,18 +30,26 @@ export default function SmartPopup({ trigger, onClose }: PopupProps) {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
-      <div className="bg-[#1a1a1a] border border-white/10 p-8 rounded-2xl max-w-sm w-full shadow-2xl mx-4">
-        <h3 className="text-white text-[11px] font-bold tracking-[0.3em] uppercase mb-4">Aviso de Sistema</h3>
-        <p className="text-neutral-400 text-sm font-light leading-relaxed mb-6">
-          Los valores se expresan en <span className="text-white font-medium">USD (Dólares Estadounidenses)</span>. 
-          Dependiendo de su ubicación, pueden aplicar impuestos locales adicionales.
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/5 backdrop-blur-md animate-in fade-in duration-500">
+      <div className="bg-white border border-black/5 p-10 rounded-[32px] max-w-sm w-full shadow-[0_32px_64px_-15px_rgba(0,0,0,0.1)] mx-4 text-center">
+        {/* CABECERA ESTILO LUME */}
+        <h3 className="text-black text-[10px] font-black tracking-[0.4em] uppercase mb-6 italic">
+          AVISO DE SISTEMA
+        </h3>
+        
+        {/* CUERPO DE TEXTO: ESTILO KARADA DECO (SERIF PARA ÉNFASIS) */}
+        <p className="text-neutral-500 text-[11px] font-medium leading-relaxed mb-8 tracking-[0.1em] uppercase">
+          Los valores se expresan en <span className="text-black font-bold font-serif italic normal-case tracking-normal text-sm">USD (Dólares Estadounidenses)</span>. 
+          <br /><br />
+          Dependiendo de su ubicación, pueden aplicar impuestos locales adicionales según la normativa del Nodo San Pablo.
         </p>
+
+        {/* BOTÓN DE CIERRE MINIMALISTA */}
         <button 
           onClick={closeHandler}
-          className="w-full py-3 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-neutral-200 transition-all rounded"
+          className="w-full py-4 bg-black text-white text-[9px] font-bold uppercase tracking-[0.3em] hover:bg-neutral-800 transition-all rounded-2xl shadow-lg active:scale-95"
         >
-          Entendido
+          ENTENDIDO
         </button>
       </div>
     </div>
