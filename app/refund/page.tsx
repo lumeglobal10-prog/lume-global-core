@@ -8,83 +8,82 @@ export default function RefundPage() {
   const siteName = "LUME 🌎";
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between overflow-x-hidden uppercase tracking-widest">
+    <main className="min-h-screen bg-[#FFFFFF] text-black font-sans flex flex-col justify-between overflow-x-hidden uppercase tracking-[0.2em]">
       
-      {/* NAVEGACIÓN: LOGO INMUTABLE */}
-      <nav className="w-full p-6 md:p-8 flex justify-between items-center shrink-0 z-50">
-        <div className="text-sm font-black tracking-[0.4em] italic">{siteName}</div>
+      {/* NAVEGACIÓN: ESTÉTICA RECTA MANDATORIA */}
+      <nav className="w-full p-8 flex justify-between items-center shrink-0 z-50 border-b border-black">
+        <div className="text-sm font-black tracking-[0.5em] italic">{siteName}</div>
         <button 
           onClick={() => router.back()} 
-          className="bg-black text-white px-8 py-3 text-[9px] font-bold tracking-[0.3em] active:scale-95 transition-all hover:bg-neutral-800 rounded-full"
+          className="bg-black text-white px-10 py-4 text-[10px] font-black tracking-[0.4em] transition-colors hover:bg-neutral-900 rounded-none"
         >
           ← VOLVER
         </button>
       </nav>
 
-      <section className="flex-grow flex flex-col items-center py-12 px-6 md:py-20">
-        <article className="max-w-3xl w-full">
-          {/* TÍTULO ESTILO KARADA DECO (SERIF) */}
-          <h1 className="text-3xl md:text-5xl font-serif font-light tracking-tight leading-tight mb-2 text-center italic lowercase first-letter:uppercase normal-case">
-            Política de reembolso.
+      <section className="flex-grow flex flex-col items-center py-20 px-6">
+        <article className="max-w-4xl w-full">
+          {/* TÍTULO: MAYÚSCULAS MANDATORIAS Y ESTÉTICA RECTA */}
+          <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-none mb-4 text-center uppercase">
+            POLÍTICA DE REEMBOLSO.
           </h1>
-          <p className="text-[9px] font-black text-neutral-400 tracking-[0.5em] text-center mb-16 italic">
-            REFERENCIA: LGC-REFUND-V3 // NODO SAN PABLO
+          <p className="text-[10px] font-black text-black/20 tracking-[0.6em] text-center mb-24 italic">
+            REFERENCIA: LGC-REFUND-V10 // NODO SAN PABLO
           </p>
 
-          <div className="space-y-12 text-sm md:text-base leading-relaxed text-neutral-800">
-            <section>
-              <h2 className="text-[10px] font-black tracking-[0.4em] mb-4 text-black italic border-l-2 border-black pl-4">
+          <div className="space-y-20 text-[11px] font-bold leading-relaxed tracking-[0.15em]">
+            <section className="border-l-4 border-black pl-8">
+              <h2 className="text-[12px] font-black tracking-[0.5em] mb-6">
                 1. DERECHO DE DESISTIMIENTO
               </h2>
-              <p className="font-serif font-light text-xl italic text-neutral-700 leading-snug normal-case">
-                El suscriptor tiene derecho a solicitar un reembolso dentro de los 14 días posteriores a la contratación inicial, siempre y cuando no haya hecho uso de los servicios de procesamiento del Kernel dentro de la cuota de suscripción en curso. 
+              <p className="text-black leading-loose">
+                EL SUSCRIPTOR TIENE DERECHO A SOLICITAR UN REEMBOLSO DENTRO DE LOS 14 DÍAS POSTERIORES A LA CONTRATACIÓN INICIAL, SIEMPRE Y CUANDO NO HAYA HECHO USO DE LOS SERVICIOS DE PROCESAMIENTO DEL KERNEL DENTRO DE LA CUOTA DE SUSCRIPCIÓN EN CURSO. 
               </p>
             </section>
             
-            <section>
-              <h2 className="text-[10px] font-black tracking-[0.4em] mb-4 text-black italic border-l-2 border-black pl-4">
+            <section className="border-l-4 border-black pl-8">
+              <h2 className="text-[12px] font-black tracking-[0.5em] mb-6">
                 2. EJECUCIÓN DEL SERVICIO
               </h2>
-              <p className="font-serif font-light text-xl italic text-neutral-700 leading-snug normal-case">
-                El suscriptor acepta que, al procesar un activo (imagen) mediante nuestros algoritmos matemáticos, el servicio se considera ejecutado. En este caso, el derecho de desistimiento caduca inmediatamente debido a la naturaleza instantánea del consumo de recursos informáticos y la capacidad de infraestructura asignada en el Nodo San Pablo.
+              <p className="text-black leading-loose">
+                EL SUSCRIPTOR ACEPTA QUE, AL PROCESAR UN ACTIVO (IMAGEN) MEDIANTE NUESTROS ALGORITMOS MATEMÁTICOS, EL SERVICIO SE CONSIDERA EJECUTADO. EN ESTE CASO, EL DERECHO DE DESISTIMIENTO CADUCA INMEDIATAMENTE DEBIDO A LA NATURALEZA INSTANTÁNEA DEL CONSUMO DE RECURSOS INFORMÁTICOS Y LA CAPACIDAD DE INFRAESTRUCTURA ASIGNADA EN EL NODO SAN PABLO.
               </p>
             </section>
 
-            <section>
-              <h2 className="text-[10px] font-black tracking-[0.4em] mb-4 text-black italic border-l-2 border-black pl-4">
+            <section className="border-l-4 border-black pl-8">
+              <h2 className="text-[12px] font-black tracking-[0.5em] mb-6">
                 3. PROCESO DE SOLICITUD
               </h2>
-              <p className="font-serif font-light text-xl italic text-neutral-700 leading-snug normal-case">
-                Las suscripciones pueden cancelarse en cualquier momento para evitar renovaciones futuras. Para solicitar el reembolso de una suscripción no utilizada, el usuario deberá enviar una notificación vía correo electrónico a reembolso@lumeglobalcore.com con copia a la plataforma de pagos bajo la autoridad de ALE.
+              <p className="text-black leading-loose">
+                LAS SUSCRIPCIONES PUEDEN CANCELARSE EN CUALQUIER MOMENTO PARA EVITAR RENOVACIONES FUTURAS. PARA SOLICITAR EL REEMBOLSO DE UNA SUSCRIPCIÓN NO UTILIZADA, EL USUARIO DEBERÁ ENVIAR UNA NOTIFICACIÓN VÍA CORREO ELECTRÓNICO A REEMBOLSO@LUMEGLOBALCORE.COM CON COPIA A LA PLATAFORMA DE PAGOS BAJO LA AUTORIDAD DE ALE.
               </p>
             </section>
 
-            <hr className="border-neutral-100 my-12" />
-            
-            <section className="text-center pb-12">
-              <p className="text-[9px] font-black tracking-[0.3em] text-neutral-400 italic">
+            <div className="pt-20 text-center">
+              <p className="text-[9px] font-black tracking-[0.5em] text-black/30 italic">
                 LUME GLOBAL CORE ES UNA MARCA COMERCIAL OPERADA POR JORGE ALEJANDRO DELLARIA (LUME.GLOBAL).
               </p>
-            </section>
+            </div>
           </div>
         </article>
       </section>
 
-      <footer className="w-full p-6 border-t border-neutral-100 flex flex-col items-center gap-2 bg-white">
-        <p className="text-[8px] md:text-[9px] font-bold text-neutral-700 tracking-[0.4em] italic">
-          LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE 🌎
-        </p>
-        <div className="flex gap-8 text-[9px] text-neutral-300 pb-2">
-          <Link href="/terms" className="hover:text-black underline underline-offset-8 decoration-1 transition-all">
+      {/* FOOTER: ESTÉTICA RECTA LUME */}
+      <footer className="w-full p-10 border-t border-black flex flex-col items-center gap-8 bg-white">
+        <div className="flex flex-wrap justify-center gap-12 text-[10px] font-black tracking-[0.3em]">
+          <Link href="/terms" className="text-black/40 hover:text-black transition-colors">
             TÉRMINOS
           </Link>
-          <Link href="/privacy" className="hover:text-black underline underline-offset-8 decoration-1 transition-all">
+          <Link href="/privacy" className="text-black/40 hover:text-black transition-colors">
             PRIVACIDAD
           </Link>
-          <Link href="/refund" className="text-black underline underline-offset-8 decoration-1 transition-all font-bold">
+          <Link href="/refund" className="text-black underline decoration-2 underline-offset-8">
             REEMBOLSO
           </Link>
         </div>
+        <p className="text-[9px] font-black text-black/10 tracking-[0.6em] italic uppercase">
+          LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE 🌎
+        </p>
       </footer>
     </main>
   );
