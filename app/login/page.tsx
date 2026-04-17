@@ -16,8 +16,8 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      // LITERALIDAD TÉCNICA: Sincronización con el endpoint del Kernel Alpha
-      const res = await fetch(`${API_BASE}/auth/login`, {
+      // LITERALIDAD TÉCNICA: RUTA SEGÚN BACKEND V5.0
+      const res = await fetch(`${API_BASE}/login`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -32,12 +32,17 @@ export default function LoginPage() {
       if (res.ok) {
         const data = await res.json();
         
-        // Persistencia de sesión
+        // PERSISTENCIA UNIFICADA
         localStorage.setItem('lume_session_token', data.access_token);
         localStorage.setItem('lume_user_mail', formData.email.toLowerCase());
         
-        // Sincronización con Middleware (Cookie mandatoria)
+        // SINCRONIZACIÓN CON MIDDLEWARE
         document.cookie = `lume_session_token=${data.access_token}; path=/; samesite=strict;`;
+
+        // CONSULTA INMEDIATA DE ACTIVOS TRAS LOGIN (REQ 2)
+        await fetch(`${API_BASE}/subscriber/assets`, {
+          headers: { 'Authorization': `Bearer ${data.access_token}` }
+        });
 
         router.push('/dashboard');
       } else {
@@ -51,46 +56,48 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans flex flex-col items-center justify-center p-10 uppercase tracking-widest">
-      <h1 className="text-4xl md:text-5xl font-serif font-light italic text-center lowercase first-letter:uppercase mb-12 tracking-normal normal-case">
-        Acceso de suscriptores.
+    <main className="min-h-screen bg-[#FFFFFF] text-black font-sans flex flex-col items-center justify-center p-10 uppercase tracking-[0.2em]">
+      {/* TÍTULO: MAYÚSCULAS MANDATORIAS Y ESTÉTICA RECTA */}
+      <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-none mb-16 text-center uppercase">
+        ACCESO DE SUSCRIPTORES.
       </h1>
 
-      <form onSubmit={handleLogin} className="w-full max-w-xs space-y-8">
-        <div className="space-y-2">
-          <label className="text-[8px] font-black text-neutral-400 italic ml-2">
-            EMAIL DE SUSCRIPCIÓN
-          </label>
+      <form onSubmit={handleLogin} className="w-full max-w-xs space-y-10">
+        <div className="space-y-4">
           <input 
             type="email" 
             required
+            placeholder="EMAIL DE SUSCRIPCIÓN"
             value={formData.email}
             onChange={(e) => setFormData({...formData, email: e.target.value})}
-            className="w-full border-b border-black/10 py-3 text-[10px] font-bold outline-none focus:border-black transition-all bg-transparent uppercase"
+            className="w-full border border-black p-5 text-[10px] font-black outline-none focus:bg-neutral-50 rounded-none uppercase placeholder-uppercase transition-colors"
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="text-[8px] font-black text-neutral-400 italic ml-2">
-            CREDENCIAL
-          </label>
+        <div className="space-y-4">
           <input 
             type="password" 
             required
+            placeholder="CREDENCIAL"
             value={formData.password}
             onChange={(e) => setFormData({...formData, password: e.target.value})}
-            className="w-full border-b border-black/10 py-3 text-[10px] font-bold outline-none focus:border-black transition-all bg-transparent uppercase"
+            className="w-full border border-black p-5 text-[10px] font-black outline-none focus:bg-neutral-50 rounded-none uppercase placeholder-uppercase transition-colors"
           />
         </div>
 
         <button 
           type="submit" 
           disabled={loading}
-          className="w-full bg-black text-white py-5 rounded-3xl text-[9px] font-bold tracking-[0.5em] shadow-xl active:scale-95 transition-all disabled:opacity-50"
+          className="w-full bg-black text-white py-6 rounded-none text-[10px] font-black tracking-[0.6em] transition-all hover:bg-neutral-900 disabled:opacity-50"
         >
           {loading ? "SINCRONIZANDO..." : "INGRESAR"}
         </button>
       </form>
+
+      {/* FOOTER DE LOGIN: ESTÉTICA RECTA */}
+      <div className="mt-20 text-[8px] font-black text-black/20 tracking-[0.4em] italic">
+        LUME GLOBAL CORE // NODO_SAN_PABLO_01
+      </div>
     </main>
   );
 }
