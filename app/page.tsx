@@ -10,14 +10,12 @@ export default function LumeHome() {
   const siteName = "LUME 🌎";
 
   // 🌐 RECTIFICACIÓN: PUNTERO RELATIVO AL GATEWAY NGINX (PROTOCOLO V5.8.1)
-  // Se elimina el puerto 8081 absoluto para evitar fallos de resolución externa.
   const API_BASE = "/api/v1";
 
   useEffect(() => {
     const session = localStorage.getItem('lume_session_token');
     if (session) setIsLogged(true);
 
-    // Handshake de integridad con el Nodo San Pablo
     fetch(`${API_BASE}/health`, {
       headers: { 
         'X-Lume-Node': 'SAN_PABLO', 
@@ -38,69 +36,63 @@ export default function LumeHome() {
   };
 
   return (
-    <main className="flex flex-col h-screen w-full bg-white text-black font-sans overflow-hidden uppercase">
+    <main className="flex flex-col h-screen w-full bg-white text-black font-sans overflow-hidden uppercase tracking-widest">
       
-      {/* NAVEGACIÓN: LOGO INMUTABLE */}
-      <nav className="w-full p-6 md:p-8 flex justify-between items-center shrink-0 z-50">
-        <div className="text-sm font-black tracking-[0.4em] italic">
+      {/* NAVEGACIÓN: ESTILO RECTO LUME */}
+      <nav className="w-full p-8 flex justify-between items-center shrink-0 z-50 border-b border-black">
+        <div className="text-sm font-black tracking-[0.5em] italic">
           {siteName}
         </div>
         
-        <div className="flex gap-8 items-center">
+        <div className="flex gap-10 items-center">
           {isLogged && (
             <button 
               onClick={handleLogout}
-              className="text-black hover:text-neutral-500 text-[9px] font-bold tracking-[0.2em] underline underline-offset-8 decoration-1 transition-all active:scale-95"
+              className="text-black text-[9px] font-black tracking-[0.3em] hover:opacity-50 transition-all"
             >
               SALIR ×
             </button>
           )}
           <Link href={isLogged ? "/dashboard" : "/login"}>
-            <span className="text-black hover:text-neutral-500 text-[9px] font-bold tracking-[0.2em] underline underline-offset-8 decoration-1 transition-all cursor-pointer">
-              {isLogged ? "PANEL →" : "LOG IN →"}
+            <span className="text-black text-[9px] font-black tracking-[0.3em] border border-black px-6 py-2 hover:bg-black hover:text-white transition-all cursor-pointer">
+              {isLogged ? "DASHBOARD" : "LOG IN"}
             </span>
           </Link>
         </div>
       </nav>
 
       <section className="flex-grow flex flex-col items-center justify-center px-4 min-h-0">
-        <div className="text-center mb-4 md:mb-6 shrink-0 animate-in fade-in duration-1000">
-          {/* TÍTULO: ESTILO KARADA DECO (SERIF) */}
-          <h1 className="text-3xl md:text-5xl font-serif font-light tracking-tight leading-tight italic text-black lowercase first-letter:uppercase normal-case">
-            Absolute precision.
+        <div className="text-center mb-12 shrink-0">
+          {/* TÍTULO: MAYÚSCULAS MANDATORIAS Y ESTÉTICA RECTA */}
+          <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-none text-black uppercase">
+            ABSOLUTE PRECISION.
           </h1>
-          <p className="text-[9px] font-black tracking-[0.5em] text-neutral-300 mt-2">
+          <p className="text-[10px] font-black tracking-[0.6em] text-black/20 mt-4">
             LUME GLOBAL CORE // AI INFRASTRUCTURE
           </p>
         </div>
         
-        <div className="w-full max-w-md md:max-w-xl lg:max-w-2xl mx-auto flex flex-col items-center justify-center">
+        <div className="w-full max-w-md md:max-w-xl lg:max-w-4xl mx-auto flex flex-col items-center justify-center">
           <HeroSlider />
           
-          <Link href="/pricing" className="mt-8 group flex flex-col items-center gap-2">
-            <span className="text-[10px] font-bold tracking-[0.4em] border-b border-black/20 pb-1 transition-all group-hover:tracking-[0.6em] group-hover:border-black text-neutral-400 group-hover:text-black">
+          <Link href="/pricing" className="mt-12 group flex flex-col items-center gap-4">
+            <span className="text-[10px] font-black tracking-[0.5em] bg-black text-white px-8 py-4 transition-all hover:bg-neutral-800">
               VER PLANES DE SUSCRIPCIÓN
             </span>
-            <span className="text-lg animate-bounce mt-2 text-neutral-200 group-hover:text-black transition-colors">↓</span>
           </Link>
         </div>
       </section>
 
-      <footer className="w-full p-6 mt-auto border-t border-neutral-100 flex flex-col items-center gap-2 shrink-0 bg-white z-50">
-        <p className="max-w-2xl text-[8px] md:text-[9px] font-medium text-neutral-300 text-center leading-relaxed tracking-[0.2em] italic">
+      {/* FOOTER: ESTÉTICA RECTA Y MAYÚSCULAS */}
+      <footer className="w-full p-8 mt-auto border-t border-black flex flex-col items-center gap-6 shrink-0 bg-white z-50">
+        <div className="flex flex-wrap justify-center gap-12 text-[9px] font-black tracking-[0.3em] text-black">
+          <Link href="/terms" className="hover:opacity-50 transition-all">TÉRMINOS Y CONDICIONES</Link>
+          <Link href="/privacy" className="hover:opacity-50 transition-all">PRIVACIDAD</Link>
+          <Link href="/refund" className="hover:opacity-50 transition-all">POLÍTICA DE REEMBOLSO</Link>
+        </div>
+        <p className="text-[8px] font-black text-black/10 tracking-[0.5em] italic uppercase">
           LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE 🌎
         </p>
-        <div className="flex flex-wrap justify-center gap-8 text-[9px] text-neutral-300 pb-2">
-          <Link href="/terms" className="hover:text-black underline underline-offset-4 decoration-1 transition-all">
-            TÉRMINOS Y CONDICIONES
-          </Link>
-          <Link href="/privacy" className="hover:text-black underline underline-offset-4 decoration-1 transition-all">
-            PRIVACIDAD
-          </Link>
-          <Link href="/refund" className="hover:text-black underline underline-offset-4 decoration-1 transition-all">
-            POLÍTICA DE REEMBOLSO
-          </Link>
-        </div>
       </footer>
     </main>
   );
