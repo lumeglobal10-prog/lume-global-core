@@ -8,83 +8,82 @@ export default function TermsPage() {
   const siteName = "LUME 🌎";
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans flex flex-col justify-between overflow-x-hidden uppercase tracking-widest">
+    <main className="min-h-screen bg-[#FFFFFF] text-black font-sans flex flex-col justify-between overflow-x-hidden uppercase tracking-[0.2em]">
       
-      {/* NAVEGACIÓN: LOGO INMUTABLE */}
-      <nav className="w-full p-6 md:p-8 flex justify-between items-center shrink-0 z-50">
-        <div className="text-sm font-black tracking-[0.4em] italic">{siteName}</div>
+      {/* NAVEGACIÓN: ESTÉTICA RECTA MANDATORIA */}
+      <nav className="w-full p-8 flex justify-between items-center shrink-0 z-50 border-b border-black">
+        <div className="text-sm font-black tracking-[0.5em] italic">{siteName}</div>
         <button 
           onClick={() => router.back()} 
-          className="bg-black text-white px-8 py-3 text-[9px] font-bold tracking-[0.3em] active:scale-95 transition-all hover:bg-neutral-800 rounded-full"
+          className="bg-black text-white px-10 py-4 text-[10px] font-black tracking-[0.4em] transition-colors hover:bg-neutral-900 rounded-none"
         >
           ← VOLVER
         </button>
       </nav>
 
-      <section className="flex-grow flex flex-col items-center py-12 px-6 md:py-20">
-        <article className="max-w-3xl w-full">
-          {/* TÍTULO ESTILO KARADA DECO (SERIF) */}
-          <h1 className="text-3xl md:text-5xl font-serif font-light tracking-tight leading-tight mb-2 text-center italic lowercase first-letter:uppercase normal-case">
-            Términos y condiciones de uso.
+      <section className="flex-grow flex flex-col items-center py-20 px-6">
+        <article className="max-w-4xl w-full">
+          {/* TÍTULO: MAYÚSCULAS MANDATORIAS Y ESTÉTICA RECTA */}
+          <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-none mb-4 text-center uppercase">
+            TÉRMINOS Y CONDICIONES.
           </h1>
-          <p className="text-[9px] font-black text-neutral-400 tracking-[0.5em] text-center mb-16 italic">
-            VERSIÓN: LGC-2026-ALPHA-V2 // NODO SAN PABLO
+          <p className="text-[10px] font-black text-black/20 tracking-[0.6em] text-center mb-24 italic">
+            VERSIÓN: LGC-2026-ALPHA-V10 // NODO SAN PABLO
           </p>
 
-          <div className="space-y-12 text-sm md:text-base leading-relaxed text-neutral-800">
-            <section>
-              <h2 className="text-[10px] font-black tracking-[0.4em] mb-4 text-black italic border-l-2 border-black pl-4">
+          <div className="space-y-20 text-[11px] font-bold leading-relaxed tracking-[0.15em]">
+            <section className="border-l-4 border-black pl-8">
+              <h2 className="text-[12px] font-black tracking-[0.5em] mb-6">
                 1. NATURALEZA TÉCNICA DEL ECOSISTEMA
               </h2>
-              <p className="font-serif font-light text-xl italic text-neutral-700 leading-snug normal-case">
-                Lume Global Core es una plataforma de optimización visual. El procesamiento de imágenes se realiza exclusivamente a través de algoritmos informáticos y cálculos matemáticos ejecutados en nuestro Kernel propietario. El suscriptor entiende que los resultados son producto de procesamientos técnicos y no de generación creativa aleatoria.
+              <p className="text-black leading-loose">
+                LUME GLOBAL CORE ES UNA PLATAFORMA DE OPTIMIZACIÓN VISUAL. EL PROCESAMIENTO DE IMÁGENES SE REALIZA EXCLUSIVAMENTE A TRAVÉS DE ALGORITMOS INFORMÁTICOS Y CÁLCULOS MATEMÁTICOS EJECUTADOS EN NUESTRO KERNEL PROPIETARIO. EL SUSCRIPTOR ENTIENDE QUE LOS RESULTADOS SON PRODUCTO DE PROCESAMIENTOS TÉCNICOS Y NO DE GENERACIÓN CREATIVA ALEATORIA.
               </p>
             </section>
             
-            <section>
-              <h2 className="text-[10px] font-black tracking-[0.4em] mb-4 text-black italic border-l-2 border-black pl-4">
+            <section className="border-l-4 border-black pl-8">
+              <h2 className="text-[12px] font-black tracking-[0.5em] mb-6">
                 2. PRINCIPIO DE IGUALDAD OPERATIVA
               </h2>
-              <p className="font-serif font-light text-xl italic text-neutral-700 leading-snug normal-case">
-                El ecosistema se rige por la Igualdad Operativa. La prioridad en la cola de procesamiento se determina estrictamente por el orden de llegada al servidor. El Plan de Suscripción define la capacidad de volumen, pero no otorga prioridad de tiempo ni saltos en la cola sobre otros suscriptores.
+              <p className="text-black leading-loose">
+                EL ECOSISTEMA SE RIGE POR LA IGUALDAD OPERATIVA. LA PRIORIDAD EN LA COLA DE PROCESAMIENTO SE DETERMINA ESTRICTAMENTE POR EL ORDEN DE LLEGADA AL SERVIDOR. EL PLAN DE SUSCRIPCIÓN DEFINE LA CAPACIDAD DE VOLUMEN, PERO NO OTORGA PRIORIDAD DE TIEMPO NI SALTOS EN LA COLA SOBRE OTROS SUSCRIPTORES.
               </p>
             </section>
 
-            <section>
-              <h2 className="text-[10px] font-black tracking-[0.4em] mb-4 text-black italic border-l-2 border-black pl-4">
+            <section className="border-l-4 border-black pl-8">
+              <h2 className="text-[12px] font-black tracking-[0.5em] mb-6">
                 3. REGLAS DEL SISTEMA (SENTINEL)
               </h2>
-              <p className="font-serif font-light text-xl italic text-neutral-700 leading-snug normal-case">
-                El acceso al Kernel está sujeto a las reglas de SENTINEL. Cualquier intento de vulnerar la cola de procesamiento o realizar ingeniería inversa sobre el Módulo M-07 resultará en la suspensión inmediata de la suscripción sin derecho a reclamo bajo la autoridad de ALE.
+              <p className="text-black leading-loose">
+                EL ACCESO AL KERNEL ESTÁ SUJETO A LAS REGLAS DE SENTINEL. CUALQUIER INTENTO DE VULNERAR LA COLA DE PROCESAMIENTO O REALIZAR INGENIERÍA INVERSA SOBRE EL MÓDULO M-07 RESULTARÁ EN LA SUSPENSIÓN INMEDIATA DE LA SUSCRIPCIÓN SIN DERECHO A RECLAMO BAJO LA AUTORIDAD DE ALE.
               </p>
             </section>
 
-            <hr className="border-neutral-100 my-12" />
-            
-            <section className="text-center pb-12">
-              <p className="text-[9px] font-black tracking-[0.3em] text-neutral-400 italic">
+            <div className="pt-20 text-center">
+              <p className="text-[9px] font-black tracking-[0.5em] text-black/30 italic">
                 LUME GLOBAL CORE ES UNA MARCA COMERCIAL OPERADA POR JORGE ALEJANDRO DELLARIA (LUME.GLOBAL).
               </p>
-            </section>
+            </div>
           </div>
         </article>
       </section>
 
-      <footer className="w-full p-6 border-t border-neutral-100 flex flex-col items-center gap-2 bg-white">
-        <p className="text-[8px] md:text-[9px] font-bold text-neutral-700 tracking-[0.4em] italic">
-          LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE 🌎
-        </p>
-        <div className="flex gap-8 text-[9px] text-neutral-300 pb-2">
-          <Link href="/terms" className="text-black underline underline-offset-8 decoration-1 transition-all font-bold">
+      {/* FOOTER: ESTÉTICA RECTA LUME */}
+      <footer className="w-full p-10 border-t border-black flex flex-col items-center gap-8 bg-white">
+        <div className="flex flex-wrap justify-center gap-12 text-[10px] font-black tracking-[0.3em]">
+          <Link href="/terms" className="text-black underline decoration-2 underline-offset-8">
             TÉRMINOS
           </Link>
-          <Link href="/privacy" className="hover:text-black underline underline-offset-8 decoration-1 transition-all">
+          <Link href="/privacy" className="text-black/40 hover:text-black transition-colors">
             PRIVACIDAD
           </Link>
-          <Link href="/refund" className="hover:text-black underline underline-offset-8 decoration-1 transition-all">
+          <Link href="/refund" className="text-black/40 hover:text-black transition-colors">
             REEMBOLSO
           </Link>
         </div>
+        <p className="text-[9px] font-black text-black/10 tracking-[0.6em] italic uppercase">
+          LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE 🌎
+        </p>
       </footer>
     </main>
   );
