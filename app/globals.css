@@ -10,10 +10,10 @@
     --foreground: #000000;
   }
 
-  /* LEY TIPOGRÁFICA LUME GLOBAL CORE (V5.8.1) */
+  /* LEY TIPOGRÁFICA LUME GLOBAL CORE (V10.0) */
   html {
     font-family: 'Inter', sans-serif;
-    /* FORZADO DE MAYÚSCULAS GLOBAL */
+    /* FORZADO DE MAYÚSCULAS MANDATORIO */
     text-transform: uppercase;
   }
 
@@ -22,11 +22,18 @@
     background: var(--background);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* ESPACIADO EJECUTIVO */
-    letter-spacing: 0.1em;
+    /* ESPACIADO EJECUTIVO RECTIFICADO */
+    letter-spacing: 0.2em;
   }
 
-  /* RESTRICCIÓN: LA FUENTE SERIF SOLO SE USA EN TÍTULOS E ITÁLICAS */
+  /* RESTRICCIÓN: ESTÉTICA RECTA - ELIMINACIÓN DE SUAVIZADO DE TRANSICIÓN */
+  * {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    /* REDUCCIÓN DE TRANSICIÓN PARA RESPUESTA INMEDIATA */
+    transition: opacity 0.2s ease;
+  }
+
   .font-serif {
     font-family: 'Cormorant Garamond', serif !important;
     letter-spacing: normal;
@@ -36,18 +43,13 @@
     font-family: 'Inter', sans-serif !important;
   }
 
-  /* NORMALIZACIÓN PARA BLOQUES QUE REQUIERAN MINÚSCULAS (CASOS EXCEPCIONALES) */
+  /* ELIMINACIÓN DE EXCEPCIONES: TODO ES UPPERCASE */
   .normal-case {
-    text-transform: none;
+    text-transform: uppercase !important;
   }
 }
 
-/* SUAVIZADO DE INTERFAZ LUME HIGH-END */
-* {
-  transition: background-color 0.4s ease, border-color 0.4s ease, opacity 0.4s ease;
-}
-
-/* ELIMINACIÓN DE SCROLLBAR PARA ESTÉTICA MINIMALISTA */
+/* ELIMINACIÓN DE SCROLLBAR: ESTÉTICA PURA */
 ::-webkit-scrollbar {
   display: none;
 }
@@ -55,4 +57,13 @@
 ::selection {
   background: #000000;
   color: #FFFFFF;
+}
+
+/* UTILIDADES DE SIGILO PARA LLAVE DE ACCESO */
+.token-sigilo {
+  opacity: 0.1;
+}
+
+.token-sigilo:focus {
+  opacity: 1;
 }
