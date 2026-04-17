@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Inter, Cormorant_Garamond } from "next/font/google";
 
-// 🖋️ CONFIGURACIÓN TIPOGRÁFICA: ESTILO KARADA DECO (V5.8.1)
+// 🖋️ CONFIGURACIÓN TIPOGRÁFICA LUME GLOBAL CORE
 const sans = Inter({ 
   subsets: ["latin"], 
   variable: "--font-sans",
@@ -42,9 +42,12 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`${sans.variable} ${serif.variable} scroll-smooth`}>
-      <body className="bg-white text-black antialiased font-sans selection:bg-black selection:text-white uppercase tracking-wider">
-        {/* LA HERENCIA DE ESTILOS ASEGURA EL CUMPLIMIENTO DE LA DIRECTIVA DE MAYÚSCULAS EN TODO EL FRONTEND */}
-        {children}
+      {/* 📐 RECTIFICACIÓN: SELECCIÓN ABSOLUTA Y MAYÚSCULAS MANDATORIAS */}
+      <body className="bg-[#FFFFFF] text-black antialiased font-sans selection:bg-black selection:text-white uppercase tracking-[0.2em] min-h-screen">
+        {/* ENVOLTORIO DE PROTECCIÓN DE DISEÑO RECTO */}
+        <div className="flex flex-col min-h-screen">
+          {children}
+        </div>
       </body>
     </html>
   );
