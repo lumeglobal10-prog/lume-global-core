@@ -30,27 +30,34 @@ export default function SmartPopup({ trigger, onClose }: PopupProps) {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/5 backdrop-blur-md animate-in fade-in duration-500">
-      <div className="bg-white border border-black/5 p-10 rounded-[32px] max-w-sm w-full shadow-[0_32px_64px_-15px_rgba(0,0,0,0.1)] mx-4 text-center">
-        {/* CABECERA ESTILO LUME */}
-        <h3 className="text-black text-[10px] font-black tracking-[0.4em] uppercase mb-6 italic">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
+      {/* 📐 RECTIFICACIÓN: BORDES RECTOS, CERO SOMBRAS, FONDO BLANCO PURO */}
+      <div className="bg-[#FFFFFF] border border-black p-10 max-w-sm w-full mx-4 text-center rounded-none">
+        
+        {/* CABECERA ESTILO LUME: MAYÚSCULAS MANDATORIAS */}
+        <h3 className="text-black text-[10px] font-black tracking-[0.5em] uppercase mb-8">
           AVISO DE SISTEMA
         </h3>
         
-        {/* CUERPO DE TEXTO: ESTILO KARADA DECO (SERIF PARA ÉNFASIS) */}
-        <p className="text-neutral-500 text-[11px] font-medium leading-relaxed mb-8 tracking-[0.1em] uppercase">
-          Los valores se expresan en <span className="text-black font-bold font-serif italic normal-case tracking-normal text-sm">USD (Dólares Estadounidenses)</span>. 
+        {/* CUERPO DE TEXTO: ESTILO RECTO LUME */}
+        <p className="text-black text-[10px] font-bold leading-relaxed mb-10 tracking-[0.2em] uppercase">
+          LOS VALORES SE EXPRESAN EN <span className="underline decoration-1 underline-offset-4">USD (DÓLARES ESTADOUNIDENSES)</span>. 
           <br /><br />
-          Dependiendo de su ubicación, pueden aplicar impuestos locales adicionales según la normativa del Nodo San Pablo.
+          DEPENDIENDO DE SU UBICACIÓN, PUEDEN APLICAR IMPUESTOS LOCALES ADICIONALES SEGÚN LA NORMATIVA DEL NODO SAN PABLO.
         </p>
 
-        {/* BOTÓN DE CIERRE MINIMALISTA */}
+        {/* BOTÓN DE CIERRE: ESTÉTICA RECTA Y MAYÚSCULAS */}
         <button 
           onClick={closeHandler}
-          className="w-full py-4 bg-black text-white text-[9px] font-bold uppercase tracking-[0.3em] hover:bg-neutral-800 transition-all rounded-2xl shadow-lg active:scale-95"
+          className="w-full py-5 bg-black text-white text-[9px] font-black uppercase tracking-[0.5em] hover:bg-neutral-900 transition-colors rounded-none"
         >
           ENTENDIDO
         </button>
+      </div>
+      
+      {/* POP-UP INFORMATIVO (REQUERIMIENTO 4) */}
+      <div className="fixed bottom-6 right-6 bg-black text-white p-4 text-[8px] font-black tracking-[0.3em] uppercase animate-bounce">
+        PROSPECTO CAPTURADO: VALIDANDO IDENTIDAD CORPORATIVA
       </div>
     </div>
   );
