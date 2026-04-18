@@ -17,6 +17,11 @@ const nextConfig = {
   // COMPATIBILIDAD DE RUTAS (SPA PROTOCOL)
   // Asegura que /login se exporte como /login/index.html
   trailingSlash: true,
+
+  // CONFIGURACIÓN DE ENTORNO PARA NODO SAN PABLO (PUERTO 8000)
+  env: {
+    NEXT_PUBLIC_API_URL: 'http://localhost:8000/api/v1',
+  },
 };
 
 export default nextConfig;
