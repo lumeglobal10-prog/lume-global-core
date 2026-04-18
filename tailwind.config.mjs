@@ -23,6 +23,8 @@ export default {
         black: '#000000',
       },
       fontFamily: {
+        // IDENTIDAD FINAL V5.1: PLAYFAIR DISPLAY
+        serif: ["Playfair Display", "serif"],
         sans: ["Inter", "sans-serif"],
         mono: ["Roboto Mono", "monospace"],
       },
@@ -46,6 +48,10 @@ export default {
           'transition': 'none !important',
           'border-radius': '0 !important',
           'box-shadow': 'none !important',
+          'text-transform': 'uppercase !important',
+          'font-family': '"Playfair Display", serif !important',
+          'font-weight': '300 !important',
+          'letter-spacing': '0.2em !important',
         },
       })
     },
