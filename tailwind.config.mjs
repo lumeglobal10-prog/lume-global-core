@@ -23,21 +23,29 @@ export default {
         black: '#000000',
       },
       fontFamily: {
-        sans: ["var(--font-inter)"],
-        mono: ["var(--font-roboto-mono)"],
+        sans: ["Inter", "sans-serif"],
+        mono: ["Roboto Mono", "monospace"],
       },
-      // 🚫 ELIMINACIÓN DE SUAVIZADO: CERO SOMBRAS
+      // 🚫 ELIMINACIÓN DE SUAVIZADO: CERO SOMBRAS Y TRANSICIONES
       boxShadow: {
-        'none': '0 0 #0000',
+        'none': 'none',
+      },
+      transitionProperty: {
+        'none': 'none',
       },
     },
   },
   plugins: [
-    // INYECCIÓN DE UTILIDAD PARA PLACEHOLDERS EN MAYÚSCULAS
+    // INYECCIÓN DE UTILIDAD PARA PLACEHOLDERS Y TEXTO MANDATORIO LUME
     function({ addUtilities }) {
       addUtilities({
         '.placeholder-uppercase::placeholder': {
           'text-transform': 'uppercase',
+        },
+        '.lume-stiff': {
+          'transition': 'none !important',
+          'border-radius': '0 !important',
+          'box-shadow': 'none !important',
         },
       })
     },
