@@ -8,15 +8,14 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
 
-  // 🌐 ESPECIFICACIONES DE CONEXIÓN: NODO SAN PABLO
-  const API_BASE = "/api/v1";
+  // 🌐 DIRECCIONAMIENTO NODO SAN PABLO: VARIABLE DE ENTORNO MANDATORIA
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // LITERALIDAD TÉCNICA: RUTA SEGÚN BACKEND V5.0
       const res = await fetch(`${API_BASE}/login`, {
         method: 'POST',
         headers: { 
@@ -39,7 +38,7 @@ export default function LoginPage() {
         // SINCRONIZACIÓN CON MIDDLEWARE
         document.cookie = `lume_session_token=${data.access_token}; path=/; samesite=strict;`;
 
-        // CONSULTA INMEDIATA DE ACTIVOS TRAS LOGIN (REQ 2)
+        // CONSULTA DE ACTIVOS POST-LOGIN (REQUERIMIENTO III)
         await fetch(`${API_BASE}/subscriber/assets`, {
           headers: { 'Authorization': `Bearer ${data.access_token}` }
         });
@@ -56,13 +55,14 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FFFFFF] text-black font-sans flex flex-col items-center justify-center p-10 uppercase tracking-[0.2em]">
-      {/* TÍTULO: MAYÚSCULAS MANDATORIAS Y ESTÉTICA RECTA */}
-      <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-none mb-16 text-center uppercase">
+    <main className="min-h-screen bg-[#FFFFFF] text-black flex flex-col items-center justify-center p-10 uppercase tracking-[0.2em]">
+      
+      {/* TÍTULO: PLAYFAIR DISPLAY 300 / LUJO MINIMALISTA */}
+      <h1 className="text-4xl md:text-6xl font-[300] tracking-[0.1em] leading-tight mb-20 text-center uppercase font-serif">
         ACCESO DE SUSCRIPTORES.
       </h1>
 
-      <form onSubmit={handleLogin} className="w-full max-w-xs space-y-10">
+      <form onSubmit={handleLogin} className="w-full max-w-xs space-y-8">
         <div className="space-y-4">
           <input 
             type="email" 
@@ -70,7 +70,7 @@ export default function LoginPage() {
             placeholder="EMAIL DE SUSCRIPCIÓN"
             value={formData.email}
             onChange={(e) => setFormData({...formData, email: e.target.value})}
-            className="w-full border border-black p-5 text-[10px] font-black outline-none focus:bg-neutral-50 rounded-none uppercase placeholder-uppercase transition-colors"
+            className="w-full border border-black p-5 text-[11px] outline-none transition-none rounded-none font-sans"
           />
         </div>
 
@@ -81,21 +81,21 @@ export default function LoginPage() {
             placeholder="CREDENCIAL"
             value={formData.password}
             onChange={(e) => setFormData({...formData, password: e.target.value})}
-            className="w-full border border-black p-5 text-[10px] font-black outline-none focus:bg-neutral-50 rounded-none uppercase placeholder-uppercase transition-colors"
+            className="w-full border border-black p-5 text-[11px] outline-none transition-none rounded-none font-sans"
           />
         </div>
 
         <button 
           type="submit" 
           disabled={loading}
-          className="w-full bg-black text-white py-6 rounded-none text-[10px] font-black tracking-[0.6em] transition-all hover:bg-neutral-900 disabled:opacity-50"
+          className="w-full bg-black text-white py-6 rounded-none text-[11px] font-[300] tracking-[0.5em] transition-none hover:bg-black disabled:opacity-30 font-serif"
         >
           {loading ? "SINCRONIZANDO..." : "INGRESAR"}
         </button>
       </form>
 
-      {/* FOOTER DE LOGIN: ESTÉTICA RECTA */}
-      <div className="mt-20 text-[8px] font-black text-black/20 tracking-[0.4em] italic">
+      {/* FOOTER DE LOGIN: ESTÉTICA RECTA V5.1 */}
+      <div className="mt-24 text-[9px] font-[300] text-black/20 tracking-[0.4em] italic font-serif uppercase">
         LUME GLOBAL CORE // NODO_SAN_PABLO_01
       </div>
     </main>
