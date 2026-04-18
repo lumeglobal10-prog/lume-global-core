@@ -55,12 +55,12 @@ export default function HeroSlider() {
         </div>
       </div>
 
-      {/* ETIQUETAS DE ESTADO: MAYÚSCULAS MANDATORIAS Y BORDES RECTOS */}
+      {/* ETIQUETAS DE ESTADO: MAYÚSCULAS MANDATORIAS Y PLAYFAIR DISPLAY 300 */}
       <div className="absolute bottom-6 left-6 z-30 px-6 py-2 bg-black text-white rounded-none border-none">
-          <span className="text-[9px] font-black tracking-[0.5em] uppercase">ORIGINAL</span>
+          <span className="text-[9px] font-[300] tracking-[0.5em] uppercase font-serif">ORIGINAL</span>
       </div>
       <div className="absolute bottom-6 right-6 z-30 px-6 py-2 bg-white text-black border border-black rounded-none">
-          <span className="text-[9px] font-black tracking-[0.5em] uppercase">LUME_RENDER</span>
+          <span className="text-[9px] font-[300] tracking-[0.5em] uppercase font-serif">LUME_RENDER</span>
       </div>
     </div>
   );
