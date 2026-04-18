@@ -1,11 +1,17 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 
-// 🖋️ CONFIGURACIÓN TIPOGRÁFICA LUME GLOBAL CORE: ELIMINACIÓN DE SERIF
-const sans = Inter({ 
+// 🖋️ CONFIGURACIÓN TIPOGRÁFICA LUME GLOBAL CORE V5.1
+const inter = Inter({ 
   subsets: ["latin"], 
   variable: "--font-inter",
-  weight: ["400", "900"] 
+  weight: ["400"] 
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  weight: ["300", "400"]
 });
 
 // 🌐 META-DATOS DE SOBERANÍA DIGITAL (LGC-2026) - NODO SAN PABLO
@@ -34,10 +40,10 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${sans.variable} scroll-none`}>
-      {/* 📐 RECTIFICACIÓN: SELECCIÓN ABSOLUTA Y MAYÚSCULAS MANDATORIAS */}
-      <body className="bg-[#FFFFFF] text-black antialiased font-sans selection:bg-black selection:text-white uppercase tracking-[0.2em] min-h-screen">
-        {/* ENVOLTORIO DE PROTECCIÓN DE DISEÑO RECTO - OVERFLOW OCULTO PARA MANTENER ESTRUCTURA */}
+    <html lang="es" className={`${inter.variable} ${playfair.variable} scroll-none`}>
+      {/* 📐 RECTIFICACIÓN V5.1: SELECCIÓN ABSOLUTA Y ESTÉTICA DE LUJO */}
+      <body className="bg-[#FFFFFF] text-black antialiased font-serif selection:bg-black selection:text-white uppercase tracking-[0.2em] min-h-screen">
+        {/* ENVOLTORIO DE PROTECCIÓN DE DISEÑO RECTO */}
         <div className="flex flex-col min-h-screen overflow-hidden">
           {children}
         </div>
