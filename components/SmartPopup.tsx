@@ -30,9 +30,9 @@ export default function SmartPopup({ trigger, onClose }: PopupProps) {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-none animate-none">
       {/* 📐 RECTIFICACIÓN: BORDES RECTOS, CERO SOMBRAS, FONDO BLANCO PURO */}
-      <div className="bg-[#FFFFFF] border border-black p-10 max-w-sm w-full mx-4 text-center rounded-none">
+      <div className="bg-[#FFFFFF] border border-black p-10 max-w-sm w-full mx-4 text-center rounded-none shadow-none">
         
         {/* CABECERA ESTILO LUME: MAYÚSCULAS MANDATORIAS */}
         <h3 className="text-black text-[10px] font-black tracking-[0.5em] uppercase mb-8">
@@ -49,14 +49,14 @@ export default function SmartPopup({ trigger, onClose }: PopupProps) {
         {/* BOTÓN DE CIERRE: ESTÉTICA RECTA Y MAYÚSCULAS */}
         <button 
           onClick={closeHandler}
-          className="w-full py-5 bg-black text-white text-[9px] font-black uppercase tracking-[0.5em] hover:bg-neutral-900 transition-colors rounded-none"
+          className="w-full py-5 bg-black text-white text-[9px] font-black uppercase tracking-[0.5em] hover:bg-black transition-none rounded-none"
         >
           ENTENDIDO
         </button>
       </div>
       
       {/* POP-UP INFORMATIVO (REQUERIMIENTO 4) */}
-      <div className="fixed bottom-6 right-6 bg-black text-white p-4 text-[8px] font-black tracking-[0.3em] uppercase animate-bounce">
+      <div className="fixed bottom-6 right-6 bg-black text-white p-4 text-[8px] font-black tracking-[0.3em] uppercase">
         PROSPECTO CAPTURADO: VALIDANDO IDENTIDAD CORPORATIVA
       </div>
     </div>
