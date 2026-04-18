@@ -5,10 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "export": "next build && next export",
     "start": "next start",
     "lint": "next lint",
-    "build:prod": "export NEXT_PUBLIC_API_URL=/api/v1 && next build"
+    "build:prod": "export NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1 && next build"
   },
   "dependencies": {
     "next": "14.2.3",
