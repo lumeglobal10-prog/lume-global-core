@@ -1,3 +1,5 @@
+/* PROTOCOLO ESTÉTICO LUME V5.1 - REFINAMIENTO ELEGANTE */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
 
 @tailwind base;
@@ -10,20 +12,26 @@
     --foreground: #000000;
   }
 
-  /* LEY TIPOGRÁFICA LUME GLOBAL CORE (V10.0): ELIMINACIÓN DE SERIF */
+  /* LEY TIPOGRÁFICA LUME GLOBAL CORE (V5.1) - IDENTIDAD FINAL */
   html {
-    font-family: 'Inter', sans-serif;
-    /* FORZADO DE MAYÚSCULAS MANDATORIO */
-    text-transform: uppercase;
     background-color: var(--background);
+  }
+
+  /* SELECCIÓN TÉCNICA REFINADA: PLAYFAIR DISPLAY PARA ELEMENTOS DE IDENTIDAD */
+  h1, h2, h3, h4, .button, .label, .message, .nav-link, span, button {
+    font-family: 'Playfair Display', serif !important;
+    text-transform: uppercase !important;
+    font-weight: 300; /* PESO FINO: ELEGANCIA EXTREMA */
+    letter-spacing: 0.2em; /* ESPACIADO AMPLIADO PARA ESTÉTICA DE LUJO */
+    color: #000000;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     color: var(--foreground);
     background: var(--background);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    /* ESPACIADO EJECUTIVO RECTIFICADO */
+    font-family: 'Inter', sans-serif;
     letter-spacing: 0.2em;
     line-height: 1.5;
   }
@@ -32,15 +40,17 @@
   * {
     border-radius: 0 !important;
     box-shadow: none !important;
-    /* DETERMINISMO TÉCNICO: CERO TRANSICIONES */
     transition: none !important;
   }
 
-  .font-sans {
-    font-family: 'Inter', sans-serif !important;
+  /* CAMPOS DE ENTRADA (INPUTS): MANTENIMIENTO DE CASO GENÉRICO SEGÚN DIRECTIVA */
+  input, textarea {
+    font-family: 'Inter', sans-serif;
+    text-transform: none !important;
+    letter-spacing: normal;
   }
 
-  /* ELIMINACIÓN DE EXCEPCIONES: TODO ES UPPERCASE */
+  /* ELIMINACIÓN DE EXCEPCIONES: TODO LO DEMÁS ES UPPERCASE */
   .normal-case, .lowercase, .capitalize {
     text-transform: uppercase !important;
   }
@@ -56,19 +66,13 @@
   color: #FFFFFF;
 }
 
-/* UTILIDADES DE SIGILO PARA LLAVE DE ACCESO (PERSISTENCIA LUME_SESSION_TOKEN) */
+/* UTILIDADES DE SIGILO PARA LLAVE DE ACCESO */
 .token-sigilo {
-  opacity: 0.05;
+  opacity: 0.1;
   filter: grayscale(100%);
 }
 
 .token-sigilo:focus {
   opacity: 1;
   filter: none;
-}
-
-/* RECTIFICACIÓN DE INPUTS Y BOTONES GLOBALES */
-input, button {
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
 }
