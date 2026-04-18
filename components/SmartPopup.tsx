@@ -31,32 +31,32 @@ export default function SmartPopup({ trigger, onClose }: PopupProps) {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-none animate-none">
-      {/* 📐 RECTIFICACIÓN: BORDES RECTOS, CERO SOMBRAS, FONDO BLANCO PURO */}
-      <div className="bg-[#FFFFFF] border border-black p-10 max-w-sm w-full mx-4 text-center rounded-none shadow-none">
+      {/* 📐 RECTIFICACIÓN V5.1: FONDO BLANCO PURO, SIN SOMBRAS, SIN CURVAS */}
+      <div className="bg-[#FFFFFF] border border-black p-12 max-w-sm w-full mx-4 text-center rounded-none shadow-none">
         
-        {/* CABECERA ESTILO LUME: MAYÚSCULAS MANDATORIAS */}
-        <h3 className="text-black text-[10px] font-black tracking-[0.5em] uppercase mb-8">
+        {/* CABECERA: PLAYFAIR DISPLAY 300 / MAYÚSCULAS MANDATORIAS */}
+        <h3 className="text-black text-[11px] font-[300] tracking-[0.5em] uppercase mb-8 font-serif">
           AVISO DE SISTEMA
         </h3>
         
-        {/* CUERPO DE TEXTO: ESTILO RECTO LUME */}
-        <p className="text-black text-[10px] font-bold leading-relaxed mb-10 tracking-[0.2em] uppercase">
+        {/* CUERPO: PLAYFAIR DISPLAY 300 / ESPACIADO DE LUJO */}
+        <p className="text-black text-[10px] font-[300] leading-relaxed mb-10 tracking-[0.2em] uppercase font-serif">
           LOS VALORES SE EXPRESAN EN <span className="underline decoration-1 underline-offset-4">USD (DÓLARES ESTADOUNIDENSES)</span>. 
           <br /><br />
           DEPENDIENDO DE SU UBICACIÓN, PUEDEN APLICAR IMPUESTOS LOCALES ADICIONALES SEGÚN LA NORMATIVA DEL NODO SAN PABLO.
         </p>
 
-        {/* BOTÓN DE CIERRE: ESTÉTICA RECTA Y MAYÚSCULAS */}
+        {/* BOTÓN: ESTÉTICA RECTA, SIN TRANSICIÓN, PLAYFAIR 300 */}
         <button 
           onClick={closeHandler}
-          className="w-full py-5 bg-black text-white text-[9px] font-black uppercase tracking-[0.5em] hover:bg-black transition-none rounded-none"
+          className="w-full py-5 bg-black text-white text-[10px] font-[300] uppercase tracking-[0.5em] transition-none rounded-none font-serif hover:bg-black"
         >
           ENTENDIDO
         </button>
       </div>
       
-      {/* POP-UP INFORMATIVO (REQUERIMIENTO 4) */}
-      <div className="fixed bottom-6 right-6 bg-black text-white p-4 text-[8px] font-black tracking-[0.3em] uppercase">
+      {/* IDENTIFICADOR DE ESTADO: SIGILO CORPORATIVO */}
+      <div className="fixed bottom-6 right-6 bg-black text-white p-4 text-[8px] font-[300] tracking-[0.3em] uppercase font-serif">
         PROSPECTO CAPTURADO: VALIDANDO IDENTIDAD CORPORATIVA
       </div>
     </div>
