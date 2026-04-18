@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,15 +6,16 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
+    --background: #FFFFFF;
     --foreground: #000000;
   }
 
-  /* LEY TIPOGRÁFICA LUME GLOBAL CORE (V10.0) */
+  /* LEY TIPOGRÁFICA LUME GLOBAL CORE (V10.0): ELIMINACIÓN DE SERIF */
   html {
     font-family: 'Inter', sans-serif;
     /* FORZADO DE MAYÚSCULAS MANDATORIO */
     text-transform: uppercase;
+    background-color: var(--background);
   }
 
   body {
@@ -24,19 +25,15 @@
     -moz-osx-font-smoothing: grayscale;
     /* ESPACIADO EJECUTIVO RECTIFICADO */
     letter-spacing: 0.2em;
+    line-height: 1.5;
   }
 
-  /* RESTRICCIÓN: ESTÉTICA RECTA - ELIMINACIÓN DE SUAVIZADO DE TRANSICIÓN */
+  /* RESTRICCIÓN: ESTÉTICA RECTA - ELIMINACIÓN TOTAL DE SUAVIZADOS */
   * {
     border-radius: 0 !important;
     box-shadow: none !important;
-    /* REDUCCIÓN DE TRANSICIÓN PARA RESPUESTA INMEDIATA */
-    transition: opacity 0.2s ease;
-  }
-
-  .font-serif {
-    font-family: 'Cormorant Garamond', serif !important;
-    letter-spacing: normal;
+    /* DETERMINISMO TÉCNICO: CERO TRANSICIONES */
+    transition: none !important;
   }
 
   .font-sans {
@@ -44,12 +41,12 @@
   }
 
   /* ELIMINACIÓN DE EXCEPCIONES: TODO ES UPPERCASE */
-  .normal-case {
+  .normal-case, .lowercase, .capitalize {
     text-transform: uppercase !important;
   }
 }
 
-/* ELIMINACIÓN DE SCROLLBAR: ESTÉTICA PURA */
+/* ELIMINACIÓN DE SCROLLBAR: ESTÉTICA PURA LUME */
 ::-webkit-scrollbar {
   display: none;
 }
@@ -59,11 +56,19 @@
   color: #FFFFFF;
 }
 
-/* UTILIDADES DE SIGILO PARA LLAVE DE ACCESO */
+/* UTILIDADES DE SIGILO PARA LLAVE DE ACCESO (PERSISTENCIA LUME_SESSION_TOKEN) */
 .token-sigilo {
-  opacity: 0.1;
+  opacity: 0.05;
+  filter: grayscale(100%);
 }
 
 .token-sigilo:focus {
   opacity: 1;
+  filter: none;
+}
+
+/* RECTIFICACIÓN DE INPUTS Y BOTONES GLOBALES */
+input, button {
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
 }
