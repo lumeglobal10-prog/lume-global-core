@@ -14,28 +14,28 @@ export default function HeroSlider() {
     setSliderPos(position);
   }, []);
 
-  // 🖼️ ASSETS SEGÚN BLUEPRINT LUME
+  // 🖼️ ASSETS SEGÚN BLUEPRINT LUME: NOMENCLATURA INMUTABLE
   const imgBefore = "/obra.jpg"; 
   const imgAfter = "/render.jpg";
 
   return (
     <div 
       ref={containerRef}
-      // 📐 RECTIFICACIÓN: BORDES RECTOS (rounded-none), SIN SOMBRAS (shadow-none)
-      className="relative w-full aspect-video overflow-hidden rounded-none shadow-none touch-none select-none bg-[#FFFFFF] border border-black cursor-col-resize group"
+      // 📐 RECTIFICACIÓN: ELIMINACIÓN DE TRANSICIONES Y SUAVIZADO
+      className="relative w-full aspect-video overflow-hidden rounded-none shadow-none touch-none select-none bg-[#FFFFFF] border border-black cursor-col-resize"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
     >
-      {/* CAPA DESPUÉS: RENDER (FONDO) */}
+      {/* CAPA DESPUÉS: RENDER (FONDO) - TRANSITION: NONE MANDATORIO */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-700"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-none"
         style={{ backgroundImage: `url('${imgAfter}')` }}
       />
 
       {/* CAPA ANTES: OBRA (RECORTE) */}
       <div 
         className="absolute inset-0 z-10 overflow-hidden"
-        style={{ width: `${sliderPos}%`, borderRight: '1px solid #000000' }}
+        style={{ width: `${sliderPos}%`, borderRight: '2px solid #000000' }}
       >
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -50,8 +50,8 @@ export default function HeroSlider() {
       {/* CONTROLADOR DE PRECISIÓN: ESTÉTICA RECTA LUME */}
       <div className="absolute inset-y-0 z-20 pointer-events-none" style={{ left: `calc(${sliderPos}% - 1px)` }}>
         <div className="flex h-full items-center justify-center">
-            {/* MANIJA RECTA Y NEGRA */}
-            <div className="w-[2px] h-full bg-black shadow-none transition-transform"></div>
+            {/* MANIJA RECTA Y NEGRA SIN TRANSICIÓN */}
+            <div className="w-[2px] h-full bg-black shadow-none"></div>
         </div>
       </div>
 
