@@ -41,8 +41,24 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`${inter.variable} ${playfair.variable} scroll-none`}>
-      {/* 📐 RECTIFICACIÓN V5.1: SELECCIÓN ABSOLUTA Y ESTÉTICA DE LUJO */}
       <body className="bg-[#FFFFFF] text-black antialiased font-serif selection:bg-black selection:text-white uppercase tracking-[0.2em] min-h-screen">
+        
+        {/* 🛡️ PROTOCOLO DE PURGA ALFA: ANULACIÓN DE PERSISTENCIA ZOMBIE */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          if (typeof window !== 'undefined') {
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.getRegistrations().then(regs => {
+                for(let reg of regs) reg.unregister();
+              });
+            }
+            if ('caches' in window) {
+              caches.keys().then(names => {
+                for (let name of names) caches.delete(name);
+              });
+            }
+          }
+        `}} />
+
         {/* ENVOLTORIO DE PROTECCIÓN DE DISEÑO RECTO */}
         <div className="flex flex-col min-h-screen overflow-hidden">
           {children}
