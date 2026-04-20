@@ -10,15 +10,17 @@
   :root {
     --background: #FFFFFF;
     --foreground: #000000;
+    --legal-text: #333333; /* INYECCIÓN: CONTRASTE OPERATIVO MANDATORIO */
   }
 
   /* LEY TIPOGRÁFICA LUME GLOBAL CORE (V5.1) - IDENTIDAD FINAL */
   html {
     background-color: var(--background);
+    scroll-behavior: auto !important; /* ELIMINACIÓN DE DESPLAZAMIENTO SUAVE */
   }
 
-  /* SELECCIÓN TÉCNICA REFINADA: PLAYFAIR DISPLAY PARA ELEMENTOS DE IDENTIDAD */
-  h1, h2, h3, h4, .button, .label, .message, .nav-link, span, button {
+  /* SELECCIÓN TÉCNICA REFINADA: PLAYFAIR DISPLAY SOBERANA */
+  h1, h2, h3, h4, .button, .label, .message, .nav-link, span, button, a {
     font-family: 'Playfair Display', serif !important;
     text-transform: uppercase !important;
     font-weight: 300; /* PESO FINO: ELEGANCIA EXTREMA */
@@ -34,6 +36,7 @@
     font-family: 'Inter', sans-serif;
     letter-spacing: 0.2em;
     line-height: 1.5;
+    overflow-x: hidden;
   }
 
   /* RESTRICCIÓN: ESTÉTICA RECTA - ELIMINACIÓN TOTAL DE SUAVIZADOS */
@@ -41,18 +44,27 @@
     border-radius: 0 !important;
     box-shadow: none !important;
     transition: none !important;
+    outline: none !important;
   }
 
-  /* CAMPOS DE ENTRADA (INPUTS): MANTENIMIENTO DE CASO GENÉRICO SEGÚN DIRECTIVA */
+  /* CAMPOS DE ENTRADA (INPUTS): MANTENIMIENTO DE CASO GENÉRICO */
   input, textarea {
     font-family: 'Inter', sans-serif;
     text-transform: none !important;
     letter-spacing: normal;
+    border: 1px solid #000000;
+    padding: 1rem;
   }
 
   /* ELIMINACIÓN DE EXCEPCIONES: TODO LO DEMÁS ES UPPERCASE */
   .normal-case, .lowercase, .capitalize {
     text-transform: uppercase !important;
+  }
+
+  /* RECTIFICACIÓN DE FOOTER: CONTRASTE ACCESIBLE */
+  footer p, footer a, footer div {
+    color: var(--legal-text) !important;
+    font-size: 10px;
   }
 }
 
@@ -70,6 +82,7 @@
 .token-sigilo {
   opacity: 0.1;
   filter: grayscale(100%);
+  transition: none !important;
 }
 
 .token-sigilo:focus {
