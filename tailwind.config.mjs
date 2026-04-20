@@ -2,6 +2,7 @@
 export default {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -21,12 +22,12 @@ export default {
       colors: {
         white: '#FFFFFF',
         black: '#000000',
+        legal: '#333333', // Inyección de Contraste Operativo para Footer/Legales
       },
       fontFamily: {
-        // IDENTIDAD FINAL V5.1: PLAYFAIR DISPLAY
-        serif: ["Playfair Display", "serif"],
-        sans: ["Inter", "sans-serif"],
-        mono: ["Roboto Mono", "monospace"],
+        // IDENTIDAD FINAL V5.1: PLAYFAIR DISPLAY SOBERANA
+        serif: ["var(--font-playfair)", "serif"],
+        sans: ["var(--font-inter)", "sans-serif"],
       },
       // 🚫 ELIMINACIÓN DE SUAVIZADO: CERO SOMBRAS Y TRANSICIONES
       boxShadow: {
@@ -35,6 +36,10 @@ export default {
       transitionProperty: {
         'none': 'none',
       },
+      letterSpacing: {
+        'lume': '0.2em',
+        'lume-wide': '0.5em',
+      }
     },
   },
   plugins: [
@@ -49,7 +54,7 @@ export default {
           'border-radius': '0 !important',
           'box-shadow': 'none !important',
           'text-transform': 'uppercase !important',
-          'font-family': '"Playfair Display", serif !important',
+          'font-family': 'var(--font-playfair), serif !important',
           'font-weight': '300 !important',
           'letter-spacing': '0.2em !important',
         },
