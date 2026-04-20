@@ -8,8 +8,8 @@ export default function DashboardPage() {
   const [status, setStatus] = useState<'OFFLINE' | 'ONLINE'>('OFFLINE');
   const [rendersRestantes, setRendersRestantes] = useState(0);
 
-  // 🌐 DIRECCIONAMIENTO NODO SAN PABLO: VARIABLE DE ENTORNO MANDATORIA
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+  // 🌐 RECTIFICACIÓN V5.1: USO DE RUTA RELATIVA PARA TÚNEL SSL (NGINX)
+  const API_BASE = "/api/v1";
   const SESSION_KEY = "lume_session_token";
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function DashboardPage() {
       }
 
       try {
-        // 🛡️ RECTIFICACIÓN SEGÚN BLUEPRINT KERNEL: /auth/check
+        // 🛡️ VALIDACIÓN DE SESIÓN EN NODO SAN PABLO
         const res = await fetch(`${API_BASE}/auth/check`, {
           method: 'POST',
           headers: { 
@@ -34,7 +34,7 @@ export default function DashboardPage() {
         if (res.ok) {
           setStatus('ONLINE');
           
-          // 💰 CONSULTA DE ACTIVOS (REQUERIMIENTO III)
+          // 💰 CONSULTA DE ACTIVOS: LITERALIDAD NOMENCLATURA V5.1
           const assetRes = await fetch(`${API_BASE}/subscriber/assets`, {
             headers: { 
               'Authorization': `Bearer ${token}`,
@@ -42,6 +42,8 @@ export default function DashboardPage() {
             }
           });
           const assetData = await assetRes.json();
+          
+          // MAPEO DE VARIABLES MANDATORIAS: promo_por_renders
           if (assetData.promo_por_renders !== undefined) {
             setRendersRestantes(assetData.promo_por_renders);
           }
@@ -57,7 +59,7 @@ export default function DashboardPage() {
     };
 
     sync();
-  }, [router, API_BASE]);
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem(SESSION_KEY);
@@ -68,7 +70,7 @@ export default function DashboardPage() {
   return (
     <main className="bg-[#FFFFFF] text-black min-h-screen flex flex-col uppercase tracking-[0.2em]">
       
-      {/* 💳 BANNER DE CORTESÍA (REQ 4) - ESTÉTICA V5.1 */}
+      {/* 💳 BANNER DE CORTESÍA ACTIVA */}
       {rendersRestantes > 0 && (
         <div className="w-full bg-black text-white text-[11px] py-4 text-center font-[300] tracking-[0.5em] font-serif">
           CORTESÍA ACTIVA: {rendersRestantes} RENDERS RESTANTES
@@ -96,7 +98,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* 📐 ÁREA DE CARGA: BLOQUEO POR SALDO INYECTADO */}
+        {/* 📐 ÁREA DE CARGA: BLOQUEO OPERATIVO POR CRÉDITOS */}
         <div className={`border border-black p-24 flex flex-col items-center gap-10 rounded-none transition-none ${rendersRestantes > 0 ? 'bg-white hover:bg-neutral-50 cursor-pointer' : 'bg-neutral-100 cursor-not-allowed'}`}>
           <div className="text-center space-y-4">
             <p className="text-[14px] font-[400] tracking-[0.6em] font-serif">CARGA DE ACTIVOS</p>
@@ -113,15 +115,15 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-l border-black">
           <div className="border-r border-b border-black p-10 text-center space-y-4">
-            <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif">PROCESADOS</p>
+            <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif uppercase">PROCESADOS</p>
             <p className="text-4xl font-[300] font-serif">0</p>
           </div>
           <div className="border-r border-b border-black p-10 text-center space-y-4">
-            <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif">PENDIENTES</p>
+            <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif uppercase">PENDIENTES</p>
             <p className="text-4xl font-[300] font-serif">0</p>
           </div>
           <div className="border-r border-b border-black p-10 text-center space-y-4">
-            <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif">CRÉDITOS</p>
+            <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif uppercase">CRÉDITOS</p>
             <p className="text-4xl font-[300] font-serif">{rendersRestantes}</p>
           </div>
         </div>
