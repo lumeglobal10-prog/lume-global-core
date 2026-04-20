@@ -10,8 +10,8 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [userMail, setUserMail] = useState('');
 
-  // 🌐 DIRECCIONAMIENTO NODO SAN PABLO: VARIABLE DE ENTORNO MANDATORIA
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+  // 🌐 RECTIFICACIÓN V5.1: USO DE RUTA RELATIVA PARA TÚNEL SSL (NGINX)
+  const API_BASE = "/api/v1";
   
   const LUME_HEADERS = {
     'Content-Type': 'application/json',
@@ -64,6 +64,7 @@ export default function CheckoutPage() {
       }
     } catch (error) {
       console.error("LGC_CORE: FALLO DE CONEXIÓN CON PASARELA.");
+      // En caso de fallo crítico de red, redirigir para re-intento
       router.push('/dashboard');
     } finally {
       setLoading(false);
@@ -73,14 +74,14 @@ export default function CheckoutPage() {
   return (
     <main className="min-h-screen bg-[#FFFFFF] text-black flex flex-col justify-between p-8 md:p-20 overflow-x-hidden uppercase tracking-[0.2em]">
       
-      {/* NAVEGACIÓN V5.1 */}
+      {/* NAVEGACIÓN V5.1 - BOTONES SIN MARCO SEGÚN DIRECTIVA */}
       <nav className="flex justify-between items-center w-full shrink-0 border-b border-black pb-10">
         <div className="text-[12px] font-[300] tracking-[0.5em] italic font-serif">
           LUME 🌎
         </div>
         <button 
           onClick={() => router.back()}
-          className="text-[10px] font-[300] tracking-[0.3em] bg-black text-white px-10 py-4 transition-none font-serif"
+          className="text-[10px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0"
         >
           ← VOLVER
         </button>
@@ -134,14 +135,14 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      {/* FOOTER V5.1 */}
-      <footer className="flex flex-col items-center space-y-12 pt-20 shrink-0 border-t border-black">
-        <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] font-serif">
-          <Link href="/terms" className="transition-none">TÉRMINOS</Link>
-          <Link href="/privacy" className="transition-none">PRIVACIDAD</Link>
-          <Link href="/refund" className="transition-none">REEMBOLSO</Link>
+      {/* FOOTER V5.1 - CONTRASTE OPERATIVO #333 */}
+      <footer className="flex flex-col items-center space-y-12 pt-20 shrink-0 border-t border-black bg-white">
+        <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] font-serif text-[#333]">
+          <Link href="/terms" className="transition-none hover:text-black">TÉRMINOS</Link>
+          <Link href="/privacy" className="transition-none hover:text-black">PRIVACIDAD</Link>
+          <Link href="/refund" className="transition-none hover:text-black">REEMBOLSO</Link>
         </div>
-        <div className="text-[9px] font-[300] tracking-[0.6em] text-black/20 italic uppercase font-serif">
+        <div className="text-[9px] font-[300] tracking-[0.6em] text-[#333] opacity-40 italic uppercase font-serif pb-8">
           LUME GLOBAL CORE 🌎 // 2026 // NODO_SAN_PABLO_01
         </div>
       </footer>
