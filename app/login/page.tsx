@@ -8,15 +8,16 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
 
-  // 🌐 DIRECCIONAMIENTO NODO SAN PABLO: VARIABLE DE ENTORNO MANDATORIA
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+  // 🌐 RECTIFICACIÓN V5.1: USO DE RUTA RELATIVA PARA TÚNEL SSL (NGINX)
+  const API_BASE = "/api/v1";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_BASE}/login`, {
+      // 🛡️ RECTIFICACIÓN DE ENDPOINT SEGÚN BLUEPRINT V5.1: /auth/validate
+      const res = await fetch(`${API_BASE}/auth/validate`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -24,7 +25,8 @@ export default function LoginPage() {
         },
         body: JSON.stringify({
           email: formData.email.toLowerCase(),
-          password: formData.password
+          // 🔑 LITERALIDAD MANDATORIA: password se mapea a token_hash según Schema V5.1
+          token_hash: formData.password 
         }),
       });
 
@@ -40,15 +42,18 @@ export default function LoginPage() {
 
         // CONSULTA DE ACTIVOS POST-LOGIN (REQUERIMIENTO III)
         await fetch(`${API_BASE}/subscriber/assets`, {
-          headers: { 'Authorization': `Bearer ${data.access_token}` }
+          headers: { 
+            'Authorization': `Bearer ${data.access_token}`,
+            'X-Lume-Node': 'SAN_PABLO_01'
+          }
         });
 
         router.push('/dashboard');
       } else {
-        alert('ACCESO DENEGADO: ERROR EN BÚNKER SAN PABLO');
+        alert('ACCESO DENEGADO: CREDENCIALES NO VÁLIDAS EN NODO SAN PABLO');
       }
     } catch (error) {
-      alert('FALLO DE CONEXIÓN: VERIFICAR GATEWAY NGINX');
+      alert('FALLO DE CONEXIÓN: VERIFICAR GATEWAY NGINX / SSL');
     } finally {
       setLoading(false);
     }
@@ -57,7 +62,6 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen bg-[#FFFFFF] text-black flex flex-col items-center justify-center p-10 uppercase tracking-[0.2em]">
       
-      {/* TÍTULO: PLAYFAIR DISPLAY 300 / LUJO MINIMALISTA */}
       <h1 className="text-4xl md:text-6xl font-[300] tracking-[0.1em] leading-tight mb-20 text-center uppercase font-serif">
         ACCESO DE SUSCRIPTORES.
       </h1>
@@ -94,7 +98,6 @@ export default function LoginPage() {
         </button>
       </form>
 
-      {/* FOOTER DE LOGIN: ESTÉTICA RECTA V5.1 */}
       <div className="mt-24 text-[9px] font-[300] text-black/20 tracking-[0.4em] italic font-serif uppercase">
         LUME GLOBAL CORE // NODO_SAN_PABLO_01
       </div>
