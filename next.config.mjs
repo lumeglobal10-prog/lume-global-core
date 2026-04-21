@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // 🚀 ACTIVACIÓN DE SALIDA ESTÁTICA MANDATORIA (LGC V5.8.1)
-  // Permite la generación del directorio /out para volcado en Nginx
+  // Generación del directorio /out para volcado en Nginx (Búnker San Pablo)
   output: 'export',
 
   // 🛡️ RESTRICCIÓN DE OPTIMIZACIÓN: DELEGADA AL KERNEL
-  // Next.js Image Optimization no es compatible con 'output: export'
   images: {
     unoptimized: true,
   },
@@ -15,12 +14,12 @@ const nextConfig = {
   swcMinify: true,
 
   // COMPATIBILIDAD DE RUTAS (SPA PROTOCOL)
-  // Asegura que /login se exporte como /login/index.html
   trailingSlash: true,
 
-  // CONFIGURACIÓN DE ENTORNO PARA NODO SAN PABLO (PUERTO 8000)
+  // 🌐 RECTIFICACIÓN DE RED: ELIMINACIÓN DE LOCALHOST
+  // Se eliminan referencias a puertos locales para delegar el tráfico al túnel SSL del Gateway.
   env: {
-    NEXT_PUBLIC_API_URL: 'http://localhost:8000/api/v1',
+    NEXT_PUBLIC_API_URL: '/api/v1',
   },
 };
 
