@@ -37,9 +37,10 @@ export default function LumeHome() {
   };
 
   return (
-    <main className="flex flex-col h-screen w-full bg-[#FFFFFF] text-black overflow-hidden uppercase tracking-[0.2em]">
+    // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
+    <main className="flex flex-col h-screen w-full bg-[#FFFFFF] text-black overflow-hidden uppercase tracking-[0.2em] zero-scroll">
       
-      {/* NAVEGACIÓN: ESTILO RECTO LUME V5.1 / SIN BORDES EN BOTONES DERECHOS */}
+      {/* 🏛️ REQUERIMIENTO 2: LOGO ARRIBA A LA IZQUIERDA / PALABRAS DE ACCIÓN A LA DERECHA */}
       <nav className="w-full p-8 flex justify-between items-center shrink-0 z-50 border-b border-black">
         <div className="text-[12px] font-[300] tracking-[0.5em] italic font-serif">
           {siteName}
@@ -49,12 +50,12 @@ export default function LumeHome() {
           {isLogged && (
             <button 
               onClick={handleLogout}
-              className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0"
+              className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer"
             >
               SALIR ×
             </button>
           )}
-          <Link href={isLogged ? "/dashboard" : "/login"}>
+          <Link href={isLogged ? "/dashboard/" : "/login/"}>
             <span className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none cursor-pointer font-serif border-none bg-none p-0">
               {isLogged ? "DASHBOARD" : "LOG IN"}
             </span>
@@ -63,12 +64,13 @@ export default function LumeHome() {
       </nav>
 
       <section className="flex-grow flex flex-col items-center justify-center px-4 min-h-0">
-        <div className="text-center mb-16 shrink-0">
+        <div className="text-center mb-12 shrink-0">
+          {/* TÍTULO EN MAYÚSCULAS MANDATORIAS */}
           <h1 className="text-4xl md:text-7xl font-[300] tracking-[0.1em] leading-tight text-black uppercase font-serif">
             ABSOLUTE PRECISION.
           </h1>
           <div className="h-[1px] w-24 bg-black mx-auto mt-8 opacity-20"></div>
-          <p className="text-[11px] font-[300] tracking-[0.6em] text-black/30 mt-8 font-serif">
+          <p className="text-[11px] font-[300] tracking-[0.6em] text-black/30 mt-8 font-serif uppercase">
             LUME GLOBAL CORE // AI INFRASTRUCTURE
           </p>
         </div>
@@ -76,7 +78,7 @@ export default function LumeHome() {
         <div className="w-full max-w-md md:max-w-xl lg:max-w-4xl mx-auto flex flex-col items-center justify-center">
           <HeroSlider />
           
-          <Link href="/pricing" className="mt-16">
+          <Link href="/pricing/" className="mt-12">
             <span className="text-[11px] font-[300] tracking-[0.5em] bg-black text-white px-12 py-6 transition-none hover:bg-black font-serif inline-block">
               VER PLANES DE SUSCRIPCIÓN
             </span>
@@ -84,12 +86,12 @@ export default function LumeHome() {
         </div>
       </section>
 
-      {/* FOOTER: CONTRASTE OPERATIVO (#333) Y PERSISTENCIA LEGAL */}
-      <footer className="w-full p-12 mt-auto border-t border-black flex flex-col items-center gap-10 shrink-0 bg-[#FFFFFF] z-50">
-        <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] text-[#333] font-serif">
-          <Link href="/terms" className="transition-none hover:text-black">TÉRMINOS Y CONDICIONES</Link>
-          <Link href="/privacy" className="transition-none hover:text-black">PRIVACIDAD</Link>
-          <Link href="/refund" className="transition-none hover:text-black">POLÍTICA DE REEMBOLSO</Link>
+      {/* FOOTER: CONTRASTE OPERATIVO (#333) */}
+      <footer className="w-full p-10 mt-auto border-t border-black flex flex-col items-center gap-8 shrink-0 bg-[#FFFFFF] z-50">
+        <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] text-[#333] font-serif uppercase">
+          <Link href="/terms/" className="transition-none hover:text-black">TÉRMINOS Y CONDICIONES</Link>
+          <Link href="/privacy/" className="transition-none hover:text-black">PRIVACIDAD</Link>
+          <Link href="/refund/" className="transition-none hover:text-black">POLÍTICA DE REEMBOLSO</Link>
         </div>
         <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.6em] italic uppercase font-serif">
           LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE 🌎
