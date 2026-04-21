@@ -15,6 +15,9 @@ export default function DashboardPage() {
     quota_sd_fixed: 0
   });
 
+  // 🏛️ RECTIFICACIÓN: JERARQUÍA DE RESOLUCIÓN POR PLAN
+  const [maxResAllowed, setMaxResAllowed] = useState('SD');
+
   const API_BASE = "/api/v1";
   const SESSION_KEY = "lume_session_token";
 
@@ -39,7 +42,6 @@ export default function DashboardPage() {
         if (res.ok) {
           setStatus('ONLINE');
           
-          // 💰 CONSULTA DE ACTIVOS: LITERALIDAD NOMENCLATURA V5.2
           const assetRes = await fetch(`${API_BASE}/subscriber/assets`, {
             headers: { 
               'Authorization': `Bearer ${token}`,
@@ -55,6 +57,9 @@ export default function DashboardPage() {
             quota_hd_fixed: assetData.quota_hd_fixed || 0,
             quota_sd_fixed: assetData.quota_sd_fixed || 0
           });
+
+          // 🏛️ RECTIFICACIÓN: ASIGNACIÓN DE TECHO TÉCNICO
+          setMaxResAllowed(assetData.max_res_allowed || 'SD');
           
         } else {
           localStorage.removeItem(SESSION_KEY);
@@ -74,20 +79,26 @@ export default function DashboardPage() {
     window.location.href = '/login/';
   };
 
+  // 🏛️ LÓGICA DE BLOQUEO BINARIO (CUOTA + JERARQUÍA)
+  const canRender = (resolution: string, value: number) => {
+    const hierarchy: Record<string, number> = { 'SD': 1, 'HD': 2, '4K': 3, '8K': 4 };
+    const userLevel = hierarchy[maxResAllowed] || 1;
+    const targetLevel = hierarchy[resolution] || 1;
+
+    return value > 0 && targetLevel <= userLevel;
+  };
+
   const totalCredits = Object.values(quotas).reduce((a, b) => a + b, 0);
 
   return (
-    // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
     <main className="h-screen w-full bg-[#FFFFFF] text-black flex flex-col uppercase tracking-[0.2em] zero-scroll overflow-hidden">
       
-      {/* 🏛️ BANNER DE ESTADO TÉCNICO */}
       <div className="w-full bg-black text-white text-[11px] py-4 text-center font-[300] tracking-[0.5em] font-serif uppercase">
         NODO SAN PABLO: {status} // CRÉDITOS TOTALES: {totalCredits}
       </div>
 
       <nav className="flex justify-between items-center p-8 border-b border-black shrink-0">
         <div className="text-[12px] font-[300] italic tracking-[0.5em] font-serif">LUME 🌎</div>
-        {/* 🏛️ REQUERIMIENTO 2: PALABRA DE ACCIÓN LIMPIA */}
         <div onClick={handleLogout} className="text-[11px] font-[300] cursor-pointer transition-none font-serif hover:opacity-50">
           SALIR ×
         </div>
@@ -102,7 +113,6 @@ export default function DashboardPage() {
           <p className="text-[10px] font-[300] tracking-[0.4em] opacity-40 font-serif">SISTEMA 20/30 // CORE_V5.2</p>
         </div>
 
-        {/* 📐 ÁREA DE CARGA: REQUERIMIENTO 4 RESTRICCIÓN DE INTERFAZ */}
         <div className={`border border-black p-16 flex flex-col items-center gap-8 rounded-none transition-none ${totalCredits > 0 ? 'bg-white' : 'bg-neutral-100 opacity-50'}`}>
           <div className="text-center space-y-4">
             <p className="text-[14px] font-[400] tracking-[0.6em] font-serif uppercase">CARGA DE ACTIVOS</p>
@@ -110,7 +120,6 @@ export default function DashboardPage() {
           </div>
           
           <div className="flex flex-wrap justify-center gap-6">
-            {/* 🏛️ REQUERIMIENTO 4: SELECTOR GRISADO SI CUOTA ES 0 */}
             {[
               { label: '8K', val: quotas.quota_8k_fixed },
               { label: '4K', val: quotas.quota_4k_fixed },
@@ -119,8 +128,12 @@ export default function DashboardPage() {
             ].map((q) => (
               <button 
                 key={q.label}
-                disabled={q.val <= 0}
-                className={`px-8 py-3 border text-[10px] font-[300] tracking-[0.4em] transition-none font-serif ${q.val > 0 ? 'border-black bg-white hover:bg-black hover:text-white' : 'border-neutral-200 text-neutral-300 cursor-not-allowed'}`}
+                disabled={!canRender(q.label, q.val)}
+                className={`px-8 py-3 border text-[10px] font-[300] tracking-[0.4em] transition-none font-serif ${
+                  canRender(q.label, q.val) 
+                  ? 'border-black bg-white hover:bg-black hover:text-white' 
+                  : 'border-neutral-200 text-neutral-300 cursor-not-allowed opacity-30'
+                }`}
               >
                 {q.label} ({q.val})
               </button>
@@ -128,7 +141,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* 🏛️ VISUALIZACIÓN DE CUOTAS DESGLOSADAS */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-0 border-t border-l border-black">
           <div className="border-r border-b border-black p-8 text-center space-y-2">
             <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif uppercase">8K_FIXED</p>
