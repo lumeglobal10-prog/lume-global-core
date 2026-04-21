@@ -1,4 +1,4 @@
-/* PROTOCOLO ESTÉTICO LUME V5.1 - REFINAMIENTO ELEGANTE */
+/* PROTOCOLO ESTÉTICO LUME V5.2 - REFINAMIENTO ELEGANTE */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
 
@@ -10,21 +10,26 @@
   :root {
     --background: #FFFFFF;
     --foreground: #000000;
-    --legal-text: #333333; /* INYECCIÓN: CONTRASTE OPERATIVO MANDATORIO */
+    --legal-text: #333333;
   }
 
-  /* LEY TIPOGRÁFICA LUME GLOBAL CORE (V5.1) - IDENTIDAD FINAL */
-  html {
+  /* 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" */
+  html, body {
     background-color: var(--background);
-    scroll-behavior: auto !important; /* ELIMINACIÓN DE DESPLAZAMIENTO SUAVE */
+    scroll-behavior: auto !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    overflow: hidden !important; /* BLOQUEO DE SCROLL VERTICAL MANDATORIO */
+    margin: 0;
+    padding: 0;
   }
 
-  /* SELECCIÓN TÉCNICA REFINADA: PLAYFAIR DISPLAY SOBERANA */
-  h1, h2, h3, h4, .button, .label, .message, .nav-link, span, button, a {
+  /* 🏛️ REQUERIMIENTO 2: TÍTULOS EN MAYÚSCULAS Y PLAYFAIR SOBERANA */
+  h1, h2, h3, h4, h5, h6, .button, .label, .message, .nav-link, span, button, a {
     font-family: 'Playfair Display', serif !important;
-    text-transform: uppercase !important;
-    font-weight: 300; /* PESO FINO: ELEGANCIA EXTREMA */
-    letter-spacing: 0.2em; /* ESPACIADO AMPLIADO PARA ESTÉTICA DE LUJO */
+    text-transform: uppercase !important; /* MAYÚSCULAS MANDATORIAS */
+    font-weight: 300;
+    letter-spacing: 0.2em;
     color: #000000;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -36,7 +41,6 @@
     font-family: 'Inter', sans-serif;
     letter-spacing: 0.2em;
     line-height: 1.5;
-    overflow-x: hidden;
   }
 
   /* RESTRICCIÓN: ESTÉTICA RECTA - ELIMINACIÓN TOTAL DE SUAVIZADOS */
@@ -54,6 +58,7 @@
     letter-spacing: normal;
     border: 1px solid #000000;
     padding: 1rem;
+    background-color: #FFFFFF;
   }
 
   /* ELIMINACIÓN DE EXCEPCIONES: TODO LO DEMÁS ES UPPERCASE */
@@ -65,10 +70,11 @@
   footer p, footer a, footer div {
     color: var(--legal-text) !important;
     font-size: 10px;
+    text-transform: uppercase !important;
   }
 }
 
-/* ELIMINACIÓN DE SCROLLBAR: ESTÉTICA PURA LUME */
+/* ELIMINACIÓN DE SCROLLBAR */
 ::-webkit-scrollbar {
   display: none;
 }
@@ -78,14 +84,13 @@
   color: #FFFFFF;
 }
 
-/* UTILIDADES DE SIGILO PARA LLAVE DE ACCESO */
+/* 🏛️ REQUERIMIENTO 3: UTILIDAD DE SIGILO PARA TOKEN */
 .token-sigilo {
-  opacity: 0.1;
+  opacity: 0.1; /* OPACIDAD 10% SEGÚN REQUERIMIENTO 3 */
   filter: grayscale(100%);
-  transition: none !important;
+  cursor: pointer;
 }
 
-.token-sigilo:focus {
-  opacity: 1;
-  filter: none;
+.token-sigilo:hover, .token-sigilo:focus {
+  opacity: 0.2; /* LÍMITE DE VISIBILIDAD PARA ACECHO ESTRATÉGICO */
 }
