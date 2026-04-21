@@ -2,22 +2,21 @@
 import React, { useState, useEffect } from 'react';
 
 interface PopupProps {
-  trigger: string; // ID del trigger enviado desde el servidor
+  trigger: string; 
   onClose: () => void;
+  planDetails?: string; // Inyección dinámica de cantidades por calidad
 }
 
-export default function SmartPopup({ trigger, onClose }: PopupProps) {
+export default function SmartPopup({ trigger, onClose, planDetails }: PopupProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // 1. VERIFICAR PERSISTENCIA LOCAL (24HS)
     const lastSeen = localStorage.getItem(`lume_popup_${trigger}`);
     const now = Date.now();
     
-    // LITERALIDAD: Si fue visto en las últimas 24hs, no se activa el trigger.
+    // LITERALIDAD: Persistencia de 24hs.
     if (lastSeen && now - parseInt(lastSeen) < 86400000) return;
 
-    // 2. ACTIVACIÓN DE INTERFAZ
     setIsVisible(true);
   }, [trigger]);
 
@@ -30,34 +29,40 @@ export default function SmartPopup({ trigger, onClose }: PopupProps) {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-none animate-none">
-      {/* 📐 RECTIFICACIÓN V5.1: FONDO BLANCO PURO, SIN SOMBRAS, SIN CURVAS */}
-      <div className="bg-[#FFFFFF] border border-black p-12 max-w-sm w-full mx-4 text-center rounded-none shadow-none">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-none zero-scroll">
+      {/* 📐 RECTIFICACIÓN V5.2: DISEÑO RECTO, SIN SOMBRAS, VIEWPORT ADAPTIVE */}
+      <div className="bg-[#FFFFFF] border border-black p-16 max-w-md w-full mx-4 text-center rounded-none shadow-none">
         
-        {/* CABECERA: PLAYFAIR DISPLAY 300 / MAYÚSCULAS MANDATORIAS */}
-        <h3 className="text-black text-[11px] font-[300] tracking-[0.5em] uppercase mb-8 font-serif">
-          AVISO DE SISTEMA
+        {/* CABECERA: SENSOR M.I.C. / MAYÚSCULAS MANDATORIAS / FUENTE MAYOR */}
+        <h3 className="text-black text-[14px] font-[400] tracking-[0.6em] uppercase mb-12 font-serif">
+          SENSOR M.I.C.
         </h3>
         
-        {/* CUERPO: PLAYFAIR DISPLAY 300 / ESPACIADO DE LUJO */}
-        <p className="text-black text-[10px] font-[300] leading-relaxed mb-10 tracking-[0.2em] uppercase font-serif">
-          LOS VALORES SE EXPRESAN EN <span className="underline decoration-1 underline-offset-4">USD (DÓLARES ESTADOUNIDENSES)</span>. 
-          <br /><br />
-          DEPENDIENDO DE SU UBICACIÓN, PUEDEN APLICAR IMPUESTOS LOCALES ADICIONALES SEGÚN LA NORMATIVA DEL NODO SAN PABLO.
-        </p>
+        {/* CUERPO: PLAYFAIR DISPLAY 300 / MAYÚSCULAS TOTALES (REQ 5) */}
+        <div className="text-black text-[12px] font-[300] leading-loose mb-14 tracking-[0.2em] uppercase font-serif">
+          <p className="mb-8">
+            LOS VALORES SE EXPRESAN EN <span className="underline decoration-1 underline-offset-8">USD (DÓLARES ESTADOUNIDENSES)</span>.
+          </p>
+          
+          {planDetails && (
+            <div className="border-t border-b border-black/10 py-6 mb-8 bg-neutral-50">
+              <p className="text-[10px] tracking-[0.4em] mb-2 text-black/40">LÍMITES DE PLAN:</p>
+              <p className="text-[13px] font-[400] tracking-[0.3em]">{planDetails}</p>
+            </div>
+          )}
+
+          <p>
+            REGIÓN DETECTADA: CARGO FINAL AJUSTADO SEGÚN NORMATIVA IMPOSITIVA LOCAL EN NODO SAN PABLO.
+          </p>
+        </div>
 
         {/* BOTÓN: ESTÉTICA RECTA, SIN TRANSICIÓN, PLAYFAIR 300 */}
         <button 
           onClick={closeHandler}
-          className="w-full py-5 bg-black text-white text-[10px] font-[300] uppercase tracking-[0.5em] transition-none rounded-none font-serif hover:bg-black"
+          className="w-full py-6 bg-black text-white text-[11px] font-[300] uppercase tracking-[0.5em] transition-none rounded-none font-serif hover:bg-black"
         >
-          ENTENDIDO
+          CONFIRMAR PROTOCOLO
         </button>
-      </div>
-      
-      {/* IDENTIFICADOR DE ESTADO: SIGILO CORPORATIVO */}
-      <div className="fixed bottom-6 right-6 bg-black text-white p-4 text-[8px] font-[300] tracking-[0.3em] uppercase font-serif">
-        PROSPECTO CAPTURADO: VALIDANDO IDENTIDAD CORPORATIVA
       </div>
     </div>
   );
