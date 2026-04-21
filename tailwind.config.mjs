@@ -7,7 +7,7 @@ export default {
   ],
   theme: {
     extend: {
-      // 📐 ELIMINACIÓN DE CURVATURA: ESTÁNDAR RECTO MANDATORIO
+      // 📐 ELIMINACIÓN DE CURVATURA: ESTÁNDAR RECTO MANDATORIO V5.2
       borderRadius: {
         'none': '0',
         'sm': '0',
@@ -22,19 +22,22 @@ export default {
       colors: {
         white: '#FFFFFF',
         black: '#000000',
-        legal: '#333333', // Inyección de Contraste Operativo para Footer/Legales
+        legal: '#333333', 
       },
       fontFamily: {
-        // IDENTIDAD FINAL V5.1: PLAYFAIR DISPLAY SOBERANA
+        // IDENTIDAD V5.2: PLAYFAIR DISPLAY SOBERANA
         serif: ["var(--font-playfair)", "serif"],
         sans: ["var(--font-inter)", "sans-serif"],
       },
-      // 🚫 ELIMINACIÓN DE SUAVIZADO: CERO SOMBRAS Y TRANSICIONES
+      // 🚫 ELIMINACIÓN DE SUAVIZADO Y PERSISTENCIA DE VIEWPORT
       boxShadow: {
         'none': 'none',
       },
       transitionProperty: {
         'none': 'none',
+      },
+      height: {
+        'screen-v5': '100vh', // Soporte para Viewport Zero-Scroll
       },
       letterSpacing: {
         'lume': '0.2em',
@@ -43,12 +46,12 @@ export default {
     },
   },
   plugins: [
-    // INYECCIÓN DE UTILIDAD PARA PLACEHOLDERS Y TEXTO MANDATORIO LUME
     function({ addUtilities }) {
       addUtilities({
         '.placeholder-uppercase::placeholder': {
           'text-transform': 'uppercase',
         },
+        // 🏛️ UTILIDAD SOBERANA RECTIFICADA V5.2
         '.lume-stiff': {
           'transition': 'none !important',
           'border-radius': '0 !important',
@@ -58,6 +61,11 @@ export default {
           'font-weight': '300 !important',
           'letter-spacing': '0.2em !important',
         },
+        // INYECCIÓN DE RESTRICCIÓN DE SCROLL
+        '.zero-scroll': {
+          'height': '100vh !important',
+          'overflow': 'hidden !important',
+        }
       })
     },
   ],
