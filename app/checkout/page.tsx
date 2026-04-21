@@ -10,7 +10,7 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [userMail, setUserMail] = useState('');
 
-  // 🌐 RECTIFICACIÓN V5.1: USO DE RUTA RELATIVA PARA TÚNEL SSL (NGINX)
+  // 🌐 DIRECCIONAMIENTO NODO SAN PABLO: RUTA RELATIVA PARA TÚNEL SSL
   const API_BASE = "/api/v1";
   
   const LUME_HEADERS = {
@@ -58,57 +58,57 @@ export default function CheckoutPage() {
 
       if (response.ok) {
         alert("PROTOCOLO DE PAGO INICIADO: SESIÓN REGISTRADA EN NODO SAN PABLO.");
-        router.push('/dashboard');
+        router.push('/dashboard/');
       } else {
         alert("ERROR: EL MÓDULO DE PAGOS (LUME 20/30) RECHAZÓ LA TRANSACCIÓN.");
       }
     } catch (error) {
       console.error("LGC_CORE: FALLO DE CONEXIÓN CON PASARELA.");
-      // En caso de fallo crítico de red, redirigir para re-intento
-      router.push('/dashboard');
+      router.push('/dashboard/');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main className="min-h-screen bg-[#FFFFFF] text-black flex flex-col justify-between p-8 md:p-20 overflow-x-hidden uppercase tracking-[0.2em]">
+    // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
+    <main className="h-screen w-full bg-[#FFFFFF] text-black flex flex-col justify-between p-8 md:p-12 overflow-hidden uppercase tracking-[0.2em] zero-scroll">
       
-      {/* NAVEGACIÓN V5.1 - BOTONES SIN MARCO SEGÚN DIRECTIVA */}
-      <nav className="flex justify-between items-center w-full shrink-0 border-b border-black pb-10">
+      {/* 🏛️ REQUERIMIENTO 2: LOGO IZQUIERDA / PALABRA DE ACCIÓN DERECHA */}
+      <nav className="flex justify-between items-center w-full shrink-0 border-b border-black pb-8">
         <div className="text-[12px] font-[300] tracking-[0.5em] italic font-serif">
           LUME 🌎
         </div>
         <button 
           onClick={() => router.back()}
-          className="text-[10px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0"
+          className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer"
         >
           ← VOLVER
         </button>
       </nav>
 
-      <div className="max-w-xl mx-auto w-full flex flex-col items-center py-24 flex-grow justify-center">
-        <h1 className="text-4xl md:text-6xl font-[300] tracking-[0.1em] leading-tight text-center uppercase mb-20 font-serif">
+      <div className="max-w-xl mx-auto w-full flex flex-col items-center py-6 flex-grow justify-center">
+        <h1 className="text-4xl md:text-6xl font-[300] tracking-[0.1em] leading-tight text-center uppercase mb-12 font-serif">
           PASARELA DE PAGOS.
         </h1>
         
         {/* CONTENEDOR TÉCNICO RECTO */}
-        <div className="w-full border border-black p-12 rounded-none mb-16 space-y-12 bg-white">
+        <div className="w-full border border-black p-12 rounded-none mb-12 space-y-12 bg-white">
           <div className="flex justify-between items-center border-b border-black/10 pb-8">
-            <span className="text-[11px] font-[300] tracking-[0.5em] font-serif">PLAN</span>
-            <span className="text-2xl font-[400] font-serif">{selectedPlan.nombre}</span>
+            <span className="text-[11px] font-[300] tracking-[0.5em] font-serif uppercase">PLAN</span>
+            <span className="text-2xl font-[400] font-serif uppercase">{selectedPlan.nombre}</span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-[11px] font-[300] tracking-[0.5em] font-serif">TOTAL</span>
+            <span className="text-[11px] font-[300] tracking-[0.5em] font-serif uppercase">TOTAL</span>
             <span className="text-5xl font-[300] tracking-tighter font-serif">
-              ${selectedPlan.precio} <span className="text-[12px] font-sans font-bold">USD</span>
+              ${selectedPlan.precio} <span className="text-[12px] font-sans font-bold uppercase">USD</span>
             </span>
           </div>
         </div>
 
-        <div className="w-full space-y-14">
+        <div className="w-full space-y-10">
           <div className="space-y-6">
-            <label className="text-[10px] font-[300] tracking-[0.5em] block text-center font-serif">
+            <label className="text-[10px] font-[300] tracking-[0.5em] block text-center font-serif uppercase">
               MÉTODO DE PROCESAMIENTO
             </label>
             
@@ -126,7 +126,7 @@ export default function CheckoutPage() {
           <button 
             onClick={handlePayment}
             disabled={loading}
-            className="w-full bg-black text-white p-8 rounded-none text-[11px] font-[300] tracking-[0.6em] transition-none flex justify-center items-center disabled:opacity-30 font-serif"
+            className="w-full bg-black text-white p-8 rounded-none text-[11px] font-[300] tracking-[0.6em] transition-none flex justify-center items-center disabled:opacity-30 font-serif uppercase"
           >
             {loading ? (
               <div className="w-5 h-5 border border-white border-t-transparent animate-spin"></div>
@@ -135,14 +135,14 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      {/* FOOTER V5.1 - CONTRASTE OPERATIVO #333 */}
-      <footer className="flex flex-col items-center space-y-12 pt-20 shrink-0 border-t border-black bg-white">
-        <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] font-serif text-[#333]">
-          <Link href="/terms" className="transition-none hover:text-black">TÉRMINOS</Link>
-          <Link href="/privacy" className="transition-none hover:text-black">PRIVACIDAD</Link>
-          <Link href="/refund" className="transition-none hover:text-black">REEMBOLSO</Link>
+      {/* FOOTER CON CONTRASTE OPERATIVO #333 */}
+      <footer className="flex flex-col items-center space-y-10 pt-12 shrink-0 border-t border-black bg-white">
+        <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] font-serif text-[#333] uppercase">
+          <Link href="/terms/" className="transition-none hover:text-black">TÉRMINOS</Link>
+          <Link href="/privacy/" className="transition-none hover:text-black">PRIVACIDAD</Link>
+          <Link href="/refund/" className="transition-none hover:text-black">REEMBOLSO</Link>
         </div>
-        <div className="text-[9px] font-[300] tracking-[0.6em] text-[#333] opacity-40 italic uppercase font-serif pb-8">
+        <div className="text-[9px] font-[300] tracking-[0.6em] text-[#333] opacity-40 italic uppercase font-serif pb-4">
           LUME GLOBAL CORE 🌎 // 2026 // NODO_SAN_PABLO_01
         </div>
       </footer>
