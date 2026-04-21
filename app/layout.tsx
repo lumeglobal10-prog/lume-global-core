@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Inter, Playfair_Display } from "next/font/google";
 
-// 🖋️ CONFIGURACIÓN TIPOGRÁFICA LUME GLOBAL CORE V5.1
+// 🖋️ CONFIGURACIÓN TIPOGRÁFICA LUME GLOBAL CORE V5.2
 const inter = Inter({ 
   subsets: ["latin"], 
   variable: "--font-inter",
@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 const playfair = Playfair_Display({
-  subsets: ["latin"],
+  subsets: ["latin"], 
   variable: "--font-playfair",
   weight: ["300", "400"]
 });
@@ -40,8 +40,9 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${inter.variable} ${playfair.variable} scroll-none`}>
-      <body className="bg-[#FFFFFF] text-black antialiased font-serif selection:bg-black selection:text-white uppercase tracking-[0.2em] min-h-screen">
+    // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" / ELIMINACIÓN DE SCROLL GLOBAL
+    <html lang="es" className={`${inter.variable} ${playfair.variable} zero-scroll`}>
+      <body className="bg-[#FFFFFF] text-black antialiased font-serif selection:bg-black selection:text-white uppercase tracking-[0.2em] min-h-screen overflow-hidden">
         
         {/* 🛡️ PROTOCOLO DE PURGA ALFA: ANULACIÓN DE PERSISTENCIA ZOMBIE */}
         <script dangerouslySetInnerHTML={{ __html: `
@@ -59,8 +60,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }
         `}} />
 
-        {/* ENVOLTORIO DE PROTECCIÓN DE DISEÑO RECTO */}
-        <div className="flex flex-col min-h-screen overflow-hidden">
+        {/* ENVOLTORIO DE PROTECCIÓN DE DISEÑO RECTO 100VH */}
+        <div className="flex flex-col h-screen w-full overflow-hidden">
           {children}
         </div>
       </body>
