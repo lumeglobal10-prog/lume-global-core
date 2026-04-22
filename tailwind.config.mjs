@@ -7,7 +7,7 @@ export default {
   ],
   theme: {
     extend: {
-      // 📐 ELIMINACIÓN DE CURVATURA: ESTÁNDAR RECTO MANDATORIO V5.2
+      // 📐 ELIMINACIÓN DE CURVATURA: ESTÁNDAR RECTO MANDATORIO V5.2.5
       borderRadius: {
         'none': '0',
         'sm': '0',
@@ -25,7 +25,7 @@ export default {
         legal: '#333333', 
       },
       fontFamily: {
-        // IDENTIDAD V5.2: PLAYFAIR DISPLAY SOBERANA
+        // IDENTIDAD V5.2.5: PLAYFAIR DISPLAY SOBERANA
         serif: ["var(--font-playfair)", "serif"],
         sans: ["var(--font-inter)", "sans-serif"],
       },
@@ -51,7 +51,7 @@ export default {
         '.placeholder-uppercase::placeholder': {
           'text-transform': 'uppercase',
         },
-        // 🏛️ UTILIDAD SOBERANA RECTIFICADA V5.2
+        // 🏛️ UTILIDAD SOBERANA RECTIFICADA V5.2.5
         '.lume-stiff': {
           'transition': 'none !important',
           'border-radius': '0 !important',
@@ -65,6 +65,10 @@ export default {
         '.zero-scroll': {
           'height': '100vh !important',
           'overflow': 'hidden !important',
+        },
+        // 🛡️ FILTRO DINÁMICO ISOTIPO MAESTRO
+        '.lume-logo-adaptativo': {
+          'filter': 'brightness(0) invert(1)',
         }
       })
     },
