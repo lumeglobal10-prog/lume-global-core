@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function LoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
 
-  // 🌐 RECTIFICACIÓN V5.2: USO DE RUTA RELATIVA PARA TÚNEL SSL (NGINX)
+  // 🌐 RECTIFICACIÓN V5.2.5: USO DE RUTA RELATIVA PARA TÚNEL SSL (NGINX)
   const API_BASE = "/api/v1";
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -55,10 +56,17 @@ export default function LoginPage() {
     // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH) / ESTILO RECTO
     <main className="h-screen w-full bg-[#FFFFFF] text-black flex flex-col items-center justify-center p-10 uppercase tracking-[0.2em] zero-scroll overflow-hidden">
       
-      {/* 🏛️ REQUERIMIENTO 2: LOGO ARRIBA A LA IZQUIERDA */}
+      {/* 🏛️ REQUERIMIENTO 2: ISOTIPO MAESTRO ARRIBA A LA IZQUIERDA */}
       <nav className="absolute top-0 left-0 w-full p-8 flex justify-start items-center shrink-0">
-        <div className="text-[12px] font-[300] tracking-[0.5em] italic font-serif">
-          LUME 🌎
+        <div className="flex items-center">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.png" 
+            alt="LUME" 
+            width={110} 
+            height={36} 
+            priority
+            className="object-contain"
+          />
         </div>
       </nav>
 
@@ -100,9 +108,18 @@ export default function LoginPage() {
         </form>
       </div>
 
-      {/* FOOTER CON CONSTRANTE OPERATIVO #333 */}
-      <div className="pb-10 text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.4em] italic font-serif uppercase">
-        LUME GLOBAL CORE // NODO_SAN_PABLO_01
+      {/* FOOTER CON CONSTRANTE OPERATIVO #333 E ISOTIPO REDUCIDO */}
+      <div className="pb-10 flex flex-col items-center gap-4">
+        <Image 
+          src="/LUME_UNIVERSAL_LOGO.png" 
+          alt="LUME" 
+          width={70} 
+          height={23} 
+          className="opacity-20 grayscale"
+        />
+        <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.4em] italic font-serif uppercase text-center">
+          LUME GLOBAL CORE // NODO_SAN_PABLO_01
+        </p>
       </div>
     </main>
   );
