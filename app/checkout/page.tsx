@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -74,14 +75,21 @@ export default function CheckoutPage() {
     // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
     <main className="h-screen w-full bg-[#FFFFFF] text-black flex flex-col justify-between p-8 md:p-12 overflow-hidden uppercase tracking-[0.2em] zero-scroll">
       
-      {/* 🏛️ REQUERIMIENTO 2: LOGO IZQUIERDA / PALABRA DE ACCIÓN DERECHA */}
+      {/* 🏛️ REQUERIMIENTO 2: ISOTIPO MAESTRO IZQUIERDA / ACCIÓN DERECHA */}
       <nav className="flex justify-between items-center w-full shrink-0 border-b border-black pb-8">
-        <div className="text-[12px] font-[300] tracking-[0.5em] italic font-serif">
-          LUME 🌎
+        <div className="flex items-center">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.png" 
+            alt="LUME" 
+            width={110} 
+            height={36} 
+            priority
+            className="object-contain"
+          />
         </div>
         <button 
           onClick={() => router.back()}
-          className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer"
+          className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer uppercase"
         >
           ← VOLVER
         </button>
@@ -93,15 +101,15 @@ export default function CheckoutPage() {
         </h1>
         
         {/* CONTENEDOR TÉCNICO RECTO */}
-        <div className="w-full border border-black p-12 rounded-none mb-12 space-y-12 bg-white">
+        <div className="w-full border border-black p-12 rounded-none mb-12 space-y-12 bg-white shadow-none">
           <div className="flex justify-between items-center border-b border-black/10 pb-8">
             <span className="text-[11px] font-[300] tracking-[0.5em] font-serif uppercase">PLAN</span>
             <span className="text-2xl font-[400] font-serif uppercase">{selectedPlan.nombre}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-[11px] font-[300] tracking-[0.5em] font-serif uppercase">TOTAL</span>
-            <span className="text-5xl font-[300] tracking-tighter font-serif">
-              ${selectedPlan.precio} <span className="text-[12px] font-sans font-bold uppercase">USD</span>
+            <span className="text-5xl font-[300] tracking-tighter font-serif uppercase">
+              ${selectedPlan.precio} <span className="text-[12px] font-sans font-bold">USD</span>
             </span>
           </div>
         </div>
@@ -135,15 +143,24 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      {/* FOOTER CON CONTRASTE OPERATIVO #333 */}
+      {/* FOOTER CON CONTRASTE OPERATIVO #333 E ISOTIPO REDUCIDO */}
       <footer className="flex flex-col items-center space-y-10 pt-12 shrink-0 border-t border-black bg-white">
         <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] font-serif text-[#333] uppercase">
           <Link href="/terms/" className="transition-none hover:text-black">TÉRMINOS</Link>
           <Link href="/privacy/" className="transition-none hover:text-black">PRIVACIDAD</Link>
           <Link href="/refund/" className="transition-none hover:text-black">REEMBOLSO</Link>
         </div>
-        <div className="text-[9px] font-[300] tracking-[0.6em] text-[#333] opacity-40 italic uppercase font-serif pb-4">
-          LUME GLOBAL CORE 🌎 // 2026 // NODO_SAN_PABLO_01
+        <div className="flex flex-col items-center gap-4 pb-4">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.png" 
+            alt="LUME" 
+            width={80} 
+            height={26} 
+            className="opacity-40 grayscale"
+          />
+          <p className="text-[9px] font-[300] tracking-[0.6em] text-[#333] opacity-40 italic uppercase font-serif text-center">
+            LUME GLOBAL CORE // 2026 // NODO_SAN_PABLO_01
+          </p>
         </div>
       </footer>
     </main>
