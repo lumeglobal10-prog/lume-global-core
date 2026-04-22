@@ -1,10 +1,11 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 interface PopupProps {
   trigger: string; 
   onClose: () => void;
-  planDetails?: string; // Inyección dinámica de cantidades por calidad
+  planDetails?: string; 
 }
 
 export default function SmartPopup({ trigger, onClose, planDetails }: PopupProps) {
@@ -30,15 +31,24 @@ export default function SmartPopup({ trigger, onClose, planDetails }: PopupProps
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-none zero-scroll">
-      {/* 📐 RECTIFICACIÓN V5.2: DISEÑO RECTO, SIN SOMBRAS, VIEWPORT ADAPTIVE */}
       <div className="bg-[#FFFFFF] border border-black p-16 max-w-md w-full mx-4 text-center rounded-none shadow-none">
         
-        {/* CABECERA: SENSOR M.I.C. / MAYÚSCULAS MANDATORIAS / FUENTE MAYOR */}
+        {/* 🏛️ RECTIFICACIÓN V5.2.5: INTEGRACIÓN ISOTIPO MAESTRO */}
+        <div className="flex justify-center mb-10">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.jpg" 
+            alt="LUME" 
+            width={120} 
+            height={40} 
+            priority
+            className="object-contain"
+          />
+        </div>
+
         <h3 className="text-black text-[14px] font-[400] tracking-[0.6em] uppercase mb-12 font-serif">
           SENSOR M.I.C.
         </h3>
         
-        {/* CUERPO: PLAYFAIR DISPLAY 300 / MAYÚSCULAS TOTALES (REQ 5) */}
         <div className="text-black text-[12px] font-[300] leading-loose mb-14 tracking-[0.2em] uppercase font-serif">
           <p className="mb-8">
             LOS VALORES SE EXPRESAN EN <span className="underline decoration-1 underline-offset-8">USD (DÓLARES ESTADOUNIDENSES)</span>.
@@ -56,7 +66,6 @@ export default function SmartPopup({ trigger, onClose, planDetails }: PopupProps
           </p>
         </div>
 
-        {/* BOTÓN: ESTÉTICA RECTA, SIN TRANSICIÓN, PLAYFAIR 300 */}
         <button 
           onClick={closeHandler}
           className="w-full py-6 bg-black text-white text-[11px] font-[300] uppercase tracking-[0.5em] transition-none rounded-none font-serif hover:bg-black"
