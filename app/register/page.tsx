@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -56,7 +57,6 @@ export default function RegisterPage() {
         body: JSON.stringify({
           ...formData,
           email: formData.email.toLowerCase(),
-          // Lógica de Backend (REQ 3): "one_time_promo_token"
         }),
       });
 
@@ -74,14 +74,24 @@ export default function RegisterPage() {
   };
 
   return (
-    // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL"
+    // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
     <main className="h-screen w-full bg-[#FFFFFF] text-black flex flex-col items-center justify-center p-8 uppercase tracking-[0.2em] zero-scroll overflow-hidden">
       
-      <nav className="absolute top-0 left-0 right-0 flex justify-between items-center p-8 border-b border-black shrink-0">
-        <div className="text-[12px] font-[300] italic tracking-[0.5em] font-serif">LUME 🌎</div>
+      {/* 🏛️ REQUERIMIENTO 2: ISOTIPO MAESTRO IZQUIERDA / PALABRA DE ACCIÓN DERECHA */}
+      <nav className="absolute top-0 left-0 right-0 flex justify-between items-center p-8 border-b border-black shrink-0 z-50">
+        <div className="flex items-center">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.png" 
+            alt="LUME" 
+            width={110} 
+            height={36} 
+            priority
+            className="object-contain"
+          />
+        </div>
         <button 
           onClick={() => router.back()} 
-          className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer"
+          className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer uppercase"
         >
           ← VOLVER
         </button>
@@ -95,30 +105,30 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <input 
             type="text" required placeholder="NOMBRE DE EMPRESA" 
-            className="w-full bg-white border border-black p-5 text-[11px] outline-none transition-none font-sans"
+            className="w-full bg-white border border-black p-5 text-[11px] outline-none transition-none font-sans placeholder-uppercase"
             onChange={(e) => setFormData({...formData, nombre_empresa: e.target.value})}
           />
 
           <input 
             type="tel" required value={formData.numero_telefono}
             placeholder="NÚMERO DE TELÉFONO (+E.164)" 
-            className="w-full bg-white border border-black p-5 text-[11px] outline-none transition-none font-sans"
+            className="w-full bg-white border border-black p-5 text-[11px] outline-none transition-none font-sans placeholder-uppercase"
             onChange={(e) => setFormData({...formData, numero_telefono: e.target.value})}
           />
 
           <div>
             <input 
               type="email" required placeholder="EMAIL CORPORATIVO" 
-              className={`w-full bg-white border p-5 text-[11px] outline-none transition-none font-sans ${emailExists ? 'border-red-600' : 'border-black'}`}
+              className={`w-full bg-white border p-5 text-[11px] outline-none transition-none font-sans placeholder-uppercase ${emailExists ? 'border-red-600' : 'border-black'}`}
               onBlur={(e) => checkEmail(e.target.value)}
               onChange={(e) => setFormData({...formData, email: e.target.value})}
             />
-            {emailExists && <p className="text-[9px] text-red-600 mt-2 tracking-[0.2em] font-serif">EL EMAIL YA EXISTE EN LA BASE DE DATOS</p>}
+            {emailExists && <p className="text-[9px] text-red-600 mt-2 tracking-[0.2em] font-serif uppercase">EL EMAIL YA EXISTE EN LA BASE DE DATOS</p>}
           </div>
 
           <input 
             type="password" required placeholder="CONTRASEÑA" 
-            className="w-full bg-white border border-black p-5 text-[11px] outline-none transition-none font-sans"
+            className="w-full bg-white border border-black p-5 text-[11px] outline-none transition-none font-sans placeholder-uppercase"
             onChange={(e) => setFormData({...formData, password: e.target.value})}
           />
 
@@ -126,7 +136,7 @@ export default function RegisterPage() {
             {!showTokenInput ? (
               <span 
                 onClick={() => setShowTokenInput(true)}
-                className="token-sigilo text-[10px] font-[300] tracking-[0.5em] font-serif mb-4"
+                className="token-sigilo text-[10px] font-[300] tracking-[0.5em] font-serif mb-4 cursor-pointer uppercase"
               >
                 TOKEN
               </span>
@@ -134,7 +144,7 @@ export default function RegisterPage() {
               <input 
                 type="text" 
                 placeholder="INGRESAR TOKEN DE ACCESO"
-                className="w-full border border-black p-5 text-[11px] outline-none transition-none font-sans mb-4"
+                className="w-full border border-black p-5 text-[11px] outline-none transition-none font-sans mb-4 placeholder-uppercase"
                 onChange={(e) => setFormData({...formData, one_time_promo_token: e.target.value})}
               />
             )}
@@ -150,7 +160,7 @@ export default function RegisterPage() {
         </form>
       </div>
 
-      <footer className="absolute bottom-0 w-full p-8 flex justify-center gap-12 text-[9px] font-[300] tracking-[0.3em] font-serif opacity-40 uppercase">
+      <footer className="absolute bottom-0 w-full p-8 flex justify-center gap-12 text-[10px] font-[300] tracking-[0.3em] font-serif text-[#333] opacity-40 uppercase">
         <Link href="/terms/">TÉRMINOS</Link>
         <Link href="/privacy/">PRIVACIDAD</Link>
         <Link href="/refund/">REEMBOLSO</Link>
