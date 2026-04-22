@@ -2,21 +2,30 @@
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function TermsPage() {
   const router = useRouter();
-  const siteName = "LUME 🌎";
 
   return (
     // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
     <main className="h-screen w-full bg-[#FFFFFF] text-black flex flex-col justify-between overflow-hidden uppercase tracking-[0.2em] zero-scroll">
       
-      {/* 🏛️ REQUERIMIENTO 2: LOGO IZQUIERDA / PALABRA DE ACCIÓN DERECHA */}
+      {/* 🏛️ REQUERIMIENTO 2: ISOTIPO MAESTRO IZQUIERDA / PALABRA DE ACCIÓN DERECHA */}
       <nav className="w-full p-8 flex justify-between items-center shrink-0 z-50 border-b border-black">
-        <div className="text-[12px] font-[300] tracking-[0.5em] italic font-serif">{siteName}</div>
+        <div className="flex items-center">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.png" 
+            alt="LUME" 
+            width={110} 
+            height={36} 
+            priority
+            className="object-contain"
+          />
+        </div>
         <button 
           onClick={() => router.back()} 
-          className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer"
+          className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer uppercase"
         >
           ← VOLVER
         </button>
@@ -28,7 +37,7 @@ export default function TermsPage() {
             TÉRMINOS Y CONDICIONES.
           </h1>
           <p className="text-[11px] font-[300] text-black/30 tracking-[0.6em] text-center mb-12 italic font-serif uppercase">
-            VERSIÓN: LGC-2026-ALPHA-V5.2 // NODO SAN PABLO
+            VERSIÓN: LGC-2026-ALPHA-V5.2.5 // NODO SAN PABLO
           </p>
 
           <div className="space-y-16 text-[11px] font-[300] leading-loose tracking-[0.15em] font-serif">
@@ -80,9 +89,18 @@ export default function TermsPage() {
             REEMBOLSO
           </Link>
         </div>
-        <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.6em] italic uppercase font-serif">
-          LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE 🌎
-        </p>
+        <div className="flex flex-col items-center gap-4">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.png" 
+            alt="LUME" 
+            width={80} 
+            height={26} 
+            className="opacity-40 grayscale"
+          />
+          <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.6em] italic uppercase font-serif">
+            LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE
+          </p>
+        </div>
       </footer>
     </main>
   );
