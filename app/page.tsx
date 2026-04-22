@@ -2,12 +2,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import HeroSlider from '../components/HeroSlider';
 
 export default function LumeHome() {
   const router = useRouter();
   const [isLogged, setIsLogged] = useState(false);
-  const siteName = "LUME 🌎";
 
   // 🌐 RECTIFICACIÓN: USO DE RUTA RELATIVA PARA TÚNEL SSL (NGINX)
   const API_BASE = "/api/v1";
@@ -40,23 +40,30 @@ export default function LumeHome() {
     // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
     <main className="flex flex-col h-screen w-full bg-[#FFFFFF] text-black overflow-hidden uppercase tracking-[0.2em] zero-scroll">
       
-      {/* 🏛️ REQUERIMIENTO 2: LOGO ARRIBA A LA IZQUIERDA / PALABRAS DE ACCIÓN A LA DERECHA */}
+      {/* 🏛️ REQUERIMIENTO 2: ISOTIPO MAESTRO ARRIBA A LA IZQUIERDA / ACCIÓN A LA DERECHA */}
       <nav className="w-full p-8 flex justify-between items-center shrink-0 z-50 border-b border-black">
-        <div className="text-[12px] font-[300] tracking-[0.5em] italic font-serif">
-          {siteName}
+        <div className="flex items-center">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.png" 
+            alt="LUME" 
+            width={110} 
+            height={36} 
+            priority
+            className="object-contain"
+          />
         </div>
         
         <div className="flex gap-12 items-center">
           {isLogged && (
             <button 
               onClick={handleLogout}
-              className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer"
+              className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer uppercase"
             >
               SALIR ×
             </button>
           )}
           <Link href={isLogged ? "/dashboard/" : "/login/"}>
-            <span className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none cursor-pointer font-serif border-none bg-none p-0">
+            <span className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none cursor-pointer font-serif border-none bg-none p-0 uppercase">
               {isLogged ? "DASHBOARD" : "LOG IN"}
             </span>
           </Link>
@@ -79,23 +86,32 @@ export default function LumeHome() {
           <HeroSlider />
           
           <Link href="/pricing/" className="mt-12">
-            <span className="text-[11px] font-[300] tracking-[0.5em] bg-black text-white px-12 py-6 transition-none hover:bg-black font-serif inline-block">
+            <span className="text-[11px] font-[300] tracking-[0.5em] bg-black text-white px-12 py-6 transition-none hover:bg-black font-serif inline-block uppercase">
               VER PLANES DE SUSCRIPCIÓN
             </span>
           </Link>
         </div>
       </section>
 
-      {/* FOOTER: CONTRASTE OPERATIVO (#333) */}
+      {/* FOOTER: INTEGRACIÓN DE ISOTIPO Y CONTRASTE (#333) */}
       <footer className="w-full p-10 mt-auto border-t border-black flex flex-col items-center gap-8 shrink-0 bg-[#FFFFFF] z-50">
         <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] text-[#333] font-serif uppercase">
           <Link href="/terms/" className="transition-none hover:text-black">TÉRMINOS Y CONDICIONES</Link>
           <Link href="/privacy/" className="transition-none hover:text-black">PRIVACIDAD</Link>
           <Link href="/refund/" className="transition-none hover:text-black">POLÍTICA DE REEMBOLSO</Link>
         </div>
-        <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.6em] italic uppercase font-serif">
-          LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE 🌎
-        </p>
+        <div className="flex flex-col items-center gap-4">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.png" 
+            alt="LUME" 
+            width={80} 
+            height={26} 
+            className="opacity-40 grayscale"
+          />
+          <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.6em] italic uppercase font-serif">
+            LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE
+          </p>
+        </div>
       </footer>
     </main>
   );
