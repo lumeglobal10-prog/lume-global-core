@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -91,15 +92,26 @@ export default function DashboardPage() {
   const totalCredits = Object.values(quotas).reduce((a, b) => a + b, 0);
 
   return (
+    // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
     <main className="h-screen w-full bg-[#FFFFFF] text-black flex flex-col uppercase tracking-[0.2em] zero-scroll overflow-hidden">
       
+      {/* 🏛️ BANNER DE ESTADO TÉCNICO */}
       <div className="w-full bg-black text-white text-[11px] py-4 text-center font-[300] tracking-[0.5em] font-serif uppercase">
         NODO SAN PABLO: {status} // CRÉDITOS TOTALES: {totalCredits}
       </div>
 
       <nav className="flex justify-between items-center p-8 border-b border-black shrink-0">
-        <div className="text-[12px] font-[300] italic tracking-[0.5em] font-serif">LUME 🌎</div>
-        <div onClick={handleLogout} className="text-[11px] font-[300] cursor-pointer transition-none font-serif hover:opacity-50">
+        <div className="flex items-center">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.png" 
+            alt="LUME" 
+            width={110} 
+            height={36} 
+            priority
+            className="object-contain"
+          />
+        </div>
+        <div onClick={handleLogout} className="text-[11px] font-[300] cursor-pointer transition-none font-serif hover:opacity-50 uppercase">
           SALIR ×
         </div>
       </nav>
@@ -110,9 +122,10 @@ export default function DashboardPage() {
           <h1 className="text-4xl md:text-5xl font-[300] tracking-[0.1em] leading-tight uppercase font-serif">
             PANEL DE RENDERIZADO.
           </h1>
-          <p className="text-[10px] font-[300] tracking-[0.4em] opacity-40 font-serif">SISTEMA 20/30 // CORE_V5.2</p>
+          <p className="text-[10px] font-[300] tracking-[0.4em] opacity-40 font-serif">SISTEMA 20/30 // CORE_V5.2.5</p>
         </div>
 
+        {/* 📐 ÁREA DE CARGA: REQUERIMIENTO 4 RESTRICCIÓN DE INTERFAZ */}
         <div className={`border border-black p-16 flex flex-col items-center gap-8 rounded-none transition-none ${totalCredits > 0 ? 'bg-white' : 'bg-neutral-100 opacity-50'}`}>
           <div className="text-center space-y-4">
             <p className="text-[14px] font-[400] tracking-[0.6em] font-serif uppercase">CARGA DE ACTIVOS</p>
@@ -141,6 +154,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {/* 🏛️ VISUALIZACIÓN DE CUOTAS DESGLOSADAS */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-0 border-t border-l border-black">
           <div className="border-r border-b border-black p-8 text-center space-y-2">
             <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif uppercase">8K_FIXED</p>
@@ -161,9 +175,16 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <footer className="p-8 border-t border-black text-center bg-[#FFFFFF] shrink-0">
-        <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.5em] font-serif italic uppercase">
-          LUME GLOBAL CORE // KERNEL_SAN_PABLO // /DASHBOARD_V5.2
+      <footer className="p-8 border-t border-black flex flex-col items-center gap-4 bg-[#FFFFFF] shrink-0">
+        <Image 
+          src="/LUME_UNIVERSAL_LOGO.png" 
+          alt="LUME" 
+          width={80} 
+          height={26} 
+          className="opacity-40 grayscale"
+        />
+        <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.5em] font-serif italic uppercase text-center">
+          LUME GLOBAL CORE // KERNEL_SAN_PABLO // /DASHBOARD_V5.2.5
         </p>
       </footer>
     </main>
