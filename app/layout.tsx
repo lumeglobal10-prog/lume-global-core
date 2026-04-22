@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Inter, Playfair_Display } from "next/font/google";
 
-// 🖋️ CONFIGURACIÓN TIPOGRÁFICA LUME GLOBAL CORE V5.2
+// 🖋️ CONFIGURACIÓN TIPOGRÁFICA LUME GLOBAL CORE V5.2.5
 const inter = Inter({ 
   subsets: ["latin"], 
   variable: "--font-inter",
@@ -27,11 +27,20 @@ export const metadata = {
     siteName: "LUME GLOBAL CORE",
     locale: "es_AR",
     type: "website",
+    images: [
+      {
+        url: "/LUME_UNIVERSAL_LOGO.png",
+        width: 1200,
+        height: 630,
+        alt: "LUME GLOBAL CORE",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "LUME GLOBAL CORE",
     description: "INFRAESTRUCTURA DE IA DE PRECISIÓN.",
+    images: ["/LUME_UNIVERSAL_LOGO.png"],
   },
   icons: {
     icon: "/favicon.ico",
