@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function PricingPage() {
   const [showPopup, setShowPopup] = useState(false);
@@ -29,10 +30,10 @@ export default function PricingPage() {
 
   // 🏛️ REQUERIMIENTO 5: LÍMITES POR CALIDAD SEGÚN BLUEPRINT
   const planes = [
-    { nombre: 'CORE', precio: '49', limits: '1x8K, 2x4K, 7xHD/SD' },
-    { nombre: 'ADVANCE', precio: '99', limits: '3x8K, 7x4K, 20xHD/SD' },
-    { nombre: 'PROFESIONAL', precio: '199', limits: '8x8K, 22x4K, 50xHD/SD' },
-    { nombre: 'BUSINESS', precio: '499', limits: '25x8K, 75x4K, 150xHD/SD' }
+    { nombre: 'CORE', precio: '49', limits: '1X8K, 2X4K, 7XHD/SD' },
+    { nombre: 'ADVANCE', precio: '99', limits: '3X8K, 7X4K, 20XHD/SD' },
+    { nombre: 'PROFESIONAL', precio: '199', limits: '8X8K, 22X4K, 50XHD/SD' },
+    { nombre: 'BUSINESS', precio: '499', limits: '25X8K, 75X4K, 150XHD/SD' }
   ];
 
   const handlePlanSelection = (nombre: string, limits: string) => {
@@ -50,14 +51,21 @@ export default function PricingPage() {
     // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
     <main className="h-screen w-full bg-[#FFFFFF] text-black flex flex-col justify-between p-8 md:p-12 overflow-hidden uppercase tracking-[0.2em] zero-scroll">
       
-      {/* 🏛️ REQUERIMIENTO 2: LOGO IZQUIERDA / PALABRA DE ACCIÓN DERECHA */}
+      {/* 🏛️ REQUERIMIENTO 2: ISOTIPO MAESTRO IZQUIERDA / PALABRA DE ACCIÓN DERECHA */}
       <nav className="flex justify-between items-center w-full shrink-0 border-b border-black pb-8">
-        <div className="text-[12px] font-[300] tracking-[0.5em] italic font-serif">
-          LUME 🌎
+        <div className="flex items-center">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.png" 
+            alt="LUME" 
+            width={110} 
+            height={36} 
+            priority
+            className="object-contain"
+          />
         </div>
         <button 
           onClick={() => router.back()}
-          className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer"
+          className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer uppercase"
         >
           ← VOLVER
         </button>
@@ -79,7 +87,7 @@ export default function PricingPage() {
                 <h2 className="text-[11px] font-[400] tracking-[0.5em] font-serif uppercase">
                   {plan.nombre}
                 </h2>
-                <div className="text-5xl font-[300] tracking-tighter font-serif">
+                <div className="text-5xl font-[300] tracking-tighter font-serif uppercase">
                   ${plan.precio}<span className="text-[10px] ml-2 tracking-widest font-sans font-bold uppercase">USD</span>
                 </div>
                 <p className="text-[9px] font-[300] leading-relaxed tracking-[0.2em] font-serif opacity-50 group-hover:opacity-100 uppercase">
@@ -99,11 +107,20 @@ export default function PricingPage() {
       {showPopup && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-none flex items-center justify-center p-6 z-[100] zero-scroll">
           <div className="bg-white p-16 max-w-md w-full rounded-none text-center space-y-12 border border-black shadow-none animate-none">
+            <div className="flex justify-center mb-4">
+              <Image 
+                src="/LUME_UNIVERSAL_LOGO.png" 
+                alt="LUME" 
+                width={100} 
+                height={32} 
+                className="object-contain"
+              />
+            </div>
             <h3 className="text-[14px] font-[400] tracking-[0.6em] font-serif uppercase">SENSOR M.I.C.</h3>
             
             <div className="space-y-8">
               <p className="text-[12px] font-[300] text-black leading-loose tracking-[0.1em] font-serif uppercase">
-                REGIÓN DETECTADA: <span className="font-bold font-sans">{userRegion}</span>
+                REGIÓN DETECTADA: <span className="font-bold font-sans uppercase">{userRegion}</span>
               </p>
               <div className="border-t border-b border-black/10 py-6">
                 <p className="text-[10px] tracking-[0.4em] mb-2 text-black/40 uppercase">LÍMITES DE PLAN:</p>
@@ -130,8 +147,17 @@ export default function PricingPage() {
           <Link href="/privacy/" className="transition-none hover:text-black">PRIVACIDAD</Link>
           <Link href="/refund/" className="transition-none hover:text-black">REEMBOLSO</Link>
         </div>
-        <div className="text-[9px] font-[300] tracking-[0.6em] text-[#333] opacity-40 italic text-center pb-4 font-serif uppercase">
-          LUME GLOBAL CORE // © 2026 // NODO_SAN_PABLO_01
+        <div className="flex flex-col items-center gap-4">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.png" 
+            alt="LUME" 
+            width={80} 
+            height={26} 
+            className="opacity-40 grayscale"
+          />
+          <p className="text-[9px] font-[300] tracking-[0.6em] text-[#333] opacity-40 italic text-center pb-4 font-serif uppercase">
+            LUMEGLOBALCORE.COM // © 2026 // NODO_SAN_PABLO_01
+          </p>
         </div>
       </footer>
     </main>
