@@ -73,10 +73,10 @@ export default function CheckoutPage() {
 
   return (
     // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
-    <main className="h-screen w-full bg-[#FFFFFF] text-black flex flex-col justify-between p-8 md:p-12 overflow-hidden uppercase tracking-[0.2em] zero-scroll">
+    <main className="h-screen w-full bg-[#FFFFFF] text-black flex flex-col justify-between p-10 uppercase tracking-[0.2em] zero-scroll overflow-hidden">
       
-      {/* 🏛️ REQUERIMIENTO 2: ISOTIPO MAESTRO IZQUIERDA / ACCIÓN DERECHA */}
-      <nav className="flex justify-between items-center w-full shrink-0 border-b border-black pb-8">
+      {/* 🏛️ HEADER: ISOTIPO MAESTRO / VOLVER */}
+      <nav className="w-full flex justify-between items-center shrink-0 z-50">
         <div className="flex items-center">
           <Image 
             src="/LUME_UNIVERSAL_LOGO.png" 
@@ -89,7 +89,7 @@ export default function CheckoutPage() {
         </div>
         <button 
           onClick={() => router.back()}
-          className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer uppercase"
+          className="text-black text-[11px] font-[300] tracking-[0.3em] cursor-pointer font-serif border-b border-black/20 pb-1 uppercase bg-transparent"
         >
           ← VOLVER
         </button>
@@ -100,8 +100,8 @@ export default function CheckoutPage() {
           PASARELA DE PAGOS.
         </h1>
         
-        {/* CONTENEDOR TÉCNICO RECTO */}
-        <div className="w-full border border-black p-12 rounded-none mb-12 space-y-12 bg-white shadow-none">
+        {/* CONTENEDOR TÉCNICO CON BORDES REDONDEADOS */}
+        <div className="w-full border border-black p-12 rounded-[20px] mb-12 space-y-12 bg-white shadow-none">
           <div className="flex justify-between items-center border-b border-black/10 pb-8">
             <span className="text-[11px] font-[300] tracking-[0.5em] font-serif uppercase">PLAN</span>
             <span className="text-2xl font-[400] font-serif uppercase">{selectedPlan.nombre}</span>
@@ -122,7 +122,7 @@ export default function CheckoutPage() {
             
             <div className="relative">
               <select 
-                className="w-full bg-white border border-black p-6 rounded-none text-[10px] font-[400] tracking-[0.4em] focus:outline-none appearance-none cursor-pointer transition-none uppercase font-serif"
+                className="w-full bg-white border border-black p-6 rounded-[15px] text-[10px] font-[400] tracking-[0.4em] focus:outline-none appearance-none cursor-pointer transition-none uppercase font-serif"
               >
                 <option value="paddle">PADDLE // GLOBAL GATEWAY (ACTIVO)</option>
                 <option value="crypto" disabled>CRYPTO // ENCRYPTED (IDLE)</option>
@@ -134,7 +134,7 @@ export default function CheckoutPage() {
           <button 
             onClick={handlePayment}
             disabled={loading}
-            className="w-full bg-black text-white p-8 rounded-none text-[11px] font-[300] tracking-[0.6em] transition-none flex justify-center items-center disabled:opacity-30 font-serif uppercase"
+            className="w-full bg-black text-white p-8 rounded-[50px] text-[11px] font-[300] tracking-[0.6em] transition-none flex justify-center items-center disabled:opacity-30 font-serif uppercase"
           >
             {loading ? (
               <div className="w-5 h-5 border border-white border-t-transparent animate-spin"></div>
@@ -143,23 +143,24 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      {/* FOOTER CON CONTRASTE OPERATIVO #333 E ISOTIPO REDUCIDO */}
-      <footer className="flex flex-col items-center space-y-10 pt-12 shrink-0 border-t border-black bg-white">
-        <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] font-serif text-[#333] uppercase">
-          <Link href="/terms/" className="transition-none hover:text-black">TÉRMINOS</Link>
-          <Link href="/privacy/" className="transition-none hover:text-black">PRIVACIDAD</Link>
-          <Link href="/refund/" className="transition-none hover:text-black">REEMBOLSO</Link>
+      {/* 🏛️ FOOTER UNIFICADO V5.2.5 */}
+      <footer className="w-full flex flex-col items-center gap-10 shrink-0 border-t border-black pt-10 pb-6">
+        <div className="flex justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] font-serif text-black/40 uppercase">
+          <Link href="/terms/" className="hover:text-black transition-none">TÉRMINOS</Link>
+          <Link href="/privacy/" className="hover:text-black transition-none">PRIVACIDAD</Link>
+          <Link href="/refund/" className="hover:text-black transition-none">REEMBOLSO</Link>
         </div>
-        <div className="flex flex-col items-center gap-4 pb-4">
+        
+        <div className="flex flex-col items-center gap-4">
           <Image 
             src="/LUME_UNIVERSAL_LOGO.png" 
             alt="LUME" 
-            width={80} 
-            height={26} 
-            className="opacity-40 grayscale"
+            width={70} 
+            height={23} 
+            className="opacity-20 grayscale"
           />
-          <p className="text-[9px] font-[300] tracking-[0.6em] text-[#333] opacity-40 italic uppercase font-serif text-center">
-            LUME GLOBAL CORE // 2026 // NODO_SAN_PABLO_01
+          <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.6em] italic font-serif uppercase text-center">
+            LUME GLOBAL CORE // NODO_SAN_PABLO_01
           </p>
         </div>
       </footer>
