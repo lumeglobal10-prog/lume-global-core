@@ -2,16 +2,17 @@ import "./globals.css";
 import { Inter, Playfair_Display } from "next/font/google";
 
 // 🖋️ CONFIGURACIÓN TIPOGRÁFICA LUME GLOBAL CORE V5.2.5
+// RECTIFICACIÓN: SE ESTANDARIZA EL PESO 400 PARA EVITAR FALLOS DE RENDERIZADO (BAILOUT)
 const inter = Inter({ 
   subsets: ["latin"], 
   variable: "--font-inter",
-  weight: ["400"] 
+  weight: ["400", "700"] 
 });
 
 const playfair = Playfair_Display({
   subsets: ["latin"], 
   variable: "--font-playfair",
-  weight: ["300", "400"]
+  weight: ["400", "700", "900"] // PESO 300 ELIMINADO POR INCOMPATIBILIDAD CON NODO_SAN_PABLO
 });
 
 // 🌐 META-DATOS DE SOBERANÍA DIGITAL (LGC-2026) - NODO SAN PABLO
