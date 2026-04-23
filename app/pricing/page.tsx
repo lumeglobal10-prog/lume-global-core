@@ -28,12 +28,11 @@ export default function PricingPage() {
     detectRegion();
   }, []);
 
-  // 🏛️ REQUERIMIENTO 5: LÍMITES POR CALIDAD SEGÚN BLUEPRINT
   const planes = [
-    { nombre: 'CORE', precio: '49', limits: '1X8K, 2X4K, 7XHD/SD' },
-    { nombre: 'ADVANCE', precio: '99', limits: '3X8K, 7X4K, 20XHD/SD' },
-    { nombre: 'PROFESIONAL', precio: '199', limits: '8X8K, 22X4K, 50XHD/SD' },
-    { nombre: 'BUSINESS', precio: '499', limits: '25X8K, 75X4K, 150XHD/SD' }
+    { nombre: 'CORE', precio: '49', limits: '1X 8K, 2X 4K, 7X HD/SD' },
+    { nombre: 'ADVANCE', precio: '99', limits: '3X 8K, 7X 4K, 20X HD/SD' },
+    { nombre: 'PROFESIONAL', precio: '199', limits: '8X 8K, 22X 4K, 50X HD/SD' },
+    { nombre: 'BUSINESS', precio: '499', limits: '25X 8K, 75X 4K, 150X HD/SD' }
   ];
 
   const handlePlanSelection = (nombre: string, limits: string) => {
@@ -48,10 +47,9 @@ export default function PricingPage() {
   };
 
   return (
-    // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
     <main className="h-screen w-full bg-[#FFFFFF] text-black flex flex-col justify-between p-8 md:p-12 overflow-hidden uppercase tracking-[0.2em] zero-scroll">
       
-      {/* 🏛️ REQUERIMIENTO 2: ISOTIPO MAESTRO IZQUIERDA / PALABRA DE ACCIÓN DERECHA */}
+      {/* 🏛️ HEADER: ISOTIPO MAESTRO / VOLVER */}
       <nav className="flex justify-between items-center w-full shrink-0 border-b border-black pb-8">
         <div className="flex items-center">
           <Image 
@@ -65,7 +63,7 @@ export default function PricingPage() {
         </div>
         <button 
           onClick={() => router.back()}
-          className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer uppercase"
+          className="text-black text-[11px] font-[300] tracking-[0.3em] cursor-pointer font-serif border-b border-black/20 pb-1 uppercase"
         >
           ← VOLVER
         </button>
@@ -95,19 +93,21 @@ export default function PricingPage() {
                 </p>
               </div>
               
-              <div className="mt-10 text-[9px] font-[400] tracking-[0.4em] border-b border-black/20 group-hover:border-white pb-2 font-serif uppercase">
-                SELECCIONAR
+              <div className="mt-10">
+                <span className="text-[9px] font-[400] tracking-[0.4em] border border-black group-hover:border-white px-6 py-3 rounded-[50px] font-serif uppercase">
+                  SELECCIONAR
+                </span>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* 🏛️ REQUERIMIENTO 5: POP-UP RECTIFICADO (SENSOR M.I.C.) */}
+      {/* 🏛️ POP-UP RECTIFICADO (ESTÉTICA REDONDEADA) */}
       {showPopup && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-none flex items-center justify-center p-6 z-[100] zero-scroll">
-          <div className="bg-white p-16 max-w-md w-full rounded-none text-center space-y-12 border border-black shadow-none animate-none">
-            <div className="flex justify-center mb-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-none flex items-center justify-center p-6 z-[100]">
+          <div className="bg-white p-12 max-w-md w-full rounded-[20px] text-center space-y-10 border border-black shadow-none uppercase">
+            <div className="flex justify-center">
               <Image 
                 src="/LUME_UNIVERSAL_LOGO.png" 
                 alt="LUME" 
@@ -116,24 +116,24 @@ export default function PricingPage() {
                 className="object-contain"
               />
             </div>
-            <h3 className="text-[14px] font-[400] tracking-[0.6em] font-serif uppercase">SENSOR M.I.C.</h3>
+            <h3 className="text-[12px] font-[400] tracking-[0.6em] font-serif">SENSOR M.I.C.</h3>
             
-            <div className="space-y-8">
-              <p className="text-[12px] font-[300] text-black leading-loose tracking-[0.1em] font-serif uppercase">
-                REGIÓN DETECTADA: <span className="font-bold font-sans uppercase">{userRegion}</span>
+            <div className="space-y-6">
+              <p className="text-[11px] font-[300] leading-loose tracking-[0.1em] font-serif">
+                REGIÓN DETECTADA: <span className="font-bold font-sans">{userRegion}</span>
               </p>
-              <div className="border-t border-b border-black/10 py-6">
-                <p className="text-[10px] tracking-[0.4em] mb-2 text-black/40 uppercase">LÍMITES DE PLAN:</p>
-                <p className="text-[13px] font-[400] tracking-[0.3em] uppercase">{selectedDetails}</p>
+              <div className="border-t border-b border-black/10 py-4">
+                <p className="text-[9px] tracking-[0.4em] mb-2 text-black/40">LÍMITES DE PLAN:</p>
+                <p className="text-[11px] font-[400] tracking-[0.3em]">{selectedDetails}</p>
               </div>
-              <p className="text-[10px] font-[300] text-black/60 tracking-[0.2em] font-serif uppercase">
-                CARGO FINAL AJUSTADO SEGÚN NORMATIVA IMPOSITIVA LOCAL EN NODO SAN PABLO.
+              <p className="text-[9px] font-[300] text-black/60 tracking-[0.2em] font-serif italic">
+                CARGO FINAL AJUSTADO SEGÚN NORMATIVA LOCAL EN NODO SAN PABLO.
               </p>
             </div>
 
             <button 
               onClick={proceedToCheckout}
-              className="w-full bg-black text-white p-6 rounded-none text-[11px] font-[300] tracking-[0.5em] transition-none font-serif uppercase"
+              className="w-full bg-black text-white p-5 rounded-[50px] text-[10px] font-[300] tracking-[0.5em] transition-none font-serif uppercase"
             >
               CONFIRMAR PROTOCOLO
             </button>
@@ -141,22 +141,24 @@ export default function PricingPage() {
         </div>
       )}
 
-      <footer className="flex flex-col items-center space-y-10 pt-12 shrink-0 border-t border-black bg-white">
-        <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] font-serif uppercase">
-          <Link href="/terms/" className="underline underline-offset-[12px] decoration-[1px]">TÉRMINOS</Link>
-          <Link href="/privacy/" className="transition-none hover:text-black">PRIVACIDAD</Link>
-          <Link href="/refund/" className="transition-none hover:text-black">REEMBOLSO</Link>
+      {/* 🏛️ FOOTER UNIFICADO V5.2.5 */}
+      <footer className="w-full flex flex-col items-center gap-10 shrink-0 border-t border-black pt-10 pb-6 bg-white">
+        <div className="flex justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] font-serif text-black/40 uppercase">
+          <Link href="/terms/" className="hover:text-black transition-none">TÉRMINOS</Link>
+          <Link href="/privacy/" className="hover:text-black transition-none">PRIVACIDAD</Link>
+          <Link href="/refund/" className="hover:text-black transition-none">REEMBOLSO</Link>
         </div>
+        
         <div className="flex flex-col items-center gap-4">
           <Image 
             src="/LUME_UNIVERSAL_LOGO.png" 
             alt="LUME" 
-            width={80} 
-            height={26} 
-            className="opacity-40 grayscale"
+            width={70} 
+            height={23} 
+            className="opacity-20 grayscale"
           />
-          <p className="text-[9px] font-[300] tracking-[0.6em] text-[#333] opacity-40 italic text-center pb-4 font-serif uppercase">
-            LUMEGLOBALCORE.COM // © 2026 // NODO_SAN_PABLO_01
+          <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.6em] italic font-serif uppercase text-center">
+            LUME GLOBAL CORE // NODO_SAN_PABLO_01
           </p>
         </div>
       </footer>
