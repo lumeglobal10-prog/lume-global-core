@@ -27,8 +27,9 @@ export default function SmartPopup({ trigger, onClose, planDetails }: PopupProps
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-none zero-scroll">
-      <div className="bg-[#FFFFFF] border border-black p-16 max-w-md w-full mx-4 text-center rounded-none shadow-none">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-none zero-scroll p-6">
+      {/* 🏛️ RECTIFICACIÓN V5.2.5: BORDES REDONDEADOS (20PX) */}
+      <div className="bg-[#FFFFFF] border border-black p-16 max-w-md w-full text-center rounded-[20px] shadow-none">
         
         {/* 🏛️ RECTIFICACIÓN V5.2.5: FORMATO PNG INYECTADO */}
         <div className="flex justify-center mb-10">
@@ -63,9 +64,10 @@ export default function SmartPopup({ trigger, onClose, planDetails }: PopupProps
           </p>
         </div>
 
+        {/* 🏛️ RECTIFICACIÓN V5.2.5: BOTÓN REDONDEADO (50PX) */}
         <button 
           onClick={closeHandler}
-          className="w-full py-6 bg-black text-white text-[11px] font-[300] uppercase tracking-[0.5em] transition-none rounded-none font-serif hover:bg-black"
+          className="w-full py-6 bg-black text-white text-[11px] font-[300] uppercase tracking-[0.5em] transition-none rounded-[50px] font-serif hover:bg-black"
         >
           CONFIRMAR PROTOCOLO
         </button>
