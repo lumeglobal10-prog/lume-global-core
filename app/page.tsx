@@ -40,7 +40,7 @@ export default function LumeHome() {
     // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
     <main className="flex flex-col h-screen w-full bg-[#FFFFFF] text-black overflow-hidden uppercase tracking-[0.2em] zero-scroll">
       
-      {/* 🏛️ REQUERIMIENTO 2: ISOTIPO MAESTRO ARRIBA A LA IZQUIERDA / ACCIÓN A LA DERECHA */}
+      {/* 🏛️ HEADER: ISOTIPO MAESTRO IZQUIERDA / ACCIONES DERECHA */}
       <nav className="w-full p-8 flex justify-between items-center shrink-0 z-50 border-b border-black">
         <div className="flex items-center">
           <Image 
@@ -72,7 +72,7 @@ export default function LumeHome() {
 
       <section className="flex-grow flex flex-col items-center justify-center px-4 min-h-0">
         <div className="text-center mb-12 shrink-0">
-          {/* TÍTULO EN MAYÚSCULAS MANDATORIAS */}
+          {/* TÍTULO EN MAYÚSCULAS MANDATORIAS - RECTIFICADO V5.2.5 */}
           <h1 className="text-4xl md:text-7xl font-[300] tracking-[0.1em] leading-tight text-black uppercase font-serif">
             ABSOLUTE PRECISION.
           </h1>
@@ -86,29 +86,30 @@ export default function LumeHome() {
           <HeroSlider />
           
           <Link href="/pricing/" className="mt-12">
-            <span className="text-[11px] font-[300] tracking-[0.5em] bg-black text-white px-12 py-6 transition-none hover:bg-black font-serif inline-block uppercase">
+            <span className="text-[11px] font-[300] tracking-[0.5em] bg-black text-white px-12 py-6 transition-none hover:bg-black font-serif inline-block uppercase rounded-[50px]">
               VER PLANES DE SUSCRIPCIÓN
             </span>
           </Link>
         </div>
       </section>
 
-      {/* FOOTER: INTEGRACIÓN DE ISOTIPO Y CONTRASTE (#333) */}
-      <footer className="w-full p-10 mt-auto border-t border-black flex flex-col items-center gap-8 shrink-0 bg-[#FFFFFF] z-50">
-        <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] text-[#333] font-serif uppercase">
-          <Link href="/terms/" className="transition-none hover:text-black">TÉRMINOS Y CONDICIONES</Link>
-          <Link href="/privacy/" className="transition-none hover:text-black">PRIVACIDAD</Link>
-          <Link href="/refund/" className="transition-none hover:text-black">POLÍTICA DE REEMBOLSO</Link>
+      {/* FOOTER: INTEGRACIÓN LEGAL Y ESTÉTICA #333 */}
+      <footer className="w-full p-10 mt-auto border-t border-black flex flex-col items-center gap-10 shrink-0 bg-[#FFFFFF] z-50">
+        <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] text-black/40 font-serif uppercase">
+          <Link href="/terms/" className="hover:text-black transition-none">TÉRMINOS</Link>
+          <Link href="/privacy/" className="hover:text-black transition-none">PRIVACIDAD</Link>
+          <Link href="/refund/" className="hover:text-black transition-none">REEMBOLSO</Link>
         </div>
+        
         <div className="flex flex-col items-center gap-4">
           <Image 
             src="/LUME_UNIVERSAL_LOGO.png" 
             alt="LUME" 
-            width={80} 
-            height={26} 
-            className="opacity-40 grayscale"
+            width={70} 
+            height={23} 
+            className="opacity-20 grayscale"
           />
-          <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.6em] italic uppercase font-serif">
+          <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.6em] italic uppercase font-serif text-center">
             LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE
           </p>
         </div>
