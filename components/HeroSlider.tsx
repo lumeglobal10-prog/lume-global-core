@@ -21,7 +21,7 @@ export default function HeroSlider() {
   return (
     <div 
       ref={containerRef}
-      className="relative w-full aspect-video overflow-hidden rounded-none shadow-none touch-none select-none bg-[#FFFFFF] border border-black cursor-col-resize"
+      className="relative w-full aspect-video overflow-hidden rounded-[20px] shadow-none touch-none select-none bg-[#FFFFFF] border border-black cursor-col-resize"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
     >
@@ -61,11 +61,12 @@ export default function HeroSlider() {
         />
       </div>
 
-      <div className="absolute top-6 left-6 z-30 px-6 py-2 bg-black text-white rounded-none border-none">
+      {/* 🏛️ RECTIFICACIÓN V5.2.5: ETIQUETAS CON BORDES REDONDEADOS */}
+      <div className="absolute top-6 left-6 z-30 px-6 py-2 bg-black text-white rounded-[50px] border-none">
           <span className="text-[9px] font-[300] tracking-[0.5em] uppercase font-serif">ORIGINAL</span>
       </div>
-      <div className="absolute top-6 right-6 z-30 px-6 py-2 bg-white text-black border border-black rounded-none">
-          <span className="text-[9px] font-[300] tracking-[0.5em] uppercase font-serif">LUME_CORE_ENGINE</span>
+      <div className="absolute top-6 right-6 z-30 px-6 py-2 bg-white text-black border border-black rounded-[50px]">
+          <span className="text-[9px] font-[300] tracking-[0.5em] uppercase font-serif">LUME_ENGINE</span>
       </div>
     </div>
   );
