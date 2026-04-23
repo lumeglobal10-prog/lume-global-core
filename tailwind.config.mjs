@@ -7,16 +7,13 @@ export default {
   ],
   theme: {
     extend: {
-      // 📐 ELIMINACIÓN DE CURVATURA: ESTÁNDAR RECTO MANDATORIO V5.2.5
+      // 📐 RECTIFICACIÓN V5.2.5: SE RESTAURAN CURVATURAS ESPECÍFICAS PARA BOTONES Y CAMPOS
       borderRadius: {
         'none': '0',
-        'sm': '0',
-        'md': '0',
-        'lg': '0',
-        'xl': '0',
-        '2xl': '0',
-        '3xl': '0',
-        'full': '0',
+        'DEFAULT': '0',
+        'lg': '15px',    // Para Inputs
+        'xl': '20px',    // Para Pop-ups / Contenedores
+        'full': '50px',  // Para Botones (Estilo Lume V5.2.5)
       },
       // 🎨 PALETA DE CONTRASTE ABSOLUTO LUME
       colors: {
@@ -51,8 +48,6 @@ export default {
         },
         '.lume-stiff': {
           'transition': 'none !important',
-          'border-radius': '0 !important',
-          'box-shadow': 'none !important',
           'text-transform': 'uppercase !important',
           'font-family': 'var(--font-playfair), serif !important',
           'font-weight': '300 !important',
