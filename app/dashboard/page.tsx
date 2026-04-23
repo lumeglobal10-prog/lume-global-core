@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -111,7 +112,7 @@ export default function DashboardPage() {
             className="object-contain"
           />
         </div>
-        <div onClick={handleLogout} className="text-[11px] font-[300] cursor-pointer transition-none font-serif hover:opacity-50 uppercase">
+        <div onClick={handleLogout} className="text-[11px] font-[300] cursor-pointer transition-none font-serif border-b border-black/20 pb-1 uppercase">
           SALIR ×
         </div>
       </nav>
@@ -125,8 +126,8 @@ export default function DashboardPage() {
           <p className="text-[10px] font-[300] tracking-[0.4em] opacity-40 font-serif">SISTEMA 20/30 // CORE_V5.2.5</p>
         </div>
 
-        {/* 📐 ÁREA DE CARGA: REQUERIMIENTO 4 RESTRICCIÓN DE INTERFAZ */}
-        <div className={`border border-black p-16 flex flex-col items-center gap-8 rounded-none transition-none ${totalCredits > 0 ? 'bg-white' : 'bg-neutral-100 opacity-50'}`}>
+        {/* 📐 ÁREA DE CARGA: ESTÉTICA REDONDEADA V5.2.5 */}
+        <div className={`border border-black p-16 flex flex-col items-center gap-10 rounded-[30px] transition-none ${totalCredits > 0 ? 'bg-white' : 'bg-neutral-100 opacity-50'}`}>
           <div className="text-center space-y-4">
             <p className="text-[14px] font-[400] tracking-[0.6em] font-serif uppercase">CARGA DE ACTIVOS</p>
             <p className="text-[9px] text-black/30 font-[300] tracking-[0.3em] font-serif uppercase">JPG, PNG (MAX 25MB)</p>
@@ -142,7 +143,7 @@ export default function DashboardPage() {
               <button 
                 key={q.label}
                 disabled={!canRender(q.label, q.val)}
-                className={`px-8 py-3 border text-[10px] font-[300] tracking-[0.4em] transition-none font-serif ${
+                className={`px-10 py-4 border text-[10px] font-[300] tracking-[0.4em] transition-none font-serif rounded-[50px] ${
                   canRender(q.label, q.val) 
                   ? 'border-black bg-white hover:bg-black hover:text-white' 
                   : 'border-neutral-200 text-neutral-300 cursor-not-allowed opacity-30'
@@ -156,36 +157,40 @@ export default function DashboardPage() {
 
         {/* 🏛️ VISUALIZACIÓN DE CUOTAS DESGLOSADAS */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-0 border-t border-l border-black">
-          <div className="border-r border-b border-black p-8 text-center space-y-2">
-            <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif uppercase">8K_FIXED</p>
-            <p className="text-3xl font-[300] font-serif">{quotas.quota_8k_fixed}</p>
-          </div>
-          <div className="border-r border-b border-black p-8 text-center space-y-2">
-            <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif uppercase">4K_FIXED</p>
-            <p className="text-3xl font-[300] font-serif">{quotas.quota_4k_fixed}</p>
-          </div>
-          <div className="border-r border-b border-black p-8 text-center space-y-2">
-            <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif uppercase">HD_FIXED</p>
-            <p className="text-3xl font-[300] font-serif">{quotas.quota_hd_fixed}</p>
-          </div>
-          <div className="border-r border-b border-black p-8 text-center space-y-2">
-            <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif uppercase">SD_FIXED</p>
-            <p className="text-3xl font-[300] font-serif">{quotas.quota_sd_fixed}</p>
-          </div>
+          {[
+            { label: '8K_FIXED', val: quotas.quota_8k_fixed },
+            { label: '4K_FIXED', val: quotas.quota_4k_fixed },
+            { label: 'HD_FIXED', val: quotas.quota_hd_fixed },
+            { label: 'SD_FIXED', val: quotas.quota_sd_fixed }
+          ].map((item) => (
+            <div key={item.label} className="border-r border-b border-black p-8 text-center space-y-2">
+              <p className="text-[9px] font-[300] text-black/40 tracking-[0.4em] font-serif uppercase">{item.label}</p>
+              <p className="text-3xl font-[300] font-serif">{item.val}</p>
+            </div>
+          ))}
         </div>
       </div>
 
-      <footer className="p-8 border-t border-black flex flex-col items-center gap-4 bg-[#FFFFFF] shrink-0">
-        <Image 
-          src="/LUME_UNIVERSAL_LOGO.png" 
-          alt="LUME" 
-          width={80} 
-          height={26} 
-          className="opacity-40 grayscale"
-        />
-        <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.5em] font-serif italic uppercase text-center">
-          LUME GLOBAL CORE // KERNEL_SAN_PABLO // /DASHBOARD_V5.2.5
-        </p>
+      {/* 🏛️ FOOTER UNIFICADO V5.2.5 */}
+      <footer className="w-full flex flex-col items-center gap-10 shrink-0 border-t border-black pt-10 pb-6 bg-white">
+        <div className="flex justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] font-serif text-black/40 uppercase">
+          <Link href="/terms/" className="hover:text-black transition-none">TÉRMINOS</Link>
+          <Link href="/privacy/" className="hover:text-black transition-none">PRIVACIDAD</Link>
+          <Link href="/refund/" className="hover:text-black transition-none">REEMBOLSO</Link>
+        </div>
+        
+        <div className="flex flex-col items-center gap-4">
+          <Image 
+            src="/LUME_UNIVERSAL_LOGO.png" 
+            alt="LUME" 
+            width={70} 
+            height={23} 
+            className="opacity-20 grayscale"
+          />
+          <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.6em] italic font-serif uppercase text-center">
+            LUME GLOBAL CORE // NODO_SAN_PABLO_01
+          </p>
+        </div>
       </footer>
     </main>
   );
