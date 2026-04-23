@@ -11,7 +11,7 @@ export default function PrivacyPage() {
     // 📐 REQUERIMIENTO 2: VIEWPORT "ZERO-SCROLL" (100VH)
     <main className="h-screen w-full bg-[#FFFFFF] text-black flex flex-col justify-between overflow-hidden uppercase tracking-[0.2em] zero-scroll">
       
-      {/* 🏛️ REQUERIMIENTO 2: ISOTIPO MAESTRO IZQUIERDA / PALABRA DE ACCIÓN DERECHA */}
+      {/* 🏛️ HEADER: ISOTIPO MAESTRO / VOLVER */}
       <nav className="w-full p-8 flex justify-between items-center shrink-0 z-50 border-b border-black">
         <div className="flex items-center">
           <Image 
@@ -25,7 +25,7 @@ export default function PrivacyPage() {
         </div>
         <button 
           onClick={() => router.back()} 
-          className="text-black text-[11px] font-[300] tracking-[0.3em] transition-none font-serif border-none bg-none p-0 cursor-pointer uppercase"
+          className="text-black text-[11px] font-[300] tracking-[0.3em] cursor-pointer font-serif border-b border-black/20 pb-1 uppercase bg-transparent"
         >
           ← VOLVER
         </button>
@@ -77,12 +77,13 @@ export default function PrivacyPage() {
         </article>
       </section>
 
-      <footer className="w-full p-10 border-t border-black flex flex-col items-center gap-8 shrink-0 bg-white">
+      {/* 🏛️ FOOTER UNIFICADO V5.2.5 */}
+      <footer className="w-full p-10 border-t border-black flex flex-col items-center gap-10 shrink-0 bg-white">
         <div className="flex flex-wrap justify-center gap-14 text-[10px] font-[300] tracking-[0.3em] font-serif uppercase">
           <Link href="/terms/" className="text-black/40 transition-none hover:text-black">
             TÉRMINOS
           </Link>
-          <Link href="/privacy/" className="text-black underline underline-offset-[12px] decoration-[1px]">
+          <Link href="/privacy/" className="text-black hover:text-black transition-none">
             PRIVACIDAD
           </Link>
           <Link href="/refund/" className="text-black/40 transition-none hover:text-black">
@@ -93,11 +94,11 @@ export default function PrivacyPage() {
           <Image 
             src="/LUME_UNIVERSAL_LOGO.png" 
             alt="LUME" 
-            width={80} 
-            height={26} 
-            className="opacity-40 grayscale"
+            width={70} 
+            height={23} 
+            className="opacity-20 grayscale"
           />
-          <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.6em] italic uppercase font-serif">
+          <p className="text-[9px] font-[300] text-[#333] opacity-40 tracking-[0.6em] italic uppercase font-serif text-center pb-4">
             LUMEGLOBALCORE.COM // © 2026 LUME GLOBAL CORE
           </p>
         </div>
